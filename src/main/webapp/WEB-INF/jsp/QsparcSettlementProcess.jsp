@@ -29,7 +29,7 @@ $(document).ready(function() {
 	debugger;
 	//$('#dollar_field').hide();
   
-    $("#datepicker").datepicker({dateFormat:"dd-mm-y", maxDate:0});
+    $("#datepicker").datepicker({dateFormat:"yy/mm/dd", maxDate:0});
     });
     
 

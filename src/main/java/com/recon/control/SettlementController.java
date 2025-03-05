@@ -472,6 +472,8 @@ public class SettlementController {
     if (settlementBean.getStsubCategory().equalsIgnoreCase("ACQUIRER") && 
       settlementBean.getCategory().equalsIgnoreCase("JCB"))
       return "GenerateJCBACQMonthlyReport"; 
+    
+    
     return "GenerateNFSACQMonthlyReport";
   }
   
@@ -616,7 +618,7 @@ public class SettlementController {
       settlementBean.setStsubCategory(subCat);
       settlementBean.setDatepicker(filedate);
       boolean check_process = false;
-      if (settlementBean.getCategory().contains("CARDTOCARD")) {
+/*      if (settlementBean.getCategory().contains("CARDTOCARD")) {
         check_process = this.isettelmentservice.checkfileprocessedCTC(settlementBean).booleanValue();
         if (check_process)
           return "success"; 
@@ -627,8 +629,9 @@ public class SettlementController {
         return "success"; 
       return "Recon not processed for selected date";
     }
+*/
+      return "success"; }
     
-
      catch (Exception e) {
       return "Exception";
     } 

@@ -65,7 +65,7 @@ public class GenerateJCBACQMonthlyReport extends AbstractExcelView {
 	OutputStream outStream = response.getOutputStream();
 	SXSSFWorkbook wb = new SXSSFWorkbook();
 	SXSSFWorkbook workbook = new SXSSFWorkbook();
-    SXSSFSheet sheet = workbook.createSheet("JCB-ACQ-CBS-KNOCKOFF");  
+    SXSSFSheet sheet = workbook.createSheet("JCB-MATCHED-2-CBS");  
     Font font = workbook.createFont();
     font.setFontName("Arial");
     font.setColor(IndexedColors.BLACK.getIndex());
@@ -104,7 +104,7 @@ public class GenerateJCBACQMonthlyReport extends AbstractExcelView {
 		}
 	}
 	//workbook1.write(outStream);
-	sheet = (SXSSFSheet) workbook.createSheet("JCB-ACQ-CBS-MATCHED-1");
+	sheet = (SXSSFSheet) workbook.createSheet("JCB-UNRECON-2-CBS");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -131,7 +131,7 @@ public class GenerateJCBACQMonthlyReport extends AbstractExcelView {
 	}
 	
 	
-	sheet = (SXSSFSheet) workbook.createSheet("JCB-ACQ-CBS-UNRECON-1");
+	sheet = (SXSSFSheet) workbook.createSheet("JCB-MATCHED-2");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -159,7 +159,7 @@ public class GenerateJCBACQMonthlyReport extends AbstractExcelView {
 //	
 //	
 //	
-	sheet = (SXSSFSheet) workbook.createSheet("JCB-ACQ-MATCHED-1");
+	sheet = (SXSSFSheet) workbook.createSheet("JCB-UNRECON-2");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -186,31 +186,6 @@ public class GenerateJCBACQMonthlyReport extends AbstractExcelView {
 	}
 	
 	
-	sheet = (SXSSFSheet) workbook.createSheet("JCB-ACQ-UNRECON-1");
-	numberStyle = workbook.createCellStyle();
-	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
-	// create header row
-	 header = sheet.createRow(0);
-	 if(Data!= null && Data.size() >2) {
-		 Excel_Headers5 = (List<String>) Data.get(8);
-	 }
-	 if(Data!= null && Data.size() >3) {
-		 sum_Data4 = (List<Object>) Data.get(9);
-	 }
-	for(int i =0 ;i < Excel_Headers5.size(); i++) {
-		header.createCell(i).setCellValue(Excel_Headers5.get(i));
-		header.getCell(i).setCellStyle(calculatedHeader);
-	}
-	//ADDING REMAINING DATA
-	for(int i =0; i< sum_Data4.size() ; i++) {
-		rowEntry = sheet.createRow(i+1);
-		Map<String, String> map_data =  (Map<String, String>) sum_Data4.get(i);
-		if(map_data.size()>0) {
-			for(int m= 0 ;m < Excel_Headers5.size() ; m++) {
-				rowEntry.createCell(m).setCellValue(map_data.get(Excel_Headers5.get(m)));
-			}
-		}
-	}
 
 
 	workbook.write(outStream);

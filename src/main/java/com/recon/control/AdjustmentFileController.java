@@ -120,6 +120,7 @@ public class AdjustmentFileController {
       } else {
         nfsSettlementBean.setCycle(1);
       } 
+
       logger.info("VALUES ARE " + nfsSettlementBean + " " + category + " " + stSubCategory + datepicker + filename);
       if (category.contains("ICD")) {
         nfsSettlementBean.setCategory("ICD-ADJUSTMENT");

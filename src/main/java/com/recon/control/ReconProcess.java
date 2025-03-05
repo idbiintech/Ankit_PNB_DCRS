@@ -431,7 +431,15 @@ public class ReconProcess {
                   msg = "Recon Process Not Completed";
                   logger.info(msg);
                 } 
-              } else if (this.reconProcess.processFile(category, compareSetupBeans, filedate, Createdby, subCat)) {
+              }   if (category.equalsIgnoreCase("JCB") && subCat.equalsIgnoreCase("ACQUIRER")) {
+                  if (this.reconProcess.processFile(category, compareSetupBeans, filedate, Createdby, 
+                          subCat)) {
+                        msg = "All process are completed. Please go-to settlement to see the result.";
+                      } else {
+                        msg = "Recon Process Not Completed";
+                        logger.info(msg);
+                      } 
+                    } else if (this.reconProcess.processFile(category, compareSetupBeans, filedate, Createdby, subCat)) {
                 if (this.reconProcess.compareFiles(category, filedate, compareBean, subCat, dollar_val)) {
                   logger.info("RECON COMPLETED AT " + 
                       new Timestamp((new Date()).getTime()));

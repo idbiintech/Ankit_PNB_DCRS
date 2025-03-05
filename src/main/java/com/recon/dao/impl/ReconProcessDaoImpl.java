@@ -598,7 +598,16 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
           logger.info("******** In DFS - ACQUIRER ***********");
           AcqClassifydataDFS(category, subcat, filedate, Createdby);
         } 
-      } else if (category.equals("ICD")) {
+      }else if (category.equals("JCB")) {
+          logger.info("******** In DFS ***********");
+          if (subcat.equals("ISSUER")) {
+            logger.info("******** In DFS - ISSUER ***********");
+            ISSClassifydata(category, subcat, filedate, Createdby);
+          } else if (subcat.equals("ACQUIRER")) {
+            logger.info("******** In JCB - ACQUIRER ***********");
+            AcqClassificatonJCB(category, subcat, filedate, Createdby);
+          } 
+        } else if (category.equals("ICD")) {
         logger.info("******** In NFS ***********");
         if (subcat.equals("ISSUER")) {
           logger.info("******** In NFS - ISSUER ***********");
@@ -1454,6 +1463,40 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
 			compile();
 		}
 	}
+  public boolean AcqClassificatonJCB(String category, String subCat, String filedate, String entry_by) throws ParseException, Exception {
+	    try {
+	      logger.info("***** ReconProcessDaoImpl.AcqClassifydata Start ****");
+	      String response = null;
+	      Map<String, Object> inParams = new HashMap<>();
+	 
+	      inParams.put("I_FILEDATE", filedate);
+	  
+	      AcqClassificatonDFS acqclassificaton = new AcqClassificatonDFS( getJdbcTemplate());
+	      Map<String, Object> outParams = acqclassificaton.execute(inParams);
+	      logger.info("***** ReconProcessDaoImpl.AcqClassifydata End ****");
+	      if (outParams.get("ERROR_MESSAGE") != null)
+	        return false; 
+	      return true;
+	    } catch (Exception e) {
+	      demo.logSQLException(e, "ReconProcessDaoImpl.AcqClassifydata");
+	      logger.error(" error in  ReconProcessDaoImpl.AcqClassifydata", 
+	          new Exception(" ReconProcessDaoImpl.AcqClassifydata", e));
+	      return false;
+	    } 
+	  }
+	  class AcqClassificatonJCB extends StoredProcedure {
+			private static final String procName = "RECON_JCB_PROC";
+
+			AcqClassificatonJCB(JdbcTemplate JdbcTemplate) {
+				super(JdbcTemplate, procName);
+				setFunction(false);
+
+				declareParameter(new SqlParameter("I_FILEDATE", Types.VARCHAR));
+		
+				declareParameter(new SqlOutParameter("ERROR_MESSAGE",  Types.VARCHAR));
+				compile();
+			}
+		}
 
   public boolean AcqClassifydataICD(String category, String subCat, String filedate, String entry_by) throws ParseException, Exception {
     try {

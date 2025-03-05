@@ -2623,7 +2623,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     } 
   }
   private class UnmatchedTTUMProcRupay6 extends StoredProcedure {
-		private static final String insert_proc = "RUPAY_INT_OFFLINE_PRES_TTUM";
+		private static final String insert_proc = "RUPAY_DOM_OFFLINE_PRES_TTUM";
 
 		public UnmatchedTTUMProcRupay6(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -2753,7 +2753,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     } 
   }
   private class UnmatchedTTUMProcMC extends StoredProcedure {
-		private static final String insert_proc = "MASTERCARD_ISS_POS_SURCH_TTUM";
+		private static final String insert_proc = "RECON_MC_ACQ_CROSS_RECON_TTUM";
 
 		public UnmatchedTTUMProcMC(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -2811,7 +2811,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     try {
       System.out.println("date is " + beanObj.getLocalDate());
       UnmatchedTTUMProcRupay4INT rollBackexe = new UnmatchedTTUMProcRupay4INT( getJdbcTemplate());
-      inParams.put("I_FILEDATE", beanObj.getLocalDate());
+      inParams.put("v_filedate", beanObj.getLocalDate());
       outParams = rollBackexe.execute(inParams);
       System.out.println("outParams " + outParams.toString());
       if (outParams != null && outParams.get("msg") == "FAILED") {

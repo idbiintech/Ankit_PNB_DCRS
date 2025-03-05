@@ -1016,7 +1016,7 @@ public class RupayAdjustntFileUpServiceImpl extends JdbcDaoSupport implements Ru
     } 
   }
   private class AdjTTUMProcREFUND extends StoredProcedure {
-		private static final String insert_proc = "FULL_REFUND_TTUM";
+		private static final String insert_proc = "REFUND_TTUM";
 
 		public AdjTTUMProcREFUND(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);

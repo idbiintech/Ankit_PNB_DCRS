@@ -376,11 +376,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2' ";
 				String getInterchange5 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE = STR_TO_DATE('"
 						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2' ";
-				String getInterchange7 = "select  FUNCTION_CODE,  MEMBER_INSTITUTION_ID_CODE, UNIQUE_FILE_NAME, DATE_SETTLEMENT, PRODUCT_CODE, SETTLEMENT_BIN, FILE_CATEGORY, VERSION_NUMBER,  ACQUIRER_INSTITUTION_ID_CODE, AMOUNT_SETTLEMENT, AMOUNT_TRANSACTION, APPROVAL_CODE, ACQUIRER_REFERENCE_DATA,  CURRENCY_CODE_SETTLEMENT, CURRENCY_CODE_TRANSACTION, CONVERSION_RATE_SETTLEMENT, CARD_ACCEPTOR_ADDI_ADDR, CARD_ACCEPTOR_TERMINAL_ID, CARD_ACCEPTOR_ZIP_CODE, DATEANDTIME_LOCAL_TRANSACTION, TXNFUNCTION_CODE, LATE_PRESENTMENT_INDICATOR, TXNMTI, PRIMARY_ACCOUNT_NUMBER, TXNRECORD_NUMBER, RGCS_RECEIVED_DATE, SETTLEMENT_DR_CR_INDICATOR, TXN_DESTI_INSTI_ID_CODE, TXN_ORIGIN_INSTI_ID_CODE,  FEE_DR_CR_INDICATOR1, FEE_AMOUNT1, FEE_CURRENCY1, FEE_TYPE_CODE1, INTERCHANGE_CATEGORY1, FEE_DR_CR_INDICATOR2, FEE_AMOUNT2, FEE_CURRENCY2, FEE_TYPE_CODE2, FLAG,  CREATEDDATE, CREATEDBY, DCRS_REMARKS, FILEDATE, PAN, RRN, FILENAME from  settlement_rupay_dom_rupay WHERE  FILEDATE =STR_TO_DATE('"
+				String getInterchange7 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE =STR_TO_DATE('"
 						+
 
 						settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2'";
-				String getInterchange8 = "select  FUNCTION_CODE,  MEMBER_INSTITUTION_ID_CODE, UNIQUE_FILE_NAME, DATE_SETTLEMENT, PRODUCT_CODE, SETTLEMENT_BIN, FILE_CATEGORY, VERSION_NUMBER,  ACQUIRER_INSTITUTION_ID_CODE, AMOUNT_SETTLEMENT, AMOUNT_TRANSACTION, APPROVAL_CODE, ACQUIRER_REFERENCE_DATA,  CURRENCY_CODE_SETTLEMENT, CURRENCY_CODE_TRANSACTION, CONVERSION_RATE_SETTLEMENT, CARD_ACCEPTOR_ADDI_ADDR, CARD_ACCEPTOR_TERMINAL_ID, CARD_ACCEPTOR_ZIP_CODE, DATEANDTIME_LOCAL_TRANSACTION, TXNFUNCTION_CODE, LATE_PRESENTMENT_INDICATOR, TXNMTI, PRIMARY_ACCOUNT_NUMBER, TXNRECORD_NUMBER, RGCS_RECEIVED_DATE, SETTLEMENT_DR_CR_INDICATOR, TXN_DESTI_INSTI_ID_CODE, TXN_ORIGIN_INSTI_ID_CODE,  FEE_DR_CR_INDICATOR1, FEE_AMOUNT1, FEE_CURRENCY1, FEE_TYPE_CODE1, INTERCHANGE_CATEGORY1, FEE_DR_CR_INDICATOR2, FEE_AMOUNT2, FEE_CURRENCY2, FEE_TYPE_CODE2, FLAG,  CREATEDDATE, CREATEDBY, DCRS_REMARKS, FILEDATE, PAN, RRN, FILENAME from  settlement_rupay_dom_rupay WHERE  FILEDATE = STR_TO_DATE('"
+				String getInterchange8 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE = STR_TO_DATE('"
 						+
 
 						settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2'";
@@ -861,15 +861,15 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 		return null;}
 
 	public List<Object> downloadICCWISSReport(SettlementBean settlementBean) {
-		ArrayList<Object> data = new ArrayList();
+		ArrayList<Object> data = new ArrayList<Object>();
 		try {
 			String getInterchange5 = "SELECT BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, FEE, BR_CODE, ISS_SOL_ID, MCC, REMARKS, NETWORK, POSTED_DATE, GL_ACCOUNT, TR_NO, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE\r\nfrom settlement_nfs_iccw_iss_cbs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d') and DCRS_REMARKS = 'NFS-ICCW-ISS-MATCHED-2'";
 			String getInterchange6 = "SELECT BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, FEE, BR_CODE, ISS_SOL_ID, MCC, REMARKS, NETWORK, POSTED_DATE, GL_ACCOUNT, TR_NO, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE\r\nfrom settlement_nfs_iccw_iss_cbs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d') and DCRS_REMARKS = 'NFS-ICCW-ISS-UNRECON-2'";
-			String getInterchange9 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, CARDHOLDER_BILL_CURRNCY_C, CARDHOLDER_BILL_AMOUNT, CARDHOLDER_BILL_ACT_FEE, CARDHOLDER_BILL_PROCESS_F, CARDHOLDER_BILL_SERV_FEE, TXN_ISS_CONVERSION_RT, TXN_CARDHOLDER_CONV_RT, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME\r\nfrom settlement_nfs_iccw_iss_nfs where FILEDATE =STR_TO_DATE( '"
+			String getInterchange9 = "SELECT CARDHOLDER_BILL_SERV_FEE, PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, CARDHOLDER_BILL_CURRNCY_C, CARDHOLDER_BILL_AMOUNT, CARDHOLDER_BILL_ACT_FEE, CARDHOLDER_BILL_PROCESS_F, CARDHOLDER_BILL_SERV_FEE, TXN_ISS_CONVERSION_RT, TXN_CARDHOLDER_CONV_RT, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME\r\nfrom settlement_nfs_iccw_iss_nfs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d') and DCRS_REMARKS = 'NFS-ICCW-ISS-MATCHED-2'";
-			String getInterchange10 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, CARDHOLDER_BILL_CURRNCY_C, CARDHOLDER_BILL_AMOUNT, CARDHOLDER_BILL_ACT_FEE, CARDHOLDER_BILL_PROCESS_F, CARDHOLDER_BILL_SERV_FEE, TXN_ISS_CONVERSION_RT, TXN_CARDHOLDER_CONV_RT, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME\r\nfrom settlement_nfs_iccw_iss_nfs where FILEDATE =STR_TO_DATE( '"
+			String getInterchange10 = "SELECT CARDHOLDER_BILL_SERV_FEE, PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, CARDHOLDER_BILL_CURRNCY_C, CARDHOLDER_BILL_AMOUNT, CARDHOLDER_BILL_ACT_FEE, CARDHOLDER_BILL_PROCESS_F, CARDHOLDER_BILL_SERV_FEE, TXN_ISS_CONVERSION_RT, TXN_CARDHOLDER_CONV_RT, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME\r\nfrom settlement_nfs_iccw_iss_nfs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d') and DCRS_REMARKS = 'NFS-ICCW-ISS-UNRECON-2'";
 			List<String> Column_list = new ArrayList<>();
 			Column_list.add("BUSINESS_DATE");
@@ -909,7 +909,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			});
 	data.add(DailyData);
 			System.out.println("query 5 ");
-			data.add(DailyData);
+	
 			Column_list = new ArrayList<>();
 			Column_list.add("BUSINESS_DATE");
 			Column_list.add("CARD_NO");
@@ -948,6 +948,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			Column_list = new ArrayList<>();
+			Column_list.add("CARDHOLDER_BILL_SERV_FEE");
 			Column_list.add("PARTICIPANT_ID");
 			Column_list.add("TRANSACTION_TYPE");
 			Column_list.add("FROM_ACCOUNT_TYPE");
@@ -1007,6 +1008,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			System.out.println("query 9 ");
 	
 			Column_list = new ArrayList<>();
+			Column_list.add("CARDHOLDER_BILL_SERV_FEE");
 			Column_list.add("PARTICIPANT_ID");
 			Column_list.add("TRANSACTION_TYPE");
 			Column_list.add("FROM_ACCOUNT_TYPE");
@@ -1064,7 +1066,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10 ");
-			data.add(DailyData);
+		
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -1251,7 +1253,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			String getInterchange2 = "select * from settlement_mastercard_iss_pos where FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks ='MASTERCARD_ISS_POS_UNRECON-2'";
 			String getInterchange3 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
-					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks ='MASTERCARD_ISS_POS_MATCHED-2'";
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks  IN('MASTERCARD_ISS_POS_MATCHED-2','CBS_RAW_MATCH' )";
 			String getInterchange4 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks ='MASTERCARD_ISS_POS_UNRECON-2'";
 			String getInterchange5 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
@@ -3071,10 +3073,222 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadJCBACQReport(SettlementBean settlementBean) {
-		return null;}
+		List<Object> data = new ArrayList<Object>();
+		try {
+			String getInterchange2 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange3 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+			String getInterchange4 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange5 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+							List<String> Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_cbs");
+				data.add(Column_list);
+		    final List<Object> beanList = new ArrayList<Object>();
+			final List<String> columns2 = Column_list;
+		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+						
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns2) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
+						}
+					});
+			data.add(DailyData);
+			System.out.println("query 2");
+			 
+				Column_list = new ArrayList<String>();
+				Column_list = new ArrayList<>();
+				Column_list = getColumnList("settlement_jcb_cbs");
+					data.add(Column_list);
+			final List<String> columns3 = Column_list;
+			 final 	List<Object> beanList3 = new ArrayList<Object>();
+			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns3) {
+									data.put(column, rs.getString(column));
+								}
+								beanList3.add(data);
+							}
+							return beanList3;
+						}
+					});
+			data.add(DailyData3);
+			  System.gc();
+			System.out.println("query 3");
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_jcb");
+				data.add(Column_list);
+			final List<String> columns4 = Column_list;
+			 final 	List<Object> beanList4 = new ArrayList<Object>();
+			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+						
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns4) {
+									data.put(column, rs.getString(column));
+								}
+								beanList4.add(data);
+							}
+							return beanList4;
+						}
+					});
+			data.add(DailyData4);
+			System.out.println("query 4");
+			
+			System.gc();
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_jcb");
+				data.add(Column_list);
+			final List<String> columns5= Column_list;
+			 final 	List<Object> beanList5 = new ArrayList<Object>();
+			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange5, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns5) {
+									data.put(column, rs.getString(column));
+								}
+								beanList5.add(data);
+							}
+							return beanList5;
+						}
+					});
+			data.add(DailyData5);
+			
+		
+			return data;
+		} catch (Exception e) {
+			System.out.println("Exception in getInterchangeData " + e);
+			return null;
+		}
+	
+}
 
 	public List<Object> downloadDFSACQReport(SettlementBean settlementBean) {
-		return null;}
+		List<Object> data = new ArrayList<Object>();
+		try {
+			String getInterchange2 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange3 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+			String getInterchange4 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange5 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+							List<String> Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_cbs");
+				data.add(Column_list);
+		    final List<Object> beanList = new ArrayList<Object>();
+			final List<String> columns2 = Column_list;
+		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+						
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns2) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
+						}
+					});
+			data.add(DailyData);
+			System.out.println("query 2");
+			 
+				Column_list = new ArrayList<String>();
+				Column_list = new ArrayList<>();
+				Column_list = getColumnList("settlement_jcb_cbs");
+					data.add(Column_list);
+			final List<String> columns3 = Column_list;
+			 final 	List<Object> beanList3 = new ArrayList<Object>();
+			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns3) {
+									data.put(column, rs.getString(column));
+								}
+								beanList3.add(data);
+							}
+							return beanList3;
+						}
+					});
+			data.add(DailyData3);
+			  System.gc();
+			System.out.println("query 3");
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_jcb");
+				data.add(Column_list);
+			final List<String> columns4 = Column_list;
+			 final 	List<Object> beanList4 = new ArrayList<Object>();
+			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+						
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns4) {
+									data.put(column, rs.getString(column));
+								}
+								beanList4.add(data);
+							}
+							return beanList4;
+						}
+					});
+			data.add(DailyData4);
+			System.out.println("query 4");
+			
+			System.gc();
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_jcb_jcb");
+				data.add(Column_list);
+			final List<String> columns5= Column_list;
+			 final 	List<Object> beanList5 = new ArrayList<Object>();
+			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange5, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns5) {
+									data.put(column, rs.getString(column));
+								}
+								beanList5.add(data);
+							}
+							return beanList5;
+						}
+					});
+			data.add(DailyData5);
+			
+		
+			return data;
+		} catch (Exception e) {
+			System.out.println("Exception in getInterchangeData " + e);
+			return null;
+		}
+	
+}
 	@Override
 	public List<Object> downloadIssuerDhanaReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();

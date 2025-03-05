@@ -810,7 +810,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		public AdjTTUMProcSETTLJCB(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
-			declareParameter(new SqlParameter("V_FILEDT",  Types.VARCHAR));
+			declareParameter(new SqlParameter("FILEDT",  Types.VARCHAR));
 			declareParameter(new SqlParameter("USER_ID",  Types.VARCHAR));
 			// declareParameter(new
 			// SqlParameter("ENTERED_CYCLE", Types.INTEGER));
@@ -5641,7 +5641,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 										// logger.info("Inside rset");
 
 										Map<String, String> table_Data = new HashMap<String, String>();
-										table_Data.put("V_TYPE", rs.getString("V_TYPE"));
+								
 										table_Data.put("BUSINESS_DATE", rs.getString("BUSINESS_DATE"));
 
 										table_Data.put("DR_CR", rs.getString("DR_CR"));
@@ -5681,7 +5681,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 										// logger.info("Inside rset");
 
 										Map<String, String> table_Data = new HashMap<String, String>();
-										table_Data.put("V_TYPE", rs.getString("V_TYPE"));
+									
 										table_Data.put("BUSINESS_DATE", rs.getString("BUSINESS_DATE"));
 
 										table_Data.put("DR_CR", rs.getString("DR_CR"));
@@ -5833,8 +5833,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 							}
 						});
 			} else {
-				getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, TRACE_NO, NARRATION from REUPAY_DOM_LATEPRESENTMENT where  TO_DATE(FILEDATE,'DD-MM-YY')= TO_DATE('"
-						+ beanObj.getLocalDate() + "','DD-MM-YY')";
+				getData1 = "select DR_CR, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, AUTH_CODE, NARRATION, FILEDATE, REMARKS from mc_acq_cross_recon_ttum where filedate= str_to_date(' "+ beanObj.getLocalDate() + "','%Y/%m/%d')";
 				logger.info("data get sql " + getData1);
 				DailyData = getJdbcTemplate().query(getData1, new Object[] {},
 						new ResultSetExtractor<List<Object>>() {
@@ -5849,7 +5848,6 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 									table_Data.put("DR_CR", rs.getString("DR_CR"));
 
-									table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
 									table_Data.put("BANK_NAME", rs.getString("BANK_NAME"));
 									table_Data.put("CARD_NO", rs.getString("CARD_NO"));
 									table_Data.put("AC_NO", rs.getString("AC_NO"));
@@ -5909,8 +5907,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 							}
 						});
 			} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
-				getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, AUTH_CODE, NARRATION, FILEDATE, REMARKS from mc_acq_int_atm_loro_debit_ttum where filedate= str_to_date('"
-						+ beanObj.getLocalDate() + "','%Y/%m/%d') ";
+				getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, AUTH_CODE, NARRATION, FILEDATE, REMARKS from mc_acq_int_atm_loro_debit_ttum where filedate= str_to_date('"+ beanObj.getLocalDate() + "','%Y/%m/%d') ";
 				logger.info("data get sql " + getData1);
 				DailyData = getJdbcTemplate().query(getData1, new Object[] {},
 						new ResultSetExtractor<List<Object>>() {
@@ -5946,8 +5943,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 							}
 						});
 			} else {
-				getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, TRACE_NO, NARRATION from REUPAY_DOM_LATEPRESENTMENT where  TO_DATE(FILEDATE,'DD-MM-YY')= TO_DATE('"
-						+ beanObj.getLocalDate() + "','DD-MM-YY')";
+				getData1 = "select DR_CR, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, AUTH_CODE, NARRATION, FILEDATE, REMARKS from mc_acq_cross_recon_ttum where filedate= str_to_date(' "+ beanObj.getLocalDate() + "','%Y/%m/%d')";
 				logger.info("data get sql " + getData1);
 				DailyData = getJdbcTemplate().query(getData1, new Object[] {},
 						new ResultSetExtractor<List<Object>>() {
@@ -5962,7 +5958,6 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 									table_Data.put("DR_CR", rs.getString("DR_CR"));
 
-									table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
 									table_Data.put("BANK_NAME", rs.getString("BANK_NAME"));
 									table_Data.put("CARD_NO", rs.getString("CARD_NO"));
 									table_Data.put("AC_NO", rs.getString("AC_NO"));
@@ -8550,10 +8545,13 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 						table_Data.put("PARTICULARS", rs.getString("PARTICULARS"));
 						table_Data.put("NARRATION", rs.getString("NARRATION"));
 						table_Data.put("FILEDATE", rs.getString("FILEDATE"));
-						if(beanObj.getAdjCategory().contains("NFS")) {
-							table_Data.put("CYCLE", rs.getString("CYCLE"));
+						
+					
+							table_Data.put("CYCLE", String.valueOf(beanObj.getCycle()));
 							
-						}
+						
+						
+						
 						/*
 						 * String maskCard = rs.getString("CARDNO"); maskCard =
 						 * org.apache.commons.lang.StringUtils.overlay(maskCard,
@@ -12070,7 +12068,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 
 	private class rollBackNFSJCBACQ extends StoredProcedure {
-		private static final String insert_proc = "JCB_ACQ_ROLLBACK";
+		private static final String insert_proc = "RECON_JCB_PROC_ROLLBACK";
 
 		public rollBackNFSJCBACQ(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);

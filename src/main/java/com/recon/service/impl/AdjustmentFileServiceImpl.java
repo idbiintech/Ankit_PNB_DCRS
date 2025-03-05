@@ -22,7 +22,7 @@ public class AdjustmentFileServiceImpl extends JdbcDaoSupport implements Adjustm
             new Object[] { beanObj.getCreatedBy(), beanObj.getCategory(), beanObj.getStSubCategory() }, Integer.class)).intValue();
         logger.info("File id is " + file_id);
         int filecount = ((Integer)getJdbcTemplate().queryForObject(
-            "SELECT COUNT(*) FROM DFS_ADJUSTMENT_RAWDATA  WHERE FILENAME = ? AND FILEDATE = STR_to_date(?,'%Y/%m/%d')", 
+            "SELECT COUNT(*) FROM dfs_adjustment_rawdata  WHERE FILENAME = ? AND FILEDATE = STR_to_date(?,'%Y/%m/%d')", 
             new Object[] { beanObj.getFileName(), beanObj.getDatepicker() }, Integer.class)).intValue();
         logger.info("Filecount is" + filecount);
         if (file_id == 16 && filecount > 0) {
@@ -37,7 +37,7 @@ public class AdjustmentFileServiceImpl extends JdbcDaoSupport implements Adjustm
             new Object[] { beanObj.getCreatedBy(), beanObj.getCategory(), beanObj.getStSubCategory() }, Integer.class)).intValue();
         logger.info("File id is " + file_id);
         int filecount = ((Integer)getJdbcTemplate().queryForObject(
-            "SELECT COUNT(*) FROM JCB_ADJUSTMENT_RAWDATA WHERE FILENAME = ? AND FILEDATE= STR_to_date(?,'%Y/%m/%d')", 
+            "SELECT COUNT(*) FROM jcb_adjustment_rawdata  WHERE FILENAME = ? AND FILEDATE= STR_to_date(?,'%Y/%m/%d')", 
             new Object[] { beanObj.getFileName(), beanObj.getDatepicker() }, Integer.class)).intValue();
         logger.info("Filecount is" + filecount);
         if (file_id == 16 && filecount > 0) {
@@ -52,7 +52,7 @@ public class AdjustmentFileServiceImpl extends JdbcDaoSupport implements Adjustm
             new Object[] { beanObj.getCreatedBy(), beanObj.getCategory(), beanObj.getStSubCategory() }, Integer.class)).intValue();
         logger.info("File id is " + file_id);
         int filecount = ((Integer)getJdbcTemplate().queryForObject(
-            "SELECT COUNT(*) FROM ICD_ADJUSTMENT_RAWDATA WHERE FILENAME = ? AND FILEDATE = STR_to_date(?,'%Y/%m/%d')", 
+            "SELECT COUNT(*) FROM icd_adjustment_rawdata WHERE FILENAME = ? AND FILEDATE = STR_to_date(?,'%Y/%m/%d')", 
             new Object[] { beanObj.getFileName(), beanObj.getDatepicker() }, Integer.class)).intValue();
         logger.info("Filecount is" + filecount);
         if (file_id == 16 && filecount > 0) {

@@ -1655,7 +1655,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 		cols.add("CREDIT");
 		cols.add("NARRATION");
 		String getData = "select GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION from rupay_pos_dom_settlement where filedate =STR_TO_DATE(?,'%Y/%m/%d')and cycle=? ";
-		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
+		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() , beanObj.getCycle()},
 				new ResultSetExtractor<List<Object>>() {
 					public List<Object> extractData(ResultSet rs) throws SQLException {
 						List<Object> beanList = new ArrayList<Object>();
@@ -1687,7 +1687,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 		cols.add("CREDIT");
 		cols.add("NARRATION");
 		String getData = "select GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION from rupay_dom_rrb_settlement where filedate =STR_TO_DATE(?,'%Y/%m/%d')and cycle=? ";
-		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
+		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() , beanObj.getCycle()},
 				new ResultSetExtractor<List<Object>>() {
 					public List<Object> extractData(ResultSet rs) throws SQLException {
 						List<Object> beanList = new ArrayList<Object>();

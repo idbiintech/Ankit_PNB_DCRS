@@ -56,7 +56,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 	System.out.println("Got columns list");
 	
 	System.out.println("Got the data");
-	String filename = "DFS_SETTLEMENT_REPORT";	
+	String filename = "JCB_SETTLEMENT_REPORT";	
 	if(name != null && !name.equalsIgnoreCase("")) {
 		filename = name;
 	}
@@ -65,7 +65,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 	OutputStream outStream = response.getOutputStream();
 	SXSSFWorkbook wb = new SXSSFWorkbook();
 	SXSSFWorkbook workbook = new SXSSFWorkbook();
-    SXSSFSheet sheet = workbook.createSheet("DFS-ACQ-CBS-MATCHED-1");  
+    SXSSFSheet sheet = workbook.createSheet("DFS-MATCHED-2-CBS");  
     Font font = workbook.createFont();
     font.setFontName("Arial");
     font.setColor(IndexedColors.BLACK.getIndex());
@@ -104,7 +104,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 		}
 	}
 	//workbook1.write(outStream);
-	sheet = (SXSSFSheet) workbook.createSheet("DFS-ACQ-CBS-UNRECON-1");
+	sheet = (SXSSFSheet) workbook.createSheet("DFS-UNRECON-2-CBS");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -131,7 +131,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 	}
 	
 	
-	sheet = (SXSSFSheet) workbook.createSheet("DFS-ACQ-MATCHED-1");
+	sheet = (SXSSFSheet) workbook.createSheet("DFS-MATCHED-2");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -159,7 +159,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 //	
 //	
 //	
-	sheet = (SXSSFSheet) workbook.createSheet("DFS-ACQ-UNRECON-1");
+	sheet = (SXSSFSheet) workbook.createSheet("DFS-UNRECON-2");
 	numberStyle = workbook.createCellStyle();
 	numberStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("0.00"));
 	// create header row
@@ -184,6 +184,9 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 			}
 		}
 	}
+	
+	
+
 
 	workbook.write(outStream);
 	outStream.close();
