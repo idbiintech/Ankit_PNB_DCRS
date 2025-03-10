@@ -2753,7 +2753,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     } 
   }
   private class UnmatchedTTUMProcMC extends StoredProcedure {
-		private static final String insert_proc = "RECON_MC_ACQ_CROSS_RECON_TTUM";
+		private static final String insert_proc = "MASTERCARD_ISS_POS_SURCH_TTUM";
 
 		public UnmatchedTTUMProcMC(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -2765,6 +2765,44 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 		}
 
 	}
+  public boolean UnmatchedTTUMProcMCCROSS(UnMatchedTTUMBean beanObj) {
+	    Map<String, Object> inParams = new HashMap<>();
+	    Map<String, Object> outParams = new HashMap<>();
+	    System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+	    System.out.println("localdt is " + beanObj.getLocalDate());
+	    try {
+	      System.out.println("date is " + beanObj.getLocalDate());
+	      UnmatchedTTUMProcMCCROSS rollBackexe = new UnmatchedTTUMProcMCCROSS( getJdbcTemplate());
+	      inParams.put("I_FILEDATE", beanObj.getFileDate());
+	      outParams = rollBackexe.execute(inParams);
+	      System.out.println("outParams " + outParams.toString());
+	      if (outParams != null && outParams.get("msg") == "FAILED") {
+	        logger.info("OUT PARAM IS " + outParams.get("msg"));
+	        return false;
+	      } 
+	      if (outParams.get("msg") == "TTUM ALREADY PROCESSED") {
+	        logger.info("OUT PARAM IS " + outParams.get("msg"));
+	        return false;
+	      } 
+	      return true;
+	    } catch (Exception e) {
+	      logger.info("Exception in runTTUMProcess " + e);
+	      return false;
+	    } 
+	  }
+	  private class UnmatchedTTUMProcMCCROSS extends StoredProcedure {
+			private static final String insert_proc = "MASTERCARD_ISS_POS_SURCH_TTUM";
+
+			public UnmatchedTTUMProcMCCROSS(JdbcTemplate jdbcTemplate) {
+				super(jdbcTemplate, insert_proc);
+				setFunction(false);
+				declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+
+				declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
+				compile();
+			}
+
+		}
   public boolean runTTUMProcessQSPARC4(UnMatchedTTUMBean beanObj) {
 	    Map<String, Object> inParams = new HashMap<>();
 	    Map<String, Object> outParams = new HashMap<>();

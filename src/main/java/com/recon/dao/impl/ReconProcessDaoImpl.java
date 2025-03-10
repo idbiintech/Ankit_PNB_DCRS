@@ -1471,7 +1471,7 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
 	 
 	      inParams.put("I_FILEDATE", filedate);
 	  
-	      AcqClassificatonDFS acqclassificaton = new AcqClassificatonDFS( getJdbcTemplate());
+	      AcqClassificatonJCB acqclassificaton = new AcqClassificatonJCB( getJdbcTemplate());
 	      Map<String, Object> outParams = acqclassificaton.execute(inParams);
 	      logger.info("***** ReconProcessDaoImpl.AcqClassifydata End ****");
 	      if (outParams.get("ERROR_MESSAGE") != null)

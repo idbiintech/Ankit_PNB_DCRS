@@ -369,6 +369,8 @@ public interface SettlementTTUMService {
   
   boolean rollBackTTUMMC3(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
+  boolean rollBackTTUMMC3CROSS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
   boolean rollBackTTUMMC2INT(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMMC4INT(UnMatchedTTUMBean paramUnMatchedTTUMBean);

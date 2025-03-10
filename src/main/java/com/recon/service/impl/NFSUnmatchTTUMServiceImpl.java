@@ -3081,7 +3081,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			String getInterchange5 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
 							List<String> Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<String>();
-			Column_list = new ArrayList<>();
+	
 			Column_list = getColumnList("settlement_jcb_cbs");
 				data.add(Column_list);
 		    final List<Object> beanList = new ArrayList<Object>();
@@ -3104,7 +3104,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			System.out.println("query 2");
 			 
 				Column_list = new ArrayList<String>();
-				Column_list = new ArrayList<>();
+			
 				Column_list = getColumnList("settlement_jcb_cbs");
 					data.add(Column_list);
 			final List<String> columns3 = Column_list;

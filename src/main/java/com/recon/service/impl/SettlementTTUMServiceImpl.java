@@ -4306,9 +4306,11 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 			outParams = rollBackexe.execute(inParams);
 			logger.info("OUT PARAM IS " + outParams.get("msg"));
 			String data = outParams.get("msg").toString();
-			if (data.equalsIgnoreCase("SUCCESS"))
+			if (data.equalsIgnoreCase("SUCCESS")) {
 				return true;
+			}else {
 			return false;
+			}
 		} catch (Exception e) {
 			logger.info("Exception is " + e);
 			return false;
@@ -4322,7 +4324,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 			setFunction(false);
 			declareParameter(new SqlParameter("FILEDT",  Types.VARCHAR));
 
-			declareParameter(new SqlParameter("V_CYCLE",  Types.VARCHAR));
+			declareParameter(new SqlParameter("v_cycle",  Types.VARCHAR));
 
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();
@@ -4335,7 +4337,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		try {
 			rollBackRupaySettlQsparc rollBackexe = new rollBackRupaySettlQsparc( getJdbcTemplate());
 			inParams.put("FILEDT", beanObj.getDatepicker());
-			inParams.put("v_cycle", String.valueOf(beanObj.getCycle()));
+			inParams.put("ENTERED_CYCLE", String.valueOf(beanObj.getCycle()));
 			outParams = rollBackexe.execute(inParams);
 			logger.info("OUT PARAM IS " + outParams.get("msg"));
 			String data = outParams.get("msg").toString();
@@ -4348,12 +4350,13 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		}
 	}
 	private class rollBackRupaySettlQsparc extends StoredProcedure {
-		private static final String insert_proc = "NFS_DAILY_SETTLEMENT_PNB_ROLLBACK";
+		private static final String insert_proc = "QSPARC_POS_SETTLEMENT_PNB_ROLLBACK";
 
 		public rollBackRupaySettlQsparc(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("FILEDT",  Types.VARCHAR));
+			declareParameter(new SqlParameter("ENTERED_CYCLE",  Types.VARCHAR));
 
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();
@@ -4379,7 +4382,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		}
 	}
 	private class rollBackRupaySettlQsparcINT extends StoredProcedure {
-		private static final String insert_proc = "NFS_DAILY_SETTLEMENT_PNB_ROLLBACK";
+		private static final String insert_proc = "QSPARC_INT_POS_SETTLEMENT_ROLLBACK";
 
 		public rollBackRupaySettlQsparcINT(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -10812,7 +10815,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		return output;
 	}
 	private class mapSwitchDATA1 extends StoredProcedure {
-		private static final String insert_proc = "CBS_DATA_MAPPING";
+		private static final String insert_proc = "CBS_DATA_MAPPING_NEW";
 
 		public mapSwitchDATA1(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -11038,6 +11041,36 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		private static final String insert_proc = "MC_ACQ_DOM_LORO_DEBIT_TTUM_ROLLBACK";
 
 		public rollBackTTUMMC3(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public boolean rollBackTTUMMC3CROSS(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackTTUMMC3CROSS rollBackexe = new rollBackTTUMMC3CROSS( getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getFileDate());
+			outParams = rollBackexe.execute(inParams);
+			if (outParams != null && outParams.get("msg") != null) {
+				logger.info("OUT PARAM IS " + outParams.get("msg"));
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+	private class rollBackTTUMMC3CROSS extends StoredProcedure {
+		private static final String insert_proc = "RECON_MC_ACQ_CROSS_RECON_ROLLBACK";
+
+		public rollBackTTUMMC3CROSS(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
@@ -12074,7 +12107,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
-			declareParameter(new SqlOutParameter("ERROR_CODE",  Types.VARCHAR));
+			
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();
 		}

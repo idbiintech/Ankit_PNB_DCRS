@@ -221,11 +221,11 @@ public class MastercardSettlementController {
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
 					executed = this.rupayTTUMService.runTTUMProcessMC3(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CROSS")) {
-					executed = this.rupayTTUMService.UnmatchedTTUMProcMC(beanObj);
+					executed = this.rupayTTUMService.UnmatchedTTUMProcMCCROSS(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("OFFLINE PRESENTMENT")) {
 					executed = this.rupayTTUMService.runTTUMProcessRUPAY6(beanObj);
 				} else {
-					executed = this.rupayTTUMService.UnmatchedTTUMProcMC(beanObj);
+					executed = this.rupayTTUMService.UnmatchedTTUMProcMCCROSS(beanObj);
 				}
 			} else if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER_INT")) {
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("")) {
@@ -235,11 +235,11 @@ public class MastercardSettlementController {
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
 					executed = this.rupayTTUMService.runTTUMProcessMC3POSINT(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CROSS")) {
-					executed = this.rupayTTUMService.UnmatchedTTUMProcMC(beanObj);
+					executed = this.rupayTTUMService.UnmatchedTTUMProcMCCROSS(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("OFFLINE PRESENTMENT")) {
 					executed = this.rupayTTUMService.runTTUMProcessRUPAY6(beanObj);
 				} else {
-					executed = this.rupayTTUMService.UnmatchedTTUMProcMC(beanObj);
+					executed = this.rupayTTUMService.UnmatchedTTUMProcMCCROSS(beanObj);
 				}
 			} else if (beanObj.getStSubCategory().equalsIgnoreCase("ISSUER")) {
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("DECLINE")) {
@@ -485,7 +485,7 @@ public class MastercardSettlementController {
 				} else if (typeOfTTUM.contains("LORO_DEBIT")) {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC3(beanObj);
 				} else if (typeOfTTUM.contains("CROSS")) {
-					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMRUPAY4(beanObj);
+					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC3CROSS(beanObj);
 				} else if (typeOfTTUM.contains("SURCHARGED")) {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMRUPAY4(beanObj);
 				} else if (typeOfTTUM.contains("SURCHARGEC")) {
@@ -503,7 +503,7 @@ public class MastercardSettlementController {
 				} else if (typeOfTTUM.contains("LORO_DEBIT")) {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC2INT(beanObj);
 				} else if (typeOfTTUM.contains("CROSS")) {
-					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC4DR(beanObj);
+					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC3CROSS(beanObj);
 				} else if (typeOfTTUM.contains("SURCHARGEC")) {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMRUPAY4(beanObj);
 				} else if (typeOfTTUM.contains("LATE PRESENTMENT")) {

@@ -235,7 +235,7 @@ color: purple; text-align: center; font-weight: bold;font-size: 14px;text-transf
 <script>
 	$(document).ready(function() {
 		$("#startDatePicker").datepicker({
-			dateFormat : "dd-mm-y"
+			dateFormat : "yy/mm/dd"
 		});
 
 		/* $("#whatsNew").modal('show'); */

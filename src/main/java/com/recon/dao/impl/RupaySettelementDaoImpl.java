@@ -1433,7 +1433,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 	}
 
 	private class RupaySettlementProcQsparc extends StoredProcedure {
-		private static final String insert_proc = "QSPARC_POS_SETTLEMENT";
+		private static final String insert_proc = "QSPARC_POS_SETTLEMENT_PNB";
 
 		public RupaySettlementProcQsparc(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -1791,7 +1791,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 		cols.add("CREDIT");
 		cols.add("NARRATION");
 		String getData = "SELECT GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION FROM qsparc_pos_dom_settlement where filedate= STR_to_date(?,'%Y/%m/%d') and cycle=? ";
-		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
+		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate(),  beanObj.getCycle() },
 				new ResultSetExtractor<List<Object>>() {
 					public List<Object> extractData(ResultSet rs) throws SQLException {
 						List<Object> beanList = new ArrayList<Object>();

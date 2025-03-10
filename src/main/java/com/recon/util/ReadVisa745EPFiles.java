@@ -132,12 +132,12 @@ public class ReadVisa745EPFiles {
             }  
           if (Flag255) {
             count++;
-            System.out.println("dd  " + line.trim().length());
+           // System.out.println("dd  " + line.trim().length());
             if (line.trim().length() == 77 || line.trim().length() == 78)
               continue; 
             if (count == 2) {
-              System.out.println("d  " + line.trim().length());
-              System.out.println("lenght  " + line.trim());
+             // System.out.println("d  " + line.trim().length());
+             // System.out.println("lenght  " + line.trim());
               if (line.trim().length() == 71) {
                 CA_ID = line.trim().substring(7, 15);
                 LOCATION = line.trim().substring(16, 71);

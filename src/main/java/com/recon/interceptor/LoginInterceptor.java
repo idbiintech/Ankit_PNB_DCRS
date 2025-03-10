@@ -35,6 +35,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     System.out.println("uri is " + uri);
     if (!uri.equals("/IRECON/Login.do") && !uri.equals("/IRECON/") && !uri.equals("/IRECON/Logout.do") && !uri.equals("/IRECON/InvalidateSession.do") && 
       !uri.equals("/IRECON/closeSession.do") && !uri.equals("/IRECON/CloseUserSession.do") && !uri.equals("/IRECON/IRECONMODULE.do"))
+    	   if (!uri.equals("/IRECON1/Login.do") && !uri.equals("/IRECON1/") && !uri.equals("/IRECON1/Logout.do") && !uri.equals("/IRECON1/InvalidateSession.do") && 
+    			      !uri.equals("/IRECON1/closeSession.do") && !uri.equals("/IRECON1/CloseUserSession.do") && !uri.equals("/IRECON1/IRECONMODULE.do"))
+
       if (!uri.equals("/IRECON_ANKIT/Login.do") && !uri.equals("/IRECON_ANKIT/") && !uri.equals("/IRECON_ANKIT/Logout.do") && !uri.equals("/IRECON_ANKIT/InvalidateSession.do") && 
         !uri.equals("/IRECON_ANKIT/closeSession.do") && !uri.equals("/IRECON_ANKIT/CloseUserSession.do") && !uri.equals("/IRECON_ANKIT/IRECONMODULE.do")) {
         try {

@@ -121,6 +121,7 @@ public interface RupayTTUMService {
   boolean runTTUMProcessRUPAY4(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean UnmatchedTTUMProcMC(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean UnmatchedTTUMProcMCCROSS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean runTTUMProcessRUPAY4INT(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
