@@ -372,6 +372,25 @@ public class SettlmentDaoImpl extends JdbcDaoSupport implements ISettelmentDao {
       return Boolean.valueOf(true); 
     return Boolean.valueOf(false);
   }
+
+  public Boolean checkfileprocessedCTC4(SettlementBean settlementbeanObj) {
+    String CHECK_IT = "SELECT COUNT(*) as count FROM settlement_dfs_cbs  WHERE FILEDATE = DATE_FORMAT('" + settlementbeanObj.getDatepicker() + "','%Y/%m/%d')";
+    System.out.println(CHECK_IT);
+    int count = ((Integer)getJdbcTemplate().queryForObject(CHECK_IT, new Object[0], Integer.class)).intValue();
+    if (count > 0)
+      return Boolean.valueOf(true); 
+    return Boolean.valueOf(false);
+  }
+
+  public Boolean checkfileprocessedCTC3(SettlementBean settlementbeanObj) {
+    String CHECK_IT = "SELECT COUNT(*) as count FROM settlement_jcb_cbs  WHERE FILEDATE = DATE_FORMAT('" + settlementbeanObj.getDatepicker() + "','%Y/%m/%d')";
+    System.out.println(CHECK_IT);
+    int count = ((Integer)getJdbcTemplate().queryForObject(CHECK_IT, new Object[0], Integer.class)).intValue();
+    if (count > 0)
+    	
+      return Boolean.valueOf(true); 
+    return Boolean.valueOf(false);
+  }
   
   public void generate_Reports(SettlementBean settlementBeanObj) throws Exception {}
   

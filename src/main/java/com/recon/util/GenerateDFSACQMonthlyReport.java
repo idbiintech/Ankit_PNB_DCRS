@@ -23,7 +23,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 @SuppressWarnings("unchecked")
 public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
-	
+
 	@SuppressWarnings({ "resource", "unused" })
 	@Override
 	protected void buildExcelDocument(Map<String, Object> map, HSSFWorkbook workbook1, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -56,7 +56,7 @@ public class GenerateDFSACQMonthlyReport extends AbstractExcelView {
 	System.out.println("Got columns list");
 	
 	System.out.println("Got the data");
-	String filename = "JCB_SETTLEMENT_REPORT";	
+	String filename = "DFS_SETTLEMENT_REPORT";	
 	if(name != null && !name.equalsIgnoreCase("")) {
 		filename = name;
 	}

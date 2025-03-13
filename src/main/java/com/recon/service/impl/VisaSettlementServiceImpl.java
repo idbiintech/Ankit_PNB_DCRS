@@ -43,7 +43,9 @@ public class VisaSettlementServiceImpl extends JdbcDaoSupport implements VisaSet
         checkUpload = "SELECT COUNT(*) as count FROM visa_ep733f_rawdata WHERE filedate = STR_to_date('" + fileDate + "','%Y/%m/%d')";
       } else if (filename.contains("745")) {
         checkUpload = "SELECT COUNT(*) as count FROM visa_ep745_rawdata WHERE filedate = STR_to_date('" + fileDate + "','%Y/%m/%d')";
-      } else {
+      } else if (filename.contains("706")) {
+          checkUpload = "SELECT COUNT(*) as count FROM visa_ep706_rawdata WHERE filedate = STR_to_date('" + fileDate + "','%Y/%m/%d')";
+        } else {
         checkUpload = "select sum(count) from (\r\nSELECT COUNT(*) as count FROM visa_ep_vss120_rawdata WHERE filedate = STR_to_date('" + 
           fileDate + 
           "','%Y/%m/%d') and filename='" + filename + "' union all\r\n" + 
@@ -80,7 +82,7 @@ public class VisaSettlementServiceImpl extends JdbcDaoSupport implements VisaSet
       String checkSettlementTTUM = "";
       System.out.println("inside the validatesettlement");
       if (beanObj.getSubcategory().toUpperCase().equalsIgnoreCase("DOMESTIC")) {
-        checkSettlementTTUM = "Select count(*) from VISA_SETTLEMENT_TTUM WHERE (FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MM-YY') OR FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MON-YY'))  ";
+        checkSettlementTTUM = "Select count(*) from visa_settlement_ttum WHERE (FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MM-YY') OR FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MON-YY'))  ";
       } else {
         checkSettlementTTUM = "Select count(*) from visa_settlement_ttum_int WHERE (FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MM-YY') OR FILEDATE = TO_CHAR(TO_DATE(?, 'DD/MON/YYYY'), 'DD-MON-YY'))  ";
       } 

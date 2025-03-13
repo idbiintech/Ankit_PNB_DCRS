@@ -118,6 +118,15 @@ public class SettlementServImpl implements ISettelmentService {
 	{
 		return settlementdao.checkfileprocessedCTC(settlementbeanObj);
 	}
+	public Boolean checkfileprocessedCTC3(SettlementBean settlementbeanObj)
+	{
+		return settlementdao.checkfileprocessedCTC3(settlementbeanObj);
+	}
+	
+	public Boolean checkfileprocessedCTC4(SettlementBean settlementbeanObj)
+	{
+		return settlementdao.checkfileprocessedCTC4(settlementbeanObj);
+	}
 	
 	public void DeleteFiles(String path)
 	{

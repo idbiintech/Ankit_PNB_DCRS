@@ -26,7 +26,8 @@ public interface ISettelmentService {
 	public void generate_Reports_ICCW(CompareSetupBean settlementBeanObj) throws Exception;
 	public Boolean checkfileprocessed(SettlementBean settlementbeanObj);
 	public Boolean checkfileprocessedCTC(SettlementBean settlementbeanObj);
-	
+	public Boolean checkfileprocessedCTC3(SettlementBean settlementbeanObj);
+	public Boolean checkfileprocessedCTC4(SettlementBean settlementbeanObj);
 	public List<SettlementTypeBean> getSettlmentType(String type,String tablename);
 	public ArrayList<String> getColumnList(String tableName);
 	public int getReconDataCount(String table,

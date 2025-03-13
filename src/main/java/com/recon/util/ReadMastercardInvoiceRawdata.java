@@ -2003,7 +2003,7 @@ public class ReadMastercardInvoiceRawdata {
 		List<List<String>> Data = new ArrayList<List<String>>();
 		try {
 
-			String INSERT_QUERY = "INSERT INTO  MASTERCARD_INVOICEPDF_RAWTADA   (RATE,CHARGE,TOTALCHARGE,FILEDATE,FILENAME) VALUES(?,?,?,?,?)";
+			String INSERT_QUERY = "INSERT INTO    mastercard_invoicepdf_rawtada  (RATE,CHARGE,TOTALCHARGE,FILEDATE,FILENAME) VALUES(?,?,?,?,?)";
 
 			BufferedReader csvReader1 = new BufferedReader(new InputStreamReader(file.getInputStream()));
 			PreparedStatement ps = conn.prepareStatement(INSERT_QUERY);
@@ -2014,9 +2014,9 @@ public class ReadMastercardInvoiceRawdata {
 
 				String[] lines = text.split(System.lineSeparator());
 				for (String textline : lines) {
-					if (textline.contains("Total for Invoice in INR at exchange rate of")) {
+			
 
-					//	System.out.println("textwww  " + textline);
+					System.out.println("textwww  " + textline);
 						totalamount = textline.substring(45, textline.length());
 						String[] amounts = totalamount.split(" ");
 				
@@ -2044,7 +2044,7 @@ public class ReadMastercardInvoiceRawdata {
 						ps.setString(5, file.getOriginalFilename());
 						//System.out.println("		System.out.println(\"textwww  \"+ textline);  " + totalamount);
 						ps.execute();
-					}
+					
 
 				}
 

@@ -62,13 +62,15 @@ public class ReadVisa745EPFiles {
             VSS_PROCESSING_DATE = line.substring(125, line.length());
             continue;
           } 
-          if ((DESPUT_TYPE.contains("ACQUIRER TRANSACTION") && line.trim().startsWith("255")) || line.trim().startsWith("07") || line.trim().startsWith("10") || line.trim().startsWith("02") || line.trim().startsWith("21") || line.trim().startsWith("16") || line.trim().startsWith("15") || line.trim().startsWith("14") || line.trim().startsWith("13")) {
+          if ((DESPUT_TYPE.contains("ACQUIRER TRANSACTION") && line.trim().startsWith("255")) || line.trim().startsWith("12") || line.trim().startsWith("07") || line.trim().startsWith("10") || line.trim().startsWith("02") || line.trim().startsWith("21") || line.trim().startsWith("16") || line.trim().startsWith("15") || line.trim().startsWith("14") || line.trim().startsWith("13")) {
             Code = line.trim().substring(0, 3);
+        
             if (line.trim().length() != 117 && 
               line.trim().length() != 92)
               if (line.trim().length() != 86) {
-                if (line.trim().startsWith("21") || line.trim().startsWith("15") || line.trim().startsWith("16") || line.trim().startsWith("14") || line.trim().startsWith("02") || line.trim().startsWith("10") || line.trim().startsWith("07") || line.trim().startsWith("13")) {
-                  SETT_DATE = line.trim().substring(3, 9);
+                if (line.trim().startsWith("21") || line.trim().startsWith("15") || line.trim().startsWith("16") || line.trim().startsWith("14") || line.trim().startsWith("12") || line.trim().startsWith("02") || line.trim().startsWith("10") || line.trim().startsWith("07") || line.trim().startsWith("10") || line.trim().startsWith("07") || line.trim().startsWith("13")) {
+                   System.out.println("datqa "+ line.trim() +" length "+  line.trim().length() );
+                	SETT_DATE = line.trim().substring(3, 9);
                   SETT_TIME = line.trim().substring(9, 18);
                   CARD_NUMBER = line.trim().substring(18, 38);
                   RETRIVAL_REF_NMBER = line.trim().substring(38, 51);
@@ -82,12 +84,14 @@ public class ReadVisa745EPFiles {
                   TRANSACTION_AMOUNT = line.trim().substring(99, 112);
                   CURR_CODE = line.trim().substring(112, 116);
                   SETTLEMENT_AMOUNT = line.trim().substring(117, 128);
-                  if (line.trim().length() == 128) {
+                  
+                  if (line.trim().length() == 128 ) {
                     DR_CR = "NA";
                   } else {
                     DR_CR = line.trim().substring(128, 130);
                   } 
                 } else {
+                   System.out.println("data "+ line.trim() +" length "+  line.length());
                   SETT_DATE = line.trim().substring(3, 10);
                   SETT_TIME = line.trim().substring(10, 19);
                   CARD_NUMBER = line.trim().substring(19, 39);
@@ -132,12 +136,12 @@ public class ReadVisa745EPFiles {
             }  
           if (Flag255) {
             count++;
-           // System.out.println("dd  " + line.trim().length());
-            if (line.trim().length() == 77 || line.trim().length() == 78)
+           System.out.println("dd  " + line.trim().length());
+            if (line.trim().length() == 77 || line.trim().length() == 78 || line.trim().length() == 36 )
               continue; 
             if (count == 2) {
-             // System.out.println("d  " + line.trim().length());
-             // System.out.println("lenght  " + line.trim());
+              System.out.println("d  " + line.trim().length());
+              System.out.println("lenght  " + line.trim());
               if (line.trim().length() == 71) {
                 CA_ID = line.trim().substring(7, 15);
                 LOCATION = line.trim().substring(16, 71);

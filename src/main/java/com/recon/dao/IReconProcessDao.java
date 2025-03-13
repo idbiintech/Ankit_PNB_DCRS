@@ -56,6 +56,11 @@ public interface IReconProcessDao {
   
   String validateFile1CTC2(String paramString1, List<CompareSetupBean> paramList, String paramString2);
   
+  
+  String validateFile1CTC3(String paramString1, List<CompareSetupBean> paramList, String paramString2);
+  
+  String validateFile1CTC4(String paramString1, List<CompareSetupBean> paramList, String paramString2);
+  
   HashMap<String, Object> checkCardtoCardRecon(String paramString1, String paramString2);
   
   boolean CardtoCardISSPRC(String paramString1, String paramString2, String paramString3) throws ParseException, Exception;

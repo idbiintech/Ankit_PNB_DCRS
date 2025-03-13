@@ -60,6 +60,12 @@ public interface IReconProcessService {
 
 	String validateFile1CTC2(String category, List<CompareSetupBean> compareSetupBeans, String filedate)
 			throws Exception;
+	
+	String validateFile1CTC3(String category, List<CompareSetupBean> compareSetupBeans, String filedate)
+			throws Exception;
+
+	String validateFile1CTC4(String category, List<CompareSetupBean> compareSetupBeans, String filedate)
+			throws Exception;
 
 	boolean CardtoCardISSPRC(String category, String filedate, String entry_by) throws ParseException, Exception;
 

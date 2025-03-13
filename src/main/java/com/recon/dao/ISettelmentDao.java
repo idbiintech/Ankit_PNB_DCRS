@@ -38,6 +38,8 @@ public interface ISettelmentDao {
   Boolean checkfileprocessed(SettlementBean paramSettlementBean);
   
   Boolean checkfileprocessedCTC(SettlementBean paramSettlementBean);
+  Boolean checkfileprocessedCTC3(SettlementBean paramSettlementBean);
+  Boolean checkfileprocessedCTC4(SettlementBean paramSettlementBean);
   
   void generate_Reports(SettlementBean paramSettlementBean) throws Exception;
   

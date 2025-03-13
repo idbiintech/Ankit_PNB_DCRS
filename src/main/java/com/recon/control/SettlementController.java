@@ -623,7 +623,17 @@ public class SettlementController {
         if (check_process)
           return "success"; 
         return "Recon not processed for selected date";
-      } 
+      }    if (settlementBean.getCategory().contains("DFS")) {
+          check_process = this.isettelmentservice.checkfileprocessedCTC4(settlementBean).booleanValue();
+          if (check_process)
+            return "success"; 
+          return "Recon not processed for selected date";
+        }    if (settlementBean.getCategory().contains("JCB")) {
+            check_process = this.isettelmentservice.checkfileprocessedCTC3(settlementBean).booleanValue();
+            if (check_process)
+              return "success"; 
+            return "Recon not processed for selected date";
+          } 
       check_process = this.isettelmentservice.checkfileprocessed(settlementBean).booleanValue();
       if (check_process)
         return "success"; 

@@ -56,6 +56,12 @@ public class ReconProcessServiceImpl implements IReconProcessService {
     return this.reconprocess.validateFile1CTC2(category, compareSetupBeans, filedate);
   }
   
+  public String validateFile1CTC3(String category, List<CompareSetupBean> compareSetupBeans, String filedate) throws Exception {
+    return this.reconprocess.validateFile1CTC3(category, compareSetupBeans, filedate);
+  }
+  public String validateFile1CTC4(String category, List<CompareSetupBean> compareSetupBeans, String filedate) throws Exception {
+	    return this.reconprocess.validateFile1CTC4(category, compareSetupBeans, filedate);
+	  }
   public boolean processFile(String category, List<CompareSetupBean> compareSetupBeans, String filedate, String Createdby, String subCat) throws Exception {
     return this.reconprocess.processFile(category, compareSetupBeans, filedate, Createdby, subCat);
   }

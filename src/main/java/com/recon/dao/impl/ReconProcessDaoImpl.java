@@ -398,6 +398,8 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
     logger.info("***** ReconProcessDaoImpl.validateFile Start ****");
     String msg = null;
     try {
+    	
+    	
       if (category.equalsIgnoreCase("ACQUIRER")) {
         String str = "select count(*) from SETTLEMENT_NFS_ACQ_C2C_CBS where  TO_DATE(FILEDATE,'DD-MM-YY')= TO_DATE('" + 
           filedate + "','DD-MM-YY')  ";
@@ -408,15 +410,17 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
           return null; 
         msg = "Previous File is not Processed";
         return msg;
-      } 
-      String query = "select count(*) from settlement_nfs_iss_c2c_cbs where FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
-      logger.info("Query is " + query);
-      int count = ((Integer)getJdbcTemplate().queryForObject(query, new Object[0], Integer.class)).intValue();
-      logger.info("Count is " + count);
-      if (count > 0)
-        return null; 
-      msg = "Previous File is not Processed";
-      return msg;
+      }else {
+    	  String query = "select count(*) from settlement_nfs_iss_c2c_cbs where FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+          logger.info("Query is " + query);
+          int count = ((Integer)getJdbcTemplate().queryForObject(query, new Object[0], Integer.class)).intValue();
+          logger.info("Count is " + count);
+          if (count > 0)
+            return null; 
+          msg = "Previous File is not Processed";
+          return msg;
+      }
+           
     } catch (Exception ex) {
       logger.error(" error in ReconProcessDaoImpl.validateFile", 
           new Exception("ReconProcessDaoImpl.validateFile", ex));
@@ -424,6 +428,80 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
     } 
   }
   
+  public String validateFile1CTC3(String category, List<CompareSetupBean> compareSetupBeans, String filedate) {
+	    logger.info("***** ReconProcessDaoImpl.validateFile Start ****");
+	    String msg = null;
+	    try {
+	    	
+	    	
+	      if (category.equalsIgnoreCase("ACQUIRER")) {
+	        String str = "select count(*) from settlement_jcb_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+	        logger.info("Query is " + str);
+	        int i = ((Integer)getJdbcTemplate().queryForObject(str, new Object[0], Integer.class)).intValue();
+	        logger.info("Count is " + i);
+	        if (i > 0) {
+	       
+	          msg = "Recon Already Proccessed";
+	        }else {
+	        	   return null;
+	        }
+	        
+	        return msg;
+	      }else {
+	    	  String query = "select count(*) from settlement_nfs_iss_c2c_cbs where FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+	          logger.info("Query is " + query);
+	          int count = ((Integer)getJdbcTemplate().queryForObject(query, new Object[0], Integer.class)).intValue();
+	          logger.info("Count is " + count);
+	          if (count > 0)
+	            return null; 
+	          msg = "Previous File is not Processed";
+	          return msg;
+	      }
+	           
+	    } catch (Exception ex) {
+	      logger.error(" error in ReconProcessDaoImpl.validateFile", 
+	          new Exception("ReconProcessDaoImpl.validateFile", ex));
+	      return msg;
+	    } 
+	  }
+  
+  public String validateFile1CTC4(String category, List<CompareSetupBean> compareSetupBeans, String filedate) {
+	    logger.info("***** ReconProcessDaoImpl.validateFile Start ****");
+	    String msg = null;
+	    try {
+	    	
+	    	
+	      if (category.equalsIgnoreCase("ACQUIRER")) {
+	    	  String str = "select count(*) from settlement_dfs_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+		        logger.info("Query is " + str);
+		        int i = ((Integer)getJdbcTemplate().queryForObject(str, new Object[0], Integer.class)).intValue();
+		        logger.info("Count is " + i);
+		        if (i > 0) {
+		       
+		          msg = "Recon Already Proccessed";
+		        }else {
+		        	   return null;
+		        }
+		        
+		        return msg;
+	      }else {
+	    	  String query = "select count(*) from settlement_nfs_iss_c2c_cbs where FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+	          logger.info("Query is " + query);
+	          int count = ((Integer)getJdbcTemplate().queryForObject(query, new Object[0], Integer.class)).intValue();
+	          logger.info("Count is " + count);
+	          if (count > 0)
+	            return null; 
+	          msg = "Previous File is not Processed";
+	          return msg;
+	      }
+	           
+	    } catch (Exception ex) {
+	      logger.error(" error in ReconProcessDaoImpl.validateFile", 
+	          new Exception("ReconProcessDaoImpl.validateFile", ex));
+	      return msg;
+	    } 
+	  }
+	  
   public String validateFile(String category, List<CompareSetupBean> compareSetupBeans, String filedate) throws Exception {
     logger.info("***** ReconProcessDaoImpl.validateFile Start ****");
     String msg = null;
@@ -1430,10 +1508,9 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
       logger.info("***** ReconProcessDaoImpl.AcqClassifydata Start ****");
       String response = null;
       Map<String, Object> inParams = new HashMap<>();
-      inParams.put("I_CATEGORY", category);
-      inParams.put("I_SUBCATEGORY", subCat);
+
       inParams.put("I_FILEDATE", filedate);
-      inParams.put("I_ENTRY_BY", entry_by);
+
       AcqClassificatonDFS acqclassificaton = new AcqClassificatonDFS( getJdbcTemplate());
       Map<String, Object> outParams = acqclassificaton.execute(inParams);
       logger.info("***** ReconProcessDaoImpl.AcqClassifydata End ****");
@@ -1448,17 +1525,14 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
     } 
   }
   class AcqClassificatonDFS extends StoredProcedure {
-		private static final String procName = "NFS_ACQ_CLASSIFY";
+		private static final String procName = "RECON_DFS_PROC";
 
 		AcqClassificatonDFS(JdbcTemplate JdbcTemplate) {
 			super(JdbcTemplate, procName);
 			setFunction(false);
 
 			declareParameter(new SqlParameter("I_FILEDATE", Types.VARCHAR));
-			declareParameter(new SqlParameter("I_CATEGORY", Types.VARCHAR));
-			declareParameter(new SqlParameter("I_SUBCATEGORY",  Types.VARCHAR));
-			declareParameter(new SqlParameter("I_ENTRY_BY",  Types.VARCHAR));
-			declareParameter(new SqlOutParameter("ERROR_CODE",  Types.VARCHAR));
+		
 			declareParameter(new SqlOutParameter("ERROR_MESSAGE",  Types.VARCHAR));
 			compile();
 		}

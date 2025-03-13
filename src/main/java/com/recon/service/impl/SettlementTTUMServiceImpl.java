@@ -12068,13 +12068,13 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 	}
 
 	private class rollBackNFDFSACQ extends StoredProcedure {
-		private static final String insert_proc = "DFS_ACQ_ROLLBACK";
+		private static final String insert_proc = "RECON_DFS_PROC_ROLLBACK";
 
 		public rollBackNFDFSACQ(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
-			declareParameter(new SqlOutParameter("ERROR_CODE",  Types.VARCHAR));
+		
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();
 		}
