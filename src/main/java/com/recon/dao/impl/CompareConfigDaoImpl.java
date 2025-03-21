@@ -426,7 +426,7 @@ public class CompareConfigDaoImpl extends JdbcDaoSupport implements ICompareConf
   }
   
   public boolean chkFileupload(CompareSetupBean setupBean) throws Exception {
-    this.logger.info("***** CompareConfigDaoImpl.chkFileupload Start ****");
+    this.logger.info("***** CompareConfigDaoImpl.chkFileupload Start **** "+ setupBean.getFilename());
     boolean result = false;
     try {
       if (setupBean.getFilename().equalsIgnoreCase("RUPAY")) {
@@ -931,7 +931,7 @@ public class CompareConfigDaoImpl extends JdbcDaoSupport implements ICompareConf
         } else {
           result = false;
         } 
-      } else if (setupBean.getFilename().contains("DOM") && setupBean.getCategory().contains("MASTERCARD")) {
+      } else if (setupBean.getFilename().contains("ATM") && setupBean.getCategory().contains("MASTERCARD")) {
         this.logger.info(" chkFileupload REV_REPORT****");
         int fileid = 0;
         String query = "Select COUNT(*) from   mastercard_atm_rawdata where FILENAME='" + 
@@ -1085,7 +1085,7 @@ public class CompareConfigDaoImpl extends JdbcDaoSupport implements ICompareConf
         if (setupBean.getFilename().equalsIgnoreCase("POS")) {
           Pos_Reading readmas_pos = new Pos_Reading();
           result = Pos_Reading.read_method(setupBean, getConnection(), file);
-        } else if (setupBean.getFilename().equalsIgnoreCase("DOM")) {
+        } else if (setupBean.getFilename().equalsIgnoreCase("ATM")) {
           ReadMastercard461Rawdata readmas_atm = new ReadMastercard461Rawdata();
           output = readmas_atm.read464File(file, getConnection(), setupBean);
           result = ((Boolean)output.get("result")).booleanValue();
@@ -1275,7 +1275,7 @@ public class CompareConfigDaoImpl extends JdbcDaoSupport implements ICompareConf
             setupBean.getFilename().equalsIgnoreCase("VISA") || 
             setupBean.getFilename().equalsIgnoreCase("VISA_ACQ") || 
             setupBean.getFilename().equalsIgnoreCase("SWITCH") || 
-            setupBean.getFilename().equalsIgnoreCase("DOM") || 
+            setupBean.getFilename().equalsIgnoreCase("ATM") || 
             setupBean.getFilename().equalsIgnoreCase("POS") || 
             setupBean.getFilename().equalsIgnoreCase("ICD") || 
             setupBean.getFilename().equalsIgnoreCase("DFS") || 

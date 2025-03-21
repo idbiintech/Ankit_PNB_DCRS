@@ -313,7 +313,8 @@ sidebar-menu {
 
 									<li><a href="UpdateDollerRate.do?category=VISA"><i
 											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Update Dollar Rate</span></a></li>
+											style="font-size: 15px; font-weight: bold;">Update
+												Dollar Rate</span></a></li>
 									<li><a href="VisaAdjustmentFileUpload.do"><i
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Adjustment
@@ -380,7 +381,7 @@ sidebar-menu {
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Recon
 												Process</span></a></li>
-									<li><a href="GenerateNFSTTUM.do?category=JCB"><i
+									<li><a href="GenerateJCBTTUM.do?category=JCB"><i
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Generate
 												TTUM</span></a></li>
@@ -423,7 +424,7 @@ sidebar-menu {
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Recon
 												Process</span></a></li>
-									<li><a href="GenerateNFSTTUM.do?category=DFS"><i
+									<li><a href="GenerateDFSTTUM.do?category=DFS"><i
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Generate
 												TTUM</span></a></li>
@@ -485,148 +486,144 @@ sidebar-menu {
 											style="font-size: 15px; font-weight: bold;">Adjustment
 												Process</span></a></li>
 								</ul></li>
-								
-								<ul class="treeview-menu">
-									<!-- 				<li><a href="ManualUploadIccw.do"><i
+
+							<ul class="treeview-menu">
+								<!-- 				<li><a href="ManualUploadIccw.do"><i
 						class="fa fa-angle-right"></i> <span
 						style="font-size: 15px; font-weight: bold;">File Upload</span></a></li> -->
-								</ul></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i><img
-									src="dist/img/cardicons/onus.jpg"><span
-									style="font-size: 15px; font-weight: bold;"> ICD</span><i
-									class="fa fa-angle-left pull-right"></i></a>
-								<ul class="treeview-menu">
-									<li><a href="ReconProcess.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Recon
-												Process</span></a></li>
-									<li><a href="GenerateICDTTUM.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												TTUM</span></a></li>
-									<li><a href="DownloadReports.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												Reports</span></a></li>
+							</ul></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i><img
+							src="dist/img/cardicons/onus.jpg"><span
+							style="font-size: 15px; font-weight: bold;"> ICD</span><i
+							class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a href="ReconProcess.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Recon
+										Process</span></a></li>
+							<li><a href="GenerateICDTTUM.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										TTUM</span></a></li>
+							<li><a href="DownloadReports.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										Reports</span></a></li>
 
-									<li><a href="DeemAcceptanceFileUpload.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Deem
-												Accept File Upload</span></a></li>
-									<!-- <li><a href="manulRollBack.do?category=NFS"><i
+							<li><a href="DeemAcceptanceFileUpload.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Deem Accept
+										File Upload</span></a></li>
+							<!-- <li><a href="manulRollBack.do?category=NFS"><i
 						class="fa fa-angle-right"></i> Recon RollBack</a></li></li> -->
-									<li><a href="ICDNTSLFileUpload.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">NTSL
-												Upload</span></a></li>
+							<li><a href="ICDNTSLFileUpload.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">NTSL Upload</span></a></li>
 
-									<li><a href="ICDAdjustmentFileUpload.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Adjustment
-												Upload</span></a></li>
+							<li><a href="ICDAdjustmentFileUpload.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Adjustment
+										Upload</span></a></li>
 
-									<li><a href="ICDAdjustmentTTUM.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Adjustment
-												Process</span></a></li>
+							<li><a href="ICDAdjustmentTTUM.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Adjustment
+										Process</span></a></li>
 
-									<li><a href="ICDSettlementTTUM.do?category=ICD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Settlement
-												Process</span></a></li>
-									<!-- 					<li><a href="NIHReport.do?category=NFS"><i
+							<li><a href="ICDSettlementTTUM.do?category=ICD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Settlement
+										Process</span></a></li>
+							<!-- 					<li><a href="NIHReport.do?category=NFS"><i
 							class="fa fa-angle-right"></i> <span
 							style="font-size: 15px; font-weight: bold;">NIH Rreports</span></a></li> -->
-								</ul></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i><img
-									src="dist/img/cardicons/mastercard.jpg" alt="rupay"><span
-									style="font-size: 15px; font-weight: bold;"> MASTERCARD</span><i
-									class="fa fa-angle-left pull-right"></i></a>
-								<ul class="treeview-menu">
-									<li><a href="ReconProcess.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Recon
-												Process</span></a></li>
-													<li><a href="ReconProcess.do?category=MC_CROSS"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Cross
-												Recon Process</span></a></li>
-									<li><a href="DownloadReports.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												Reports</span></a></li>
-									<li><a
-										href="GenerateMASTERCARDTTUM.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												TTUM</span></a></li>
-									<!-- 		<li><a
+						</ul></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i><img
+							src="dist/img/cardicons/mastercard.jpg" alt="rupay"><span
+							style="font-size: 15px; font-weight: bold;"> MASTERCARD</span><i
+							class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a href="ReconProcess.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Recon
+										Process</span></a></li>
+							<li><a href="ReconProcess.do?category=MC_CROSS"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Cross Recon
+										Process</span></a></li>
+							<li><a href="DownloadReports.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										Reports</span></a></li>
+							<li><a href="GenerateMASTERCARDTTUM.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										TTUM</span></a></li>
+							<!-- 		<li><a
 					href="GenerateMastercardSalaryTTUM.do?category=MASTERCARD"><i
 						class="fa fa-angle-right"></i> <span
 						style="font-size: 15px; font-weight: bold;">Salary TTUM</span></a></li> -->
 
-									<!-- <li><a href="manulRollBack.do?category=MASTERCARD"><i
+							<!-- <li><a href="manulRollBack.do?category=MASTERCARD"><i
 						class="fa fa-angle-right"></i> Recon RollBack</a></li></li> -->
-									<li><a href="MastercardFileUpload.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Settlement
-												Upload</span></a></li>
-									<li><a href="MastercardT057Upload.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">T057 File
-												Upload</span></a></li>
-									<li><a
-										href="MastercardINVOICEUpload.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Invoice
-												File Upload</span></a></li>
-									<!-- 	<li><a
+							<li><a href="MastercardFileUpload.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Settlement
+										Upload</span></a></li>
+							<li><a href="MastercardT057Upload.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">T057 File
+										Upload</span></a></li>
+							<li><a href="MastercardINVOICEUpload.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Invoice File
+										Upload</span></a></li>
+							<!-- 	<li><a
 										href="MastercardPDFINVOICEUpload.do?category=MASTERCARD"><i
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Invoice PDF
 												File Upload</span></a></li> -->
-									<li><a
-										href="MastercardSettlementProcess.do?category=MASTERCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Settlement
-												Process</span></a></li>
-									<li><a href="mastercardAdjustmentTTUM.do?"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Adjustment
-												Process</span></a></li>
-									<li><a href="mastercardChargeBack.do?"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												ChargeBack </span></a></li>
+							<li><a
+								href="MastercardSettlementProcess.do?category=MASTERCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Settlement
+										Process</span></a></li>
+							<li><a href="mastercardAdjustmentTTUM.do?"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Adjustment
+										Process</span></a></li>
+							<li><a href="mastercardChargeBack.do?"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										ChargeBack </span></a></li>
 
-								</ul></li>
-							<li><a href="#"><i class="fa fa-circle-o"></i><img
-									src="dist/img/cardicons/cardtocard.jpg" alt="rupay"> <span
-									style="font-size: 15px; font-weight: bold;"> CARD TO
-										CARD</span><i class="fa fa-angle-left pull-right"></i></a>
-								<ul class="treeview-menu">
-									<li><a href="ReconProcess.do?category=CARDTOCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Recon
-												Process</span></a></li>
+						</ul></li>
+					<li><a href="#"><i class="fa fa-circle-o"></i><img
+							src="dist/img/cardicons/cardtocard.jpg" alt="rupay"> <span
+							style="font-size: 15px; font-weight: bold;"> CARD TO CARD</span><i
+							class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a href="ReconProcess.do?category=CARDTOCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Recon
+										Process</span></a></li>
 
-				
-									<li><a
-										href="GenerateCardtoCardTTUM.do?category=CARDTOCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												TTUM</span></a></li>
 
-									<li><a href="DownloadReports.do?category=CARDTOCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Generate
-												Reports</span></a></li>
+							<li><a href="GenerateCardtoCardTTUM.do?category=CARDTOCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										TTUM</span></a></li>
 
-									<li><a href="CTCSettlementProcess.do?category=CARDTOCARD"><i
-											class="fa fa-angle-right"></i> <span
-											style="font-size: 15px; font-weight: bold;">Settlement
-												Download</span></a></li>
-								</ul></li></li>
+							<li><a href="DownloadReports.do?category=CARDTOCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Generate
+										Reports</span></a></li>
+
+							<li><a href="CTCSettlementProcess.do?category=CARDTOCARD"><i
+									class="fa fa-angle-right"></i> <span
+									style="font-size: 15px; font-weight: bold;">Settlement
+										Download</span></a></li>
+						</ul></li></li>
 		</ul>
 		</li>
 
@@ -791,6 +788,16 @@ sidebar-menu {
 						class="fa fa-skyatlas"></i> <span
 						style="font-size: 15px; font-weight: bold;">Nepal & Bhutan
 							TTUM</span></a></li>
+							
+							
+								<li><a href="GenerateNTSLMATICHING.do?category=VISA"><i
+						class="fa fa-skyatlas"></i> <span
+						style="font-size: 15px; font-weight: bold;">NFS ACQ VISA
+							Routing</span></a></li>
+				<li><a href="GETNTSLRAWMATCHING.do?category=VISA"><i
+						class="fa fa-skyatlas"></i> <span
+						style="font-size: 15px; font-weight: bold;">NTSL RAW
+							MATCHING</span></a></li>
 
 
 				<!-- 			<a

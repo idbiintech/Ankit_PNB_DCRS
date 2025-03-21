@@ -128,6 +128,12 @@
 		<put-attribute name="header"
 			value="/WEB-INF/jsp/NetworkFileUpdate.jsp" />
 	</definition>
+	
+	<definition name="GetNtslrawMatching" extends="baseLayout">
+		<put-attribute name="title" value="Network File Update" />
+		<put-attribute name="header"
+			value="/WEB-INF/jsp/GetNtslrawMatching.jsp" />
+	</definition>
 
 
 	<definition name="ReconStatus" extends="baseLayout">
@@ -345,6 +351,7 @@
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/ReconProcess.jsp" />
 	</definition>
+	
 	<definition name="searchData" extends="baseLayout">
 		<put-attribute name="title" value="RRNSearch" />
 		<put-attribute name="body"
@@ -941,6 +948,16 @@
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/GenerateNFSTTUM.jsp" />
 	</definition>
+	<definition name="GenerateJCBTTUM" extends="baseLayout">
+		<put-attribute name="title" value="NFS TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/GenerateJCBTTUM.jsp" />
+	</definition>
+	<definition name="GenerateDFSTTUM" extends="baseLayout">
+		<put-attribute name="title" value="NFS TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/GenerateDFSTTUM.jsp" />
+	</definition>
 
 	<definition name="GenerateICDTTUM" extends="baseLayout">
 		<put-attribute name="title" value="ICD TTUM" />
@@ -1388,6 +1405,13 @@
 		<put-attribute name="title" value="GenerateNFSACQTOVIAROUTING" />
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/GenerateNFSACQTOVIAROUTING.jsp" />
+	</definition>
+	
+	
+	<definition name="GenerateNTSLMATICHING" extends="baseLayout">
+		<put-attribute name="title" value="GenerateNTSLMATICHING" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/GenerateNTSLMATICHING.jsp" />
 	</definition>
 	<definition name="deleteDashboard" extends="baseLayout">
 		<put-attribute name="title" value="delete Dashboard" />

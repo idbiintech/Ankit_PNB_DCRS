@@ -201,7 +201,7 @@ public class ReadVisaFile {
 			List<String> stRawData = new ArrayList<String>();
 			while (stline != null) {
 				count1++;
-				System.out.println("data "+ stline);
+				//System.out.println("data "+ stline);
 				if (count1 == 6) {
 
 					location = stline.substring(75, 114);

@@ -277,6 +277,8 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("FEE COLLECT RC")
 							|| line.trim().contains("CREDIT ADJUSTMENT")
 							|| line.trim().contains("TOTAL OTHER INTERCHANGE") || line.trim().startsWith("A0")) {
+						
+						
 						if (DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
 								|| DESCRIPTION.contains("QUASI-CASH") || DESCRIPTION.contains("MERCHANDISE CREDIT")) {
 
@@ -288,7 +290,7 @@ public class ReadVisaEPFiles {
 								SUB_DESCRIPTION = "ORIGINAL SALE        RVRSL";
 							}else if( line.trim().startsWith("A0") && DESCRIPTION.contains("ATM CASH")  ) {
 								
-								SUB_DESCRIPTION = "ORIGINAL WITHDRAWAL  RVRSL";
+								SUB_DESCRIPTION = "ORIGINAL WITHDRAWAL";
 							}else {
 								SUB_DESCRIPTION = line.substring(1, 33).trim();
 							}
@@ -547,7 +549,8 @@ public class ReadVisaEPFiles {
 					}
 
 					if (line.trim().contains("NEPAL - INDIA") || line.trim().contains("AP CLS") || line.trim().contains("AP GLD")|| line.trim().contains("AP ALT") || line.trim().startsWith("TUR SPRPRM DGD")
-							|| line.trim().contains("AP SIG") 	|| line.trim().contains("AP BUS")|| line.trim().contains("TOTAL NEPAL - INDIA")
+							|| line.trim().contains("AP SIG") 
+							|| line.trim().contains("A.P. - E.U.") || line.trim().contains("A.P. - CANADA") || line.trim().contains("A.P. - L.A.C") || line.trim().contains("A.P. - C.E.M.E.A.") || line.trim().contains("A.P. - U.S.A.")  || line.trim().contains("AP BUS")|| line.trim().contains("TOTAL NEPAL - INDIA")
 							|| line.trim().contains("INDIA -") || line.trim().contains("BUSINESS DB")
 							|| line.trim().contains("BUSINESS DB T1") || line.trim().contains("EIRF/NAT DB T1")
 							|| line.trim().contains("EIRF/NAT SET DB") || line.trim().contains("EIRF/NAT SETT CB")

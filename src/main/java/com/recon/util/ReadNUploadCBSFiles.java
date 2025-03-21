@@ -460,7 +460,7 @@ public class ReadNUploadCBSFiles {
       } 
       PreparedStatement ps9948 = con.prepareStatement(InsertQuery9948);
       if (setupBean.getP_FILE_NAME().contains("5165005139948") || 
-        setupBean.getP_FILE_NAME().contains("5165005811354")) {
+        setupBean.getP_FILE_NAME().contains("5165005811354") || setupBean.getP_FILE_NAME().contains("5165005712453") ) {
         int linecount = 0;
         while ((thisline = br.readLine()) != null) {
           linecount++;
@@ -521,7 +521,7 @@ public class ReadNUploadCBSFiles {
         ps9948.executeBatch();
       } 
       PreparedStatement ps9949 = con.prepareStatement(InsertQuery9949);
-      if (setupBean.getP_FILE_NAME().contains("5165005139949") || setupBean.getP_FILE_NAME().contains("5165005811351") || setupBean.getP_FILE_NAME().contains("5165005811352")) {
+      if (setupBean.getP_FILE_NAME().contains("5165005139949") || setupBean.getP_FILE_NAME().contains("5165005811351") || setupBean.getP_FILE_NAME().contains("5165005811352") || setupBean.getP_FILE_NAME().contains("5165005712451")) {
         while ((thisline = br.readLine()) != null) {
           if (!thisline.toUpperCase().trim().contains("HDRCBS") && !thisline.trim().contains("FTRCBS") && 
             !thisline.trim().contains("solid") && !thisline.trim().contains("---------") && 

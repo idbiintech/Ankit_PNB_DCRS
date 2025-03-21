@@ -2334,7 +2334,116 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM nfs_acq_recon_ttums WHERE FILEDATE=STR_TO_DATE('"
 						+
 
-						beanObj.getLocalDate() + "','%Y-%m-%d')  AND TTUM_TYPE='" + beanObj.getTypeOfTTUM() + "'";
+						beanObj.getLocalDate() + "','%Y/%m/%d')  AND TTUM_TYPE='" + beanObj.getTypeOfTTUM() + "'";
+				System.out.println("getData " + getData);
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] {},
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+
+								while (rs.next()) {
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("TTUM", rs.getString("TTUM"));
+									beanList.add(table_Data);
+								}
+								return beanList;
+							}
+						});
+
+				return DailyData;
+			} else {
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM nfs_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE(?,'%Y-%m-%d')  AND TTUM_TYPE=?";
+				logger.info("query " + getData);
+				List<Object> DailyData = getJdbcTemplate().query(getData,
+						new Object[] { beanObj.getLocalDate(), beanObj.getTypeOfTTUM() },
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+
+								while (rs.next()) {
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("TTUM", rs.getString("TTUM"));
+									beanList.add(table_Data);
+								}
+								return beanList;
+							}
+						});
+
+				return DailyData;
+			}
+
+		} catch (Exception e) {
+			System.out.println("Exception in getDailyInterchangeTTUMData " + e);
+			return null;
+		}
+	}
+
+	public List<Object> getACQJCB(UnMatchedTTUMBean beanObj) {
+		List<Object> data = new ArrayList();
+		try {
+			beanObj.setLocalDate(beanObj.getLocalDate().replaceAll("/", "-"));
+			String getData = null;
+			System.out
+					.println("beanObj.getStSubCategory().equalsIgnoreCase(\"ACQUIRER\") " + beanObj.getStSubCategory());
+			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM jcb_acq_recon_ttums WHERE FILEDATE=STR_TO_DATE('"
+						+
+
+						beanObj.getLocalDate() + "','%Y/%m/%d')  AND TTUM_TYPE='" + beanObj.getTypeOfTTUM() + "'";
+				System.out.println("getData " + getData);
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] {},
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+
+								while (rs.next()) {
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("TTUM", rs.getString("TTUM"));
+									beanList.add(table_Data);
+								}
+								return beanList;
+							}
+						});
+
+				return DailyData;
+			} else {
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM nfs_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE(?,'%Y/%m/%d')  AND TTUM_TYPE=?";
+				logger.info("query " + getData);
+				List<Object> DailyData = getJdbcTemplate().query(getData,
+						new Object[] { beanObj.getLocalDate(), beanObj.getTypeOfTTUM() },
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+
+								while (rs.next()) {
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("TTUM", rs.getString("TTUM"));
+									beanList.add(table_Data);
+								}
+								return beanList;
+							}
+						});
+
+				return DailyData;
+			}
+
+		} catch (Exception e) {
+			System.out.println("Exception in getDailyInterchangeTTUMData " + e);
+			return null;
+		}
+	}
+	public List<Object> getACQDFS(UnMatchedTTUMBean beanObj) {
+		List<Object> data = new ArrayList();
+		try {
+			beanObj.setLocalDate(beanObj.getLocalDate().replaceAll("/", "-"));
+			String getData = null;
+			System.out
+					.println("beanObj.getStSubCategory().equalsIgnoreCase(\"ACQUIRER\") " + beanObj.getStSubCategory());
+			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM dfs_acq_recon_ttums WHERE FILEDATE=STR_TO_DATE('"
+						+
+
+						beanObj.getLocalDate() + "','%Y/%m/%d')  AND TTUM_TYPE='" + beanObj.getTypeOfTTUM() + "'";
 				System.out.println("getData " + getData);
 				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] {},
 						new ResultSetExtractor<List<Object>>() {
@@ -2660,7 +2769,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 					return DailyData;	
 				}
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("REFUND")) {
-					getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,413,' ')) AS TTUM\r\nFROM visa_iss_dom_refund_ttum_data FILEDATE=STR_TO_DATE(' "
+					getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,413,' ')) AS TTUM\r\nFROM visa_iss_dom_refund_ttum_data where FILEDATE=STR_TO_DATE(' "
 							+
 
 							beanObj.getLocalDate() + "','%Y/%m/%d')";
@@ -7027,6 +7136,189 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		}
 	}
 
+	public List<Object> getTTUMJCB(UnMatchedTTUMBean beanObj) {
+		List<Object> data = new ArrayList();
+		try {
+			String getData1 = null;
+			List<Object> DailyData = new ArrayList();
+			if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
+				getData1 = "SELECT DISPUTE_DATE, BANKNAME, CARD_NO, AC_NO, DR_CR, TXN_DATE, TXN_TIME, AMOUNT, RRN, TERMINAL_ID, NARRATION, TTUM_TYPE, FILEDATE, UID FROM jcb_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('"
+						+ beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE ='" + beanObj.getTypeOfTTUM()
+						+ "' ";
+				logger.info("data get sql " + getData1);
+			
+				DailyData = getJdbcTemplate().query(getData1, new Object[] {}, new ResultSetExtractor<List<Object>>() {
+					public List<Object> extractData(ResultSet rs) throws SQLException {
+						List<Object> beanList = new ArrayList<Object>();
+						int count = 1, dataCount = 0, datasum = 0;
+
+						while (rs.next()) {
+							// logger.info("Inside rset");
+
+							Map<String, String> table_Data = new HashMap<String, String>();
+							table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
+							table_Data.put("BANK_NAME", rs.getString("BANKNAME"));
+							table_Data.put("CARD_NO", rs.getString("CARD_NO"));
+							table_Data.put("AC_NO", rs.getString("AC_NO"));
+							table_Data.put("DR_CR", rs.getString("DR_CR"));
+							table_Data.put("TXN_DATE", rs.getString("TXN_DATE"));
+							table_Data.put("TXN_TIME", rs.getString("TXN_TIME"));
+							table_Data.put("AMOUNT", rs.getString("AMOUNT"));
+							table_Data.put("RRN", rs.getString("RRN"));
+							table_Data.put("TERMINAL_ID", rs.getString("TERMINAL_ID"));
+							table_Data.put("NARRATION", rs.getString("NARRATION"));
+							table_Data.put("TTUM_TYPE", rs.getString("TTUM_TYPE"));
+							table_Data.put("FILEDATE", rs.getString("FILEDATE"));
+							table_Data.put("UID", rs.getString("UID"));
+
+							count++;
+
+							beanList.add(table_Data);
+
+						}
+
+						return beanList;
+					}
+				});
+			}else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO DEBIT")) {
+				getData1 = "SELECT DISPUTE_DATE, BANKNAME, CARD_NO, AC_NO, DR_CR, TXN_DATE, TXN_TIME, AMOUNT, RRN, TERMINAL_ID, NARRATION, TTUM_TYPE, FILEDATE, UID FROM jcb_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('"
+						+ beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE ='" + beanObj.getTypeOfTTUM()
+						+ "' ";
+				logger.info("data get sql " + getData1);
+				DailyData = getJdbcTemplate().query(getData1, new Object[] {}, new ResultSetExtractor<List<Object>>() {
+					public List<Object> extractData(ResultSet rs) throws SQLException {
+						List<Object> beanList = new ArrayList<Object>();
+						int count = 1, dataCount = 0, datasum = 0;
+
+						while (rs.next()) {
+							// logger.info("Inside rset");
+
+							Map<String, String> table_Data = new HashMap<String, String>();
+						
+							table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
+							table_Data.put("BANK_NAME", rs.getString("BANKNAME"));
+							table_Data.put("CARD_NO", rs.getString("CARD_NO"));
+							table_Data.put("AC_NO", rs.getString("AC_NO"));
+							table_Data.put("DR_CR", rs.getString("DR_CR"));
+							table_Data.put("TXN_DATE", rs.getString("TXN_DATE"));
+							table_Data.put("TXN_TIME", rs.getString("TXN_TIME"));
+							table_Data.put("AMOUNT", rs.getString("AMOUNT"));
+							table_Data.put("RRN", rs.getString("RRN"));
+							table_Data.put("TERMINAL_ID", rs.getString("TERMINAL_ID"));
+							table_Data.put("NARRATION", rs.getString("NARRATION"));
+							table_Data.put("TTUM_TYPE", rs.getString("TTUM_TYPE"));
+							table_Data.put("FILEDATE", rs.getString("FILEDATE"));
+							table_Data.put("UID", rs.getString("UID"));
+
+							count++;
+
+							beanList.add(table_Data);
+
+						}
+
+						return beanList;
+					}
+				});
+			}
+			data.add(DailyData);
+			return data;
+		} catch (Exception e) {
+			System.out.println("Exception in getInterchangeData " + e);
+			return null;
+		}
+	}
+	public List<Object> getTTUMDFS(UnMatchedTTUMBean beanObj) {
+		List<Object> data = new ArrayList();
+		try {
+			String getData1 = null;
+			List<Object> DailyData = new ArrayList();
+			if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
+				getData1 = "SELECT DISPUTE_DATE, BANKNAME, CARD_NO, AC_NO, DR_CR, TXN_DATE, TXN_TIME, AMOUNT, RRN, TERMINAL_ID, NARRATION, TTUM_TYPE, FILEDATE, UID FROM dfs_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('"
+						+ beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE ='" + beanObj.getTypeOfTTUM()
+						+ "' ";
+				logger.info("data get sql " + getData1);
+			
+				DailyData = getJdbcTemplate().query(getData1, new Object[] {}, new ResultSetExtractor<List<Object>>() {
+					public List<Object> extractData(ResultSet rs) throws SQLException {
+						List<Object> beanList = new ArrayList<Object>();
+						int count = 1, dataCount = 0, datasum = 0;
+
+						while (rs.next()) {
+							// logger.info("Inside rset");
+
+							Map<String, String> table_Data = new HashMap<String, String>();
+							table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
+							table_Data.put("BANK_NAME", rs.getString("BANKNAME"));
+							table_Data.put("CARD_NO", rs.getString("CARD_NO"));
+							table_Data.put("AC_NO", rs.getString("AC_NO"));
+							table_Data.put("DR_CR", rs.getString("DR_CR"));
+							table_Data.put("TXN_DATE", rs.getString("TXN_DATE"));
+							table_Data.put("TXN_TIME", rs.getString("TXN_TIME"));
+							table_Data.put("AMOUNT", rs.getString("AMOUNT"));
+							table_Data.put("RRN", rs.getString("RRN"));
+							table_Data.put("TERMINAL_ID", rs.getString("TERMINAL_ID"));
+							table_Data.put("NARRATION", rs.getString("NARRATION"));
+							table_Data.put("TTUM_TYPE", rs.getString("TTUM_TYPE"));
+							table_Data.put("FILEDATE", rs.getString("FILEDATE"));
+							table_Data.put("UID", rs.getString("UID"));
+
+							count++;
+
+							beanList.add(table_Data);
+
+						}
+
+						return beanList;
+					}
+				});
+			}else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO DEBIT")) {
+				getData1 = "SELECT DISPUTE_DATE, BANKNAME, CARD_NO, AC_NO, DR_CR, TXN_DATE, TXN_TIME, AMOUNT, RRN, TERMINAL_ID, NARRATION, TTUM_TYPE, FILEDATE, UID FROM dfs_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('"
+						+ beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE ='" + beanObj.getTypeOfTTUM()
+						+ "' ";
+				logger.info("data get sql " + getData1);
+				DailyData = getJdbcTemplate().query(getData1, new Object[] {}, new ResultSetExtractor<List<Object>>() {
+					public List<Object> extractData(ResultSet rs) throws SQLException {
+						List<Object> beanList = new ArrayList<Object>();
+						int count = 1, dataCount = 0, datasum = 0;
+
+						while (rs.next()) {
+							// logger.info("Inside rset");
+
+							Map<String, String> table_Data = new HashMap<String, String>();
+						
+							table_Data.put("DISPUTE_DATE", rs.getString("DISPUTE_DATE"));
+							table_Data.put("BANK_NAME", rs.getString("BANKNAME"));
+							table_Data.put("CARD_NO", rs.getString("CARD_NO"));
+							table_Data.put("AC_NO", rs.getString("AC_NO"));
+							table_Data.put("DR_CR", rs.getString("DR_CR"));
+							table_Data.put("TXN_DATE", rs.getString("TXN_DATE"));
+							table_Data.put("TXN_TIME", rs.getString("TXN_TIME"));
+							table_Data.put("AMOUNT", rs.getString("AMOUNT"));
+							table_Data.put("RRN", rs.getString("RRN"));
+							table_Data.put("TERMINAL_ID", rs.getString("TERMINAL_ID"));
+							table_Data.put("NARRATION", rs.getString("NARRATION"));
+							table_Data.put("TTUM_TYPE", rs.getString("TTUM_TYPE"));
+							table_Data.put("FILEDATE", rs.getString("FILEDATE"));
+							table_Data.put("UID", rs.getString("UID"));
+
+							count++;
+
+							beanList.add(table_Data);
+
+						}
+
+						return beanList;
+					}
+				});
+			}
+			data.add(DailyData);
+			return data;
+		} catch (Exception e) {
+			System.out.println("Exception in getInterchangeData " + e);
+			return null;
+		}
+	}
+
 	public List<Object> getTTUMVISA(UnMatchedTTUMBean beanObj) {
 		List<Object> data = new ArrayList();
 		try {
@@ -10533,6 +10825,73 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		private static final String insert_proc = "NFS_ISS_RECON_TTUM_ROLLBACK";
 
 		public rollBackTTUMNFS(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_TTUMTYPE",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter("msg",  Types.VARCHAR));
+			compile();
+		}
+
+	}
+
+	
+	public boolean rollBackTTUMJCB(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackTTUMJCB rollBackexe = new rollBackTTUMJCB( getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getLocalDate());
+			inParams.put("V_TTUMTYPE", beanObj.getTypeOfTTUM());
+			outParams = rollBackexe.execute(inParams);
+			logger.info("OUT PARAM IS " + outParams.get("msg"));
+			if (outParams.get("msg") != "SUCCESS")
+				return true;
+			return false;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+
+
+	private class rollBackTTUMJCB extends StoredProcedure {
+		private static final String insert_proc = "JCB_ACQ_RECON_TTUM_ROLLBACK";
+
+		public rollBackTTUMJCB(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_TTUMTYPE",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter("msg",  Types.VARCHAR));
+			compile();
+		}
+
+	}public boolean rollBackTTUMDFS(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackTTUMDFS rollBackexe = new rollBackTTUMDFS( getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getLocalDate());
+			inParams.put("V_TTUMTYPE", beanObj.getTypeOfTTUM());
+			outParams = rollBackexe.execute(inParams);
+			logger.info("OUT PARAM IS " + outParams.get("msg"));
+			if (outParams.get("msg") != "SUCCESS")
+				return true;
+			return false;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+
+
+	private class rollBackTTUMDFS extends StoredProcedure {
+		private static final String insert_proc = "DFS_ACQ_RECON_TTUM_ROLLBACK";
+
+		public rollBackTTUMDFS(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));

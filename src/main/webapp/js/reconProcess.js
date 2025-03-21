@@ -149,7 +149,7 @@ function setfilename(e) {
 
 		document.getElementById("stSubCategory").style.display = '';
 
-		document.getElementById("trsubcatid").style.display = '';
+		document.getElementById("trsubcatid").style.display = 'none';
 
 	}
 }

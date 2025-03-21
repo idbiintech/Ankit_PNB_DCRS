@@ -1,6 +1,7 @@
 package com.recon.service;
 
 
+
 import com.recon.model.MastercardUploadBean;
 import com.recon.model.NFSSettlementBean;
 import com.recon.model.RupayUploadBean;
@@ -39,6 +40,8 @@ public interface SettlementTTUMService {
   List<Object> getTTUMNFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getTTUMICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getTTUMJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getTTUMDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getTTUMVISA(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
@@ -103,6 +106,8 @@ public interface SettlementTTUMService {
   List<Object> getDailyNFSTTUMDataMASTERCARD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getNFSRECONACQTTUM(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getACQJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getACQDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getICDTTUM(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
@@ -320,6 +325,8 @@ public interface SettlementTTUMService {
   boolean rollBackTTUMRUPAYINT(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMNFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean rollBackTTUMJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean rollBackTTUMDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMCTC(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   

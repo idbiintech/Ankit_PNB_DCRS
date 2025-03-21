@@ -1995,9 +1995,10 @@ public class ReadMastercardInvoiceRawdata {
 		System.out.println("Inside the rupayAdjustmentFileUpload");
 		HashMap<String, Object> output = new HashMap<String, Object>();
 		int totalCount = 0, rowCount = 0;
-		String res = "", totalamount = "",TotalCharge="",charge="",rate="";
+		String res = "", totalamount = "", TotalCharge = "", charge = "", rate = "";
 		String row = "";
 		String line = "";
+		boolean ExchangeFlage = false;
 		int sr_no = 0, count = 1;
 		List<String> columnName = new ArrayList<>();
 		List<List<String>> Data = new ArrayList<List<String>>();
@@ -2011,40 +2012,49 @@ public class ReadMastercardInvoiceRawdata {
 				PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
 				String text = pdfTextStripper.getText(document);
+				String billing_Date = "";
 
 				String[] lines = text.split(System.lineSeparator());
 				for (String textline : lines) {
-			
 
 					System.out.println("textwww  " + textline);
-						totalamount = textline.substring(45, textline.length());
-						String[] amounts = totalamount.split(" ");
-				
+					if (textline.contains("Billing Date: ")) {
 
-						for (String amount : amounts) {
-							
-							if(count==1) {
-							rate =amount;	
-								
-							}else if(count == 2) {
-								charge= amount;
-								
-							}else if(count ==3) {
-								TotalCharge= amount;
-							}
-				
-							//System.out.println("rate " + rate+"charge "+ charge+"TotalCharge "+ TotalCharge);
-							count++;
+						billing_Date = textline.substring(13, 24);
+						System.out.println("billing_Date " + billing_Date);
+						continue;
 
-						}
+					}
+					if (textline.contains("Exchange Rate Local Currency")) {
+
+						System.out.println("Rate " + textline.substring(16, 28));
+						rate = textline.substring(16, 28);
+						ExchangeFlage = true;
+						continue;
+					}
+					if (ExchangeFlage) {
+						System.out.println("ExchangeFlage " + textline.substring(16, 28));
+						rate=  textline.substring(16, 28);
+						ExchangeFlage = false;
+
+						continue;
+					}
+					if (textline.startsWith("Total Billing Activity")) {
+
+						TotalCharge = textline.substring(20, 32);
+						System.out.println("Total " + TotalCharge);
+
 						ps.setString(1, rate);
 						ps.setString(2, charge);
 						ps.setString(3, TotalCharge);
 						ps.setString(4, beanObj.getFileDate());
 						ps.setString(5, file.getOriginalFilename());
-						//System.out.println("		System.out.println(\"textwww  \"+ textline);  " + totalamount);
+						// System.out.println(" System.out.println(\"textwww \"+ textline); " +
+						// totalamount);
 						ps.execute();
-					
+						continue;
+
+					}
 
 				}
 

@@ -112,12 +112,11 @@ button:hover {
 								<form:select class="form-control" path="acqtypeOfTTUM"
 									id="acqtypeOfTTUM">
 									<option value="0">--Select --</option>
-									<option value="DECLINE">DECLINE</option> -->
+								
 									<option value="PROACTIVE">PROACTIVE</option>
 									<option value="DROP">CUSTOMER DEBIT</option>
 									 <option value="LATE PRESENTMENT">LATE PRESENTMENT</option>
-									<option value="OFFLINE PRESENTMENT">OFFLINE
-										PRESENTMENT</option>
+							
 									<option value="SURCHARGED">SURCHARGE DEBIT</option>
 									<option value="SURCHARGEC">SURCHARGE CREDIT</option> 
 								</form:select>

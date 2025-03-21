@@ -231,7 +231,7 @@ public class MastercardSettlementController {
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("")) {
 					executed = this.rupayTTUMService.runTTUMProcessRUPAY(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_CREDIT")) {
-					executed = this.rupayTTUMService.runTTUMProcessMC2POS(beanObj);
+					executed = this.rupayTTUMService.runTTUMProcessMC2POSINT(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
 					executed = this.rupayTTUMService.runTTUMProcessMC3POSINT(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CROSS")) {

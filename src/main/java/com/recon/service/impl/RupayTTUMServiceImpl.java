@@ -91,6 +91,85 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 
 	}
   
+
+  public HashMap<String, Object> runTTUMProcesJCB(UnMatchedTTUMBean beanObj) {
+    Map<String, Object> inParams = new HashMap<>();
+    Map<String, Object> outParams = new HashMap<>();
+    HashMap<String, Object> output = new HashMap<>();
+    System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+    System.out.println("localdt is " + beanObj.getLocalDate());
+    try {
+      System.out.println("date is " + beanObj.getLocalDate());
+      UnmatchedTTUMProcJCB rollBackexe = new UnmatchedTTUMProcJCB( getJdbcTemplate());
+      inParams.put("I_FILEDATE", beanObj.getLocalDate());
+      inParams.put("V_TTUMTYPE", beanObj.getTypeOfTTUM());
+      outParams = rollBackexe.execute(inParams);
+      System.out.println("outParams " + outParams.toString());
+      System.out.println("outParams " + outParams.toString());
+      output.put("result", Boolean.valueOf(true));
+      output.put("msg", outParams.get("MSG"));
+    } catch (Exception e) {
+      logger.info("Exception in runTTUMProcess " + e);
+      output.put("result", Boolean.valueOf(false));
+      output.put("msg", e.toString());
+      return output;
+    } 
+    return output;
+  }
+  private class UnmatchedTTUMProcJCB extends StoredProcedure {
+		private static final String insert_proc = "JCB_ACQ_RECON_TTUM";
+
+		public UnmatchedTTUMProcJCB(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_TTUMTYPE",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter("MSG",  Types.VARCHAR));
+			compile();
+		}
+
+	}
+  
+  public HashMap<String, Object> runTTUMProcesDFS(UnMatchedTTUMBean beanObj) {
+	    Map<String, Object> inParams = new HashMap<>();
+	    Map<String, Object> outParams = new HashMap<>();
+	    HashMap<String, Object> output = new HashMap<>();
+	    System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+	    System.out.println("localdt is " + beanObj.getLocalDate());
+	    try {
+	      System.out.println("date is " + beanObj.getLocalDate());
+	      UnmatchedTTUMProcDFS rollBackexe = new UnmatchedTTUMProcDFS( getJdbcTemplate());
+	      inParams.put("I_FILEDATE", beanObj.getLocalDate());
+	      inParams.put("V_TTUMTYPE", beanObj.getTypeOfTTUM());
+	      outParams = rollBackexe.execute(inParams);
+	      System.out.println("outParams " + outParams.toString());
+	      System.out.println("outParams " + outParams.toString());
+	      output.put("result", Boolean.valueOf(true));
+	      output.put("msg", outParams.get("MSG"));
+	    } catch (Exception e) {
+	      logger.info("Exception in runTTUMProcess " + e);
+	      output.put("result", Boolean.valueOf(false));
+	      output.put("msg", e.toString());
+	      return output;
+	    } 
+	    return output;
+	  }
+	  private class UnmatchedTTUMProcDFS extends StoredProcedure {
+			private static final String insert_proc = "DFS_ACQ_RECON_TTUM";
+
+			public UnmatchedTTUMProcDFS(JdbcTemplate jdbcTemplate) {
+				super(jdbcTemplate, insert_proc);
+				setFunction(false);
+				declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+				declareParameter(new SqlParameter("V_TTUMTYPE",  Types.VARCHAR));
+
+				declareParameter(new SqlOutParameter("MSG",  Types.VARCHAR));
+				compile();
+			}
+
+		}
+	  
   public HashMap<String, Object> runTTUMProcesICD(UnMatchedTTUMBean beanObj) {
     Map<String, Object> inParams = new HashMap<>();
     Map<String, Object> outParams = new HashMap<>();
@@ -2000,7 +2079,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     } 
   }
   private class runTTUMProcessMC2POS extends StoredProcedure {
-		private static final String insert_proc = "MC_PROACTIV_POS_TTUM ";
+		private static final String insert_proc = "MC_PROACTIV_POS_TTUM";
 
 		public runTTUMProcessMC2POS(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -2012,6 +2091,44 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 		}
 
 	}
+  public boolean runTTUMProcessMC2POSINT(UnMatchedTTUMBean beanObj) {
+	    Map<String, Object> inParams = new HashMap<>();
+	    Map<String, Object> outParams = new HashMap<>();
+	    System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+	    System.out.println("localdt is " + beanObj.getLocalDate());
+	    try {
+	      System.out.println("date is " + beanObj.getLocalDate());
+	      runTTUMProcessMC2POSINT rollBackexe = new runTTUMProcessMC2POSINT( getJdbcTemplate());
+	      inParams.put("I_FILEDATE", beanObj.getFileDate());
+	      outParams = rollBackexe.execute(inParams);
+	      System.out.println("outParams " + outParams.toString());
+	      if (outParams != null && outParams.get("msg") == "FAILED") {
+	        logger.info("OUT PARAM IS " + outParams.get("msg"));
+	        return false;
+	      } 
+	      if (outParams.get("msg") == "TTUM ALREADY PROCESSED") {
+	        logger.info("OUT PARAM IS " + outParams.get("msg"));
+	        return false;
+	      } 
+	      return true;
+	    } catch (Exception e) {
+	      logger.info("Exception in runTTUMProcess " + e);
+	      return false;
+	    } 
+	  }
+	  private class runTTUMProcessMC2POSINT extends StoredProcedure {
+			private static final String insert_proc = "MC_ACQ_INT_LORO_CREDIT_TTUM ";
+
+			public runTTUMProcessMC2POSINT(JdbcTemplate jdbcTemplate) {
+				super(jdbcTemplate, insert_proc);
+				setFunction(false);
+				declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
+
+				declareParameter(new SqlOutParameter("msg",  Types.VARCHAR));
+				compile();
+			}
+
+		}
 
   
   public boolean runTTUMProcessMC3POSINT(UnMatchedTTUMBean beanObj) {
@@ -2791,7 +2908,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 	    } 
 	  }
 	  private class UnmatchedTTUMProcMCCROSS extends StoredProcedure {
-			private static final String insert_proc = "MASTERCARD_ISS_POS_SURCH_TTUM";
+			private static final String insert_proc = "RECON_MC_ACQ_CROSS_RECON_TTUM";
 
 			public UnmatchedTTUMProcMCCROSS(JdbcTemplate jdbcTemplate) {
 				super(jdbcTemplate, insert_proc);
@@ -3106,6 +3223,65 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
     } 
     return output;
   }
+  
+  public HashMap<String, Object> checkTTUMProcessedJCB(UnMatchedTTUMBean beanObj) {
+    HashMap<String, Object> output = new HashMap<>();
+    String tableName = "";
+    String query = "";
+    try {
+      if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+        query = "SELECT COUNT(*) FROM jcb_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('" + 
+          beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE = '" + beanObj.getTypeOfTTUM() + "'";
+      } else {
+        query = "SELECT COUNT(*) FROM nfs_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE('" + beanObj.getLocalDate() + 
+          "','%Y/%m/%d') AND TTUM_TYPE = '" + beanObj.getTypeOfTTUM() + "'";
+      } 
+      System.out.println("main _  QUERY" + query);
+      int checkCount = ((Integer)getJdbcTemplate().queryForObject(query, (Object[])new String[0], Integer.class)).intValue();
+      if (checkCount > 0) {
+        output.put("result", Boolean.valueOf(false));
+        output.put("msg", "TTUM is already Processed. Please download report");
+      } else {
+        output.put("result", Boolean.valueOf(true));
+        output.put("msg", "TTUM is not processed");
+      } 
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.info("Exception in checkTTUMProcessed " + e);
+      output.put("result", Boolean.valueOf(false));
+      output.put("msg", "Exception while validating");
+    } 
+    return output;
+  }
+  public HashMap<String, Object> checkTTUMProcessedDFS(UnMatchedTTUMBean beanObj) {
+	    HashMap<String, Object> output = new HashMap<>();
+	    String tableName = "";
+	    String query = "";
+	    try {
+	      if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+	        query = "SELECT COUNT(*) FROM dfs_acq_recon_ttums WHERE  FILEDATE=STR_TO_DATE('" + 
+	          beanObj.getLocalDate() + "','%Y/%m/%d') AND TTUM_TYPE = '" + beanObj.getTypeOfTTUM() + "'";
+	      } else {
+	        query = "SELECT COUNT(*) FROM nfs_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE('" + beanObj.getLocalDate() + 
+	          "','%Y/%m/%d') AND TTUM_TYPE = '" + beanObj.getTypeOfTTUM() + "'";
+	      } 
+	      System.out.println("main _  QUERY" + query);
+	      int checkCount = ((Integer)getJdbcTemplate().queryForObject(query, (Object[])new String[0], Integer.class)).intValue();
+	      if (checkCount > 0) {
+	        output.put("result", Boolean.valueOf(false));
+	        output.put("msg", "TTUM is already Processed. Please download report");
+	      } else {
+	        output.put("result", Boolean.valueOf(true));
+	        output.put("msg", "TTUM is not processed");
+	      } 
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	      logger.info("Exception in checkTTUMProcessed " + e);
+	      output.put("result", Boolean.valueOf(false));
+	      output.put("msg", "Exception while validating");
+	    } 
+	    return output;
+	  }
   
   public HashMap<String, Object> checkTTUMProcessedICD(UnMatchedTTUMBean beanObj) {
     HashMap<String, Object> output = new HashMap<>();
@@ -3585,9 +3761,9 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
       String query = "";
       if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER_DOM")) {
         if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
-          query = "SELECT count(*) FROM mc_acq_dom_atm_loro_credit_ttum  WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
+          query = "SELECT count(*) FROM mc_acq_dom_atm_loro_debit_ttum  WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_CREDIT")) {
-          query = "SELECT count(*) FROM mc_acq_dom_atm_loro_debit_ttum     WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
+          query = "SELECT count(*) FROM mc_acq_dom_atm_loro_credit_ttum     WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CROSS")) {
           query = "SELECT count(*) FROM mc_acq_cross_recon_ttum    WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LATE PRESENTMENT")) {
@@ -3605,9 +3781,9 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
         } 
       } else if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER_INT")) {
         if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_DEBIT")) {
-          query = "SELECT count(*) FROM mc_acq_int_atm_loro_credit_ttum  WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
+          query = "SELECT count(*) FROM mc_acq_int_atm_loro_debit_ttum  WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO_CREDIT")) {
-          query = "SELECT count(*) FROM mc_acq_int_atm_loro_debit_ttum     WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
+          query = "SELECT count(*) FROM mc_acq_int_atm_loro_credit_ttum     WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CROSS")) {
           query = "SELECT count(*) FROM mc_acq_cross_recon_ttum    WHERE filedate= str_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
         } else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LATE PRESENTMENT")) {

@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 public interface RupayTTUMService {
   HashMap<String, Object> runTTUMProces(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
+  HashMap<String, Object> runTTUMProcesJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  HashMap<String, Object> runTTUMProcesDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
   HashMap<String, Object> runTTUMProcess2(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   HashMap<String, Object> runTTUMProcess3(UnMatchedTTUMBean paramUnMatchedTTUMBean);
@@ -152,12 +156,16 @@ public interface RupayTTUMService {
   boolean runTTUMProcessMC3(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean runTTUMProcessMC2POS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean runTTUMProcessMC2POSINT(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean runTTUMProcessMC3POSINT(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean runTTUMProcessMC3POS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   HashMap<String, Object> checkTTUMProcessed(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> checkTTUMProcessedJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> checkTTUMProcessedDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
   
   HashMap<String, Object> checkTTUMProcessedICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   

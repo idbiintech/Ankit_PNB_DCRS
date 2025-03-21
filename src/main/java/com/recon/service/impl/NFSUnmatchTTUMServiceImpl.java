@@ -48,7 +48,8 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 
 	public boolean deleteViewFile(String type, String fromDate, String username, String filename, String cycle)
 			throws Exception, SQLException {
-				return false;}
+		return false;
+	}
 
 	public int checkAdjustmentTTUMProcessed(String adjtype, String localDate) {
 		String query = "select count(*) from nfs_adjustment_ttum where filedate = str_to_date('" + localDate
@@ -119,16 +120,20 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public HashMap<String, Object> checkTTUMProcessed(UnMatchedTTUMBean beanObj) {
-		return null;}
+		return null;
+	}
 
 	public List<ViewFiles> searchSwitchViewFile1(String type, String fromDate) throws Exception, SQLException {
-		return null;}
+		return null;
+	}
 
 	public List<ViewFiles> searchCBSViewFile1(String type, String fromDate) throws Exception, SQLException {
-		return null;}
+		return null;
+	}
 
 	public List<ViewFiles> searchRowDataViewFile1(String type, String fromDate) throws Exception, SQLException {
-		return null;}
+		return null;
+	}
 
 	public HashMap<String, Object> checkReconDateAndTTUMDataPresent(UnMatchedTTUMBean beanObj) {
 		HashMap<String, Object> output = new HashMap<>();
@@ -199,9 +204,9 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 		return output;
 	}
 
-
 	public List<Object> getNFSTTUMData(UnMatchedTTUMBean beanObj) {
-		return null;}
+		return null;
+	}
 
 	public void generateExcelTTUM(String stPath, String FileName, List<Object> ExcelData, String zipName,
 			HttpServletResponse response, boolean ZipFolder) {
@@ -360,41 +365,60 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> getAdjustmentTTUMReport(String adjtype, String localDate) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadRupayDhanaReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();
 		try {
-			
-				String getInterchange1 = "select * from    settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
-						+ settlementBean.getDatepicker() + "','%Y/%m/%d')  and dcrs_remarks='RUPAY_DOM_KNOCKOFF'";
-				String getInterchange2 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
-						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-1'";
-				String getInterchange3 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE = STR_TO_DATE('"
-						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-1'";
-				String getInterchange4 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
-						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2' ";
-				String getInterchange5 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE = STR_TO_DATE('"
-						+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2' ";
-				String getInterchange7 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE =STR_TO_DATE('"
-						+
+			String getInterchange1 = "select * from    settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d')  and dcrs_remarks='RUPAY_DOM_KNOCKOFF'";
+			String getInterchange2 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-1'";
+			String getInterchange3 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-1'";
+			String getInterchange4 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE =STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2' ";
+			String getInterchange5 = "select * from settlement_rupay_dom_cbs WHERE  FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2' ";
+			String getInterchange7 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE =STR_TO_DATE('" +
 
-						settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2'";
-				String getInterchange8 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE = STR_TO_DATE('"
-						+
+					settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_MATCHED-2'";
+			String getInterchange8 = "select  * from  settlement_rupay_dom_rupay WHERE  FILEDATE = STR_TO_DATE('" +
 
-						settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2'";
-			
+					settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks='RUPAY_DOM_UNRECON-2'";
 			List<String> Column_list = new ArrayList<String>();
+			System.out.println("getInterchange1 " + getInterchange1);
 			Column_list = new ArrayList<String>();
-			Column_list = getColumnList("settlement_rupay_dom_cbs");
+			Column_list.add("BUSINESS_DATE");
+			Column_list.add("CARD_NO");
+			Column_list.add("TRACE_NO");
+			Column_list.add("AC_NO");
+			Column_list.add("TRAN_DATE");
+			Column_list.add("ATM_ID");
+			Column_list.add("TYPE");
+			Column_list.add("AMOUNT");
+			Column_list.add("FEE");
+			Column_list.add("BR_CODE");
+			Column_list.add("ISS_SOL_ID");
+			Column_list.add("MCC");
+			Column_list.add("REMARKS");
+			Column_list.add("NETWORK");
+			Column_list.add("POSTED_DATE");
+			Column_list.add("GL_ACCOUNT");
+			Column_list.add("TR_NO");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("FILENAME");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("TMP_ID");
 			data.add(Column_list);
-		    final List<Object> beanList = new ArrayList<Object>();
+			final List<Object> beanList = new ArrayList<Object>();
 			final List<String> columns2 = Column_list;
-		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns2) {
@@ -406,17 +430,38 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData);
-			System.out.println("query 1");
-			 
-				Column_list = new ArrayList<String>();
-			Column_list = getColumnList("settlement_rupay_dom_cbs");
+			System.out.println("query 2");
+
+			Column_list = new ArrayList<String>();
+			Column_list.add("BUSINESS_DATE");
+			Column_list.add("CARD_NO");
+			Column_list.add("TRACE_NO");
+			Column_list.add("AC_NO");
+			Column_list.add("TRAN_DATE");
+			Column_list.add("ATM_ID");
+			Column_list.add("TYPE");
+			Column_list.add("AMOUNT");
+			Column_list.add("FEE");
+			Column_list.add("BR_CODE");
+			Column_list.add("ISS_SOL_ID");
+			Column_list.add("MCC");
+			Column_list.add("REMARKS");
+			Column_list.add("NETWORK");
+			Column_list.add("POSTED_DATE");
+			Column_list.add("GL_ACCOUNT");
+			Column_list.add("TR_NO");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("FILENAME");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("TMP_ID");
 			data.add(Column_list);
 			final List<String> columns3 = Column_list;
-			 final 	List<Object> beanList3 = new ArrayList<Object>();
-			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange2, new Object[] {},
+			final List<Object> beanList3 = new ArrayList<Object>();
+			List<Object> DailyData3 = getJdbcTemplate().query(getInterchange2, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns3) {
@@ -428,17 +473,38 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData3);
-			  System.gc();
-			System.out.println("query 2");
+
+			System.out.println("query 3");
 			Column_list = new ArrayList<String>();
-			Column_list = getColumnList("settlement_rupay_dom_cbs");
+			Column_list.add("BUSINESS_DATE");
+			Column_list.add("CARD_NO");
+			Column_list.add("TRACE_NO");
+			Column_list.add("AC_NO");
+			Column_list.add("TRAN_DATE");
+			Column_list.add("ATM_ID");
+			Column_list.add("TYPE");
+			Column_list.add("AMOUNT");
+			Column_list.add("FEE");
+			Column_list.add("BR_CODE");
+			Column_list.add("ISS_SOL_ID");
+			Column_list.add("MCC");
+			Column_list.add("REMARKS");
+			Column_list.add("NETWORK");
+			Column_list.add("POSTED_DATE");
+			Column_list.add("GL_ACCOUNT");
+			Column_list.add("TR_NO");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("FILENAME");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("TMP_ID");
 			data.add(Column_list);
 			final List<String> columns4 = Column_list;
-			 final 	List<Object> beanList4 = new ArrayList<Object>();
-			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+			final List<Object> beanList4 = new ArrayList<Object>();
+			List<Object> DailyData4 = getJdbcTemplate().query(getInterchange3, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns4) {
@@ -450,18 +516,38 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData4);
-			System.out.println("query 3");
-			
-			System.gc();
+			System.out.println("query 4");
+
 			Column_list = new ArrayList<String>();
-			Column_list = getColumnList("settlement_rupay_dom_cbs");
+			Column_list.add("BUSINESS_DATE");
+			Column_list.add("CARD_NO");
+			Column_list.add("TRACE_NO");
+			Column_list.add("AC_NO");
+			Column_list.add("TRAN_DATE");
+			Column_list.add("ATM_ID");
+			Column_list.add("TYPE");
+			Column_list.add("AMOUNT");
+			Column_list.add("FEE");
+			Column_list.add("BR_CODE");
+			Column_list.add("ISS_SOL_ID");
+			Column_list.add("MCC");
+			Column_list.add("REMARKS");
+			Column_list.add("NETWORK");
+			Column_list.add("POSTED_DATE");
+			Column_list.add("GL_ACCOUNT");
+			Column_list.add("TR_NO");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("FILENAME");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("TMP_ID");
 			data.add(Column_list);
-			final List<String> columns5= Column_list;
-			 final 	List<Object> beanList5 = new ArrayList<Object>();
-			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange4, new Object[] {},
+			final List<String> columns5 = Column_list;
+			final List<Object> beanList5 = new ArrayList<Object>();
+			List<Object> DailyData5 = getJdbcTemplate().query(getInterchange4, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns5) {
@@ -473,79 +559,156 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData5);
-			System.out.println("query 4");
-		
-			System.gc();
+			System.out.println("query 5");
+
 			Column_list = new ArrayList<String>();
-			Column_list = getColumnList("settlement_rupay_dom_cbs");
+			Column_list.add("BUSINESS_DATE");
+			Column_list.add("CARD_NO");
+			Column_list.add("TRACE_NO");
+			Column_list.add("AC_NO");
+			Column_list.add("TRAN_DATE");
+			Column_list.add("ATM_ID");
+			Column_list.add("TYPE");
+			Column_list.add("AMOUNT");
+			Column_list.add("FEE");
+			Column_list.add("BR_CODE");
+			Column_list.add("ISS_SOL_ID");
+			Column_list.add("MCC");
+			Column_list.add("REMARKS");
+			Column_list.add("NETWORK");
+			Column_list.add("POSTED_DATE");
+			Column_list.add("GL_ACCOUNT");
+			Column_list.add("TR_NO");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("FILENAME");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("TMP_ID");
 			data.add(Column_list);
 			final List<String> columns7 = Column_list;
-			 final 	List<Object> beanList7= new ArrayList<Object>();
-			  List<Object>	DailyData7 = getJdbcTemplate().query(getInterchange5, new Object[] {},
+			final List<Object> beanList7 = new ArrayList<Object>();
+			List<Object> DailyData7 = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							int count=0;
+							int count = 0;
 							while (rs.next()) {
 								count++;
-								
-								if(count<=200000) {
+
+								if (count <= 200000) {
 									Map<String, String> data = new HashMap<String, String>();
 									for (String column : columns7) {
 										data.put(column, rs.getString(column));
 									}
 									beanList7.add(data);
-								}if(count>200000 && count<=400000 ) {
+								}
+								if (count > 200000 && count <= 400000) {
 									Map<String, String> data3 = new HashMap<String, String>();
 									for (String column : columns7) {
 										data3.put(column, rs.getString(column));
 									}
 									beanList7.add(data3);
-								}else {
+								} else {
 									Map<String, String> data2 = new HashMap<String, String>();
 									for (String column : columns7) {
 										data2.put(column, rs.getString(column));
 									}
 									beanList7.add(data2);
 								}
-								
+
 							}
 							return beanList7;
 						}
 					});
 			data.add(DailyData7);
-			System.out.println("query 5");
-	
-			Column_list = new ArrayList<String>();
-		Column_list = getColumnList("settlement_rupay_dom_rupay");
-			data.add(Column_list);
-			final List<String> columns6 = Column_list;
-			 final 	List<Object> beanList6 = new ArrayList<Object>();
-			  List<Object>		DailyData6= getJdbcTemplate().query(getInterchange7, new Object[] {},
-					new ResultSetExtractor<List<Object>>() {
-						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
-							while (rs.next()) {
-								Map<String, String> data = new HashMap<String, String>();
-								for (String column : columns6) {
-									data.put(column, rs.getString(column));
-								}
-								beanList6.add(data);
-							}
-							return beanList6;
-						}
-					});
-			data.add(DailyData6);
-			System.out.println("query 6");
+			System.out.println("query 7");
 
 			Column_list = new ArrayList<String>();
-		Column_list = getColumnList("settlement_rupay_dom_rupay");
+			Column_list.add("MTI");
+			Column_list.add("FUNCTION_CODE");
+			Column_list.add("RECORD_NUMBER");
+			Column_list.add("MEMBER_INSTITUTION_ID_CODE");
+			Column_list.add("UNIQUE_FILE_NAME");
+			Column_list.add("DATE_SETTLEMENT");
+			Column_list.add("PRODUCT_CODE");
+			Column_list.add("SETTLEMENT_BIN");
+			Column_list.add("FILE_CATEGORY");
+			Column_list.add("VERSION_NUMBER");
+			Column_list.add("ENTIRE_FILE_REJECT_INDICATOR");
+			Column_list.add("FILE_REJECT_REASON_CODE");
+			Column_list.add("TRANSACTIONS_COUNT");
+			Column_list.add("RUN_TOTAL_AMOUNT");
+			Column_list.add("ACQUIRER_INSTITUTION_ID_CODE");
+			Column_list.add("AMOUNT_SETTLEMENT");
+			Column_list.add("AMOUNT_TRANSACTION");
+			Column_list.add("APPROVAL_CODE");
+			Column_list.add("ACQUIRER_REFERENCE_DATA");
+			Column_list.add("CASE_NUMBER");
+			Column_list.add("CURRENCY_CODE_SETTLEMENT");
+			Column_list.add("CURRENCY_CODE_TRANSACTION");
+			Column_list.add("CONVERSION_RATE_SETTLEMENT");
+			Column_list.add("CARD_ACCEPTOR_ADDI_ADDR");
+			Column_list.add("CARD_ACCEPTOR_TERMINAL_ID");
+			Column_list.add("CARD_ACCEPTOR_ZIP_CODE");
+			Column_list.add("DATEANDTIME_LOCAL_TRANSACTION");
+			Column_list.add("TXNFUNCTION_CODE");
+			Column_list.add("LATE_PRESENTMENT_INDICATOR");
+			Column_list.add("TXNMTI");
+			Column_list.add("PRIMARY_ACCOUNT_NUMBER");
+			Column_list.add("TXNRECORD_NUMBER");
+			Column_list.add("RGCS_RECEIVED_DATE");
+			Column_list.add("SETTLEMENT_DR_CR_INDICATOR");
+			Column_list.add("TXN_DESTI_INSTI_ID_CODE");
+			Column_list.add("TXN_ORIGIN_INSTI_ID_CODE");
+			Column_list.add("CARD_HOLDER_UID");
+			Column_list.add("AMOUNT_BILLING");
+			Column_list.add("CURRENCY_CODE_BILLING");
+			Column_list.add("CONVERSION_RATE_BILLING");
+			Column_list.add("MESSAGE_REASON_CODE");
+			Column_list.add("FEE_DR_CR_INDICATOR1");
+			Column_list.add("FEE_AMOUNT1");
+			Column_list.add("FEE_CURRENCY1");
+			Column_list.add("FEE_TYPE_CODE1");
+			Column_list.add("INTERCHANGE_CATEGORY1");
+			Column_list.add("FEE_DR_CR_INDICATOR2");
+			Column_list.add("FEE_AMOUNT2");
+			Column_list.add("FEE_CURRENCY2");
+			Column_list.add("FEE_TYPE_CODE2");
+			Column_list.add("INTERCHANGE_CATEGORY2");
+			Column_list.add("FEE_DR_CR_INDICATOR3");
+			Column_list.add("FEE_AMOUNT3");
+			Column_list.add("FEE_CURRENCY3");
+			Column_list.add("FEE_TYPE_CODE3");
+			Column_list.add("INTERCHANGE_CATEGORY3");
+			Column_list.add("FEE_DR_CR_INDICATOR4");
+			Column_list.add("FEE_AMOUNT4");
+			Column_list.add("FEE_CURRENCY4");
+			Column_list.add("FEE_TYPE_CODE4");
+			Column_list.add("INTERCHANGE_CATEGORY4");
+			Column_list.add("FEE_DR_CR_INDICATOR5");
+			Column_list.add("FEE_AMOUNT5");
+			Column_list.add("FEE_CURRENCY5");
+			Column_list.add("FEE_TYPE_CODE5");
+			Column_list.add("INTERCHANGE_CATEGORY5");
+			Column_list.add("FLAG");
+			Column_list.add("TRL_FUNCTION_CODE");
+			Column_list.add("TRL_RECORD_NUMBER");
+			Column_list.add("PART_ID");
+			Column_list.add("DCRS_TRAN_NO");
+			Column_list.add("NEXT_TRAN_DATE");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("CREATEDBY");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("PAN");
+			Column_list.add("RRN");
+			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns8 = Column_list;
-			 final 	List<Object> beanList8 = new ArrayList<Object>();
-			  List<Object>		DailyData8= getJdbcTemplate().query(getInterchange8, new Object[] {},
+			final List<Object> beanList8 = new ArrayList<Object>();
+			List<Object> DailyData8 = getJdbcTemplate().query(getInterchange7, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns8) {
@@ -557,10 +720,108 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData8);
-			System.out.println("query 7");
-	
-		
-		
+			System.out.println("query 8");
+
+			Column_list = new ArrayList<String>();
+			Column_list.add("MTI");
+			Column_list.add("FUNCTION_CODE");
+			Column_list.add("RECORD_NUMBER");
+			Column_list.add("MEMBER_INSTITUTION_ID_CODE");
+			Column_list.add("UNIQUE_FILE_NAME");
+			Column_list.add("DATE_SETTLEMENT");
+			Column_list.add("PRODUCT_CODE");
+			Column_list.add("SETTLEMENT_BIN");
+			Column_list.add("FILE_CATEGORY");
+			Column_list.add("VERSION_NUMBER");
+			Column_list.add("ENTIRE_FILE_REJECT_INDICATOR");
+			Column_list.add("FILE_REJECT_REASON_CODE");
+			Column_list.add("TRANSACTIONS_COUNT");
+			Column_list.add("RUN_TOTAL_AMOUNT");
+			Column_list.add("ACQUIRER_INSTITUTION_ID_CODE");
+			Column_list.add("AMOUNT_SETTLEMENT");
+			Column_list.add("AMOUNT_TRANSACTION");
+			Column_list.add("APPROVAL_CODE");
+			Column_list.add("ACQUIRER_REFERENCE_DATA");
+			Column_list.add("CASE_NUMBER");
+			Column_list.add("CURRENCY_CODE_SETTLEMENT");
+			Column_list.add("CURRENCY_CODE_TRANSACTION");
+			Column_list.add("CONVERSION_RATE_SETTLEMENT");
+			Column_list.add("CARD_ACCEPTOR_ADDI_ADDR");
+			Column_list.add("CARD_ACCEPTOR_TERMINAL_ID");
+			Column_list.add("CARD_ACCEPTOR_ZIP_CODE");
+			Column_list.add("DATEANDTIME_LOCAL_TRANSACTION");
+			Column_list.add("TXNFUNCTION_CODE");
+			Column_list.add("LATE_PRESENTMENT_INDICATOR");
+			Column_list.add("TXNMTI");
+			Column_list.add("PRIMARY_ACCOUNT_NUMBER");
+			Column_list.add("TXNRECORD_NUMBER");
+			Column_list.add("RGCS_RECEIVED_DATE");
+			Column_list.add("SETTLEMENT_DR_CR_INDICATOR");
+			Column_list.add("TXN_DESTI_INSTI_ID_CODE");
+			Column_list.add("TXN_ORIGIN_INSTI_ID_CODE");
+			Column_list.add("CARD_HOLDER_UID");
+			Column_list.add("AMOUNT_BILLING");
+			Column_list.add("CURRENCY_CODE_BILLING");
+			Column_list.add("CONVERSION_RATE_BILLING");
+			Column_list.add("MESSAGE_REASON_CODE");
+			Column_list.add("FEE_DR_CR_INDICATOR1");
+			Column_list.add("FEE_AMOUNT1");
+			Column_list.add("FEE_CURRENCY1");
+			Column_list.add("FEE_TYPE_CODE1");
+			Column_list.add("INTERCHANGE_CATEGORY1");
+			Column_list.add("FEE_DR_CR_INDICATOR2");
+			Column_list.add("FEE_AMOUNT2");
+			Column_list.add("FEE_CURRENCY2");
+			Column_list.add("FEE_TYPE_CODE2");
+			Column_list.add("INTERCHANGE_CATEGORY2");
+			Column_list.add("FEE_DR_CR_INDICATOR3");
+			Column_list.add("FEE_AMOUNT3");
+			Column_list.add("FEE_CURRENCY3");
+			Column_list.add("FEE_TYPE_CODE3");
+			Column_list.add("INTERCHANGE_CATEGORY3");
+			Column_list.add("FEE_DR_CR_INDICATOR4");
+			Column_list.add("FEE_AMOUNT4");
+			Column_list.add("FEE_CURRENCY4");
+			Column_list.add("FEE_TYPE_CODE4");
+			Column_list.add("INTERCHANGE_CATEGORY4");
+			Column_list.add("FEE_DR_CR_INDICATOR5");
+			Column_list.add("FEE_AMOUNT5");
+			Column_list.add("FEE_CURRENCY5");
+			Column_list.add("FEE_TYPE_CODE5");
+			Column_list.add("INTERCHANGE_CATEGORY5");
+			Column_list.add("FLAG");
+			Column_list.add("TRL_FUNCTION_CODE");
+			Column_list.add("TRL_RECORD_NUMBER");
+			Column_list.add("PART_ID");
+			Column_list.add("DCRS_TRAN_NO");
+			Column_list.add("NEXT_TRAN_DATE");
+			Column_list.add("CREATEDDATE");
+			Column_list.add("CREATEDBY");
+			Column_list.add("DCRS_REMARKS");
+			Column_list.add("FILEDATE");
+			Column_list.add("PAN");
+			Column_list.add("RRN");
+			Column_list.add("FILENAME");
+			data.add(Column_list);
+			final List<String> columns9 = Column_list;
+			final List<Object> beanList9 = new ArrayList<Object>();
+			List<Object> DailyData9 = getJdbcTemplate().query(getInterchange8, new Object[] {},
+					new ResultSetExtractor<List<Object>>() {
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns9) {
+									data.put(column, rs.getString(column));
+								}
+								beanList9.add(data);
+							}
+							return beanList9;
+						}
+					});
+			data.add(DailyData9);
+			System.out.println("query 9");
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
@@ -601,19 +862,19 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 				final List<String> columns = Column_list;
 				List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 						new ResultSetExtractor<List<Object>>() {
-					public List<Object> extractData(ResultSet rs) throws SQLException {
-						List<Object> beanList = new ArrayList<Object>();
-						while (rs.next()) {
-							Map<String, String> data = new HashMap<String, String>();
-							for (String column : columns) {
-								data.put(column, rs.getString(column));
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+								while (rs.next()) {
+									Map<String, String> data = new HashMap<String, String>();
+									for (String column : columns) {
+										data.put(column, rs.getString(column));
+									}
+									beanList.add(data);
+								}
+								return beanList;
 							}
-							beanList.add(data);
-						}
-						return beanList;
-					}
-				});
-		data.add(DailyData);
+						});
+				data.add(DailyData);
 				logger.info("query1");
 				Column_list = new ArrayList<>();
 				Column_list = getColumnList("settlement_rupay_int_cbs");
@@ -714,7 +975,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 							}
 						});
 				data.add(DailyData);
-	
+
 				logger.info("query6");
 				Column_list = new ArrayList<>();
 				Column_list.add("FUNCTION_CODE");
@@ -855,10 +1116,12 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadQSPARCDOMReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadICDISSReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadICCWISSReport(SettlementBean settlementBean) {
 		ArrayList<Object> data = new ArrayList<Object>();
@@ -895,21 +1158,21 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			final List<String> columns6 = Column_list;
 			List<Object> DailyData = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns6) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns6) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 5 ");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list.add("BUSINESS_DATE");
 			Column_list.add("CARD_NO");
@@ -1006,7 +1269,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 9 ");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list.add("CARDHOLDER_BILL_SERV_FEE");
 			Column_list.add("PARTICIPANT_ID");
@@ -1066,7 +1329,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10 ");
-		
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -1076,82 +1339,45 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadICDACQReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadICCWACQReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList();
 		try {
-			String getInterchange5 = "SELECT BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, FEE, BR_CODE, ISS_SOL_ID, MCC, REMARKS, NETWORK, POSTED_DATE, GL_ACCOUNT, TR_NO, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE\r\nFROM settlement_nfs_iccw_acq_cbs where FILEDATE =STR_TO_DATE( '"
+			String getInterchange5 = "SELECT * FROM settlement_nfs_iccw_acq_cbs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d')and DCRS_REMARKS = 'NFS-ICCW-ACQ-MATCHED-2'";
-			String getInterchange6 = "SELECT BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, FEE, BR_CODE, ISS_SOL_ID, MCC, REMARKS, NETWORK, POSTED_DATE, GL_ACCOUNT, TR_NO, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE\r\nFROM settlement_nfs_iccw_acq_cbs where FILEDATE =STR_TO_DATE( '"
+			String getInterchange6 = "SELECT * FROM settlement_nfs_iccw_acq_cbs where FILEDATE =STR_TO_DATE( '"
 					+ settlementBean.getDatepicker() + "' ,'%Y/%m/%d')and DCRS_REMARKS = 'NFS-ICCW-ACQ-UNRECON-2'";
-			String getInterchange9 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME,\r\nMERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, ACQ_SETTLE_DATE, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, \r\nACQ_SETTLE_CURRENCY_CD, ACQ_SETTLE_AMNT, ACQ_SETTLE_FEE, ACQ_SETTLE_PROCESS_FEE, TXN_ACQ_CONV_RATE, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, CYCLE, FPAN, FILENAME \r\nFROM settlement_nfs_iccw_acq_nfs where FILEDATE =STR_TO_DATE( '"
-					+
+			String getInterchange9 = "SELECT *FROM settlement_nfs_iccw_acq_nfs where FILEDATE =STR_TO_DATE( '" +
 
 					settlementBean.getDatepicker() + "' ,'%Y/%m/%d')and DCRS_REMARKS = 'NFS-ICCW-ACQ-MATCHED-2'";
-			String getInterchange10 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME,\r\nMERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, ACQ_SETTLE_DATE, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, \r\nACQ_SETTLE_CURRENCY_CD, ACQ_SETTLE_AMNT, ACQ_SETTLE_FEE, ACQ_SETTLE_PROCESS_FEE, TXN_ACQ_CONV_RATE, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, CYCLE, FPAN, FILENAME\r\nFROM settlement_nfs_iccw_acq_nfs where FILEDATE =STR_TO_DATE( '"
-					+
+			String getInterchange10 = "SELECT * FROM settlement_nfs_iccw_acq_nfs where FILEDATE =STR_TO_DATE( '" +
 
 					settlementBean.getDatepicker() + "' ,'%Y/%m/%d')and DCRS_REMARKS = 'NFS-ICCW-ACQ-UNRECON-2'";
 			List<String> Column_list = new ArrayList<>();
 			Column_list = new ArrayList<>();
-			Column_list.add("BUSINESS_DATE");
-			Column_list.add("CARD_NO");
-			Column_list.add("TRACE_NO");
-			Column_list.add("AC_NO");
-			Column_list.add("TRAN_DATE");
-			Column_list.add("ATM_ID");
-			Column_list.add("TYPE");
-			Column_list.add("AMOUNT");
-			Column_list.add("FEE");
-			Column_list.add("BR_CODE");
-			Column_list.add("REMARKS");
-			Column_list.add("NETWORK");
-			Column_list.add("POSTED_DATE");
-			Column_list.add("GL_ACCOUNT");
-			Column_list.add("TR_NO");
-			Column_list.add("DCRS_REMARKS");
-			Column_list.add("FILEDATE");
-			Column_list.add("FILENAME");
-			Column_list.add("CREATEDDATE");
+			Column_list = getColumnList("settlement_nfs_iccw_acq_cbs");
 			data.add(Column_list);
 			final List<String> columns6 = Column_list;
-			List<Object>DailyData = getJdbcTemplate().query(getInterchange5, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns6) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns6) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
 			data.add(DailyData);
+
 			Column_list = new ArrayList<>();
-			Column_list.add("BUSINESS_DATE");
-			Column_list.add("CARD_NO");
-			Column_list.add("TRACE_NO");
-			Column_list.add("AC_NO");
-			Column_list.add("TRAN_DATE");
-			Column_list.add("ATM_ID");
-			Column_list.add("TYPE");
-			Column_list.add("AMOUNT");
-			Column_list.add("FEE");
-			Column_list.add("BR_CODE");
-			Column_list.add("REMARKS");
-			Column_list.add("NETWORK");
-			Column_list.add("POSTED_DATE");
-			Column_list.add("GL_ACCOUNT");
-			Column_list.add("TR_NO");
-			Column_list.add("DCRS_REMARKS");
-			Column_list.add("FILEDATE");
-			Column_list.add("FILENAME");
-			Column_list.add("CREATEDDATE");
+			Column_list = getColumnList("settlement_nfs_iccw_acq_cbs");
 			data.add(Column_list);
 			final List<String> columns7 = Column_list;
 			DailyData = getJdbcTemplate().query(getInterchange6, new Object[] {},
@@ -1169,6 +1395,9 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData);
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_nfs_iccw_acq_nfs");
+			data.add(Column_list);
 			final List<String> columns10 = Column_list;
 			DailyData = getJdbcTemplate().query(getInterchange9, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
@@ -1186,39 +1415,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			Column_list = new ArrayList<>();
-			Column_list.add("PARTICIPANT_ID");
-			Column_list.add("TRANSACTION_TYPE");
-			Column_list.add("FROM_ACCOUNT_TYPE");
-			Column_list.add("TXN_SERIAL_NO");
-			Column_list.add("RESPONSE_CODE");
-			Column_list.add("PAN_NUMBER");
-			Column_list.add("APPROVAL_NUMBER");
-			Column_list.add("SYS_TRACE_AUDIT_NO");
-			Column_list.add("TRANSACTION_DATE");
-			Column_list.add("TRANSACTION_TIME");
-			Column_list.add("MERCHANT_CATEGORY_CD");
-			Column_list.add("CARD_ACC_SETTLE_DT");
-			Column_list.add("CARD_ACC_ID");
-			Column_list.add("CARD_ACC_TERMINAL_ID");
-			Column_list.add("CARD_ACC_TERMINAL_LOC");
-			Column_list.add("ACQUIRER_ID");
-			Column_list.add("ACQ_SETTLE_DATE");
-			Column_list.add("TXN_CURRENCY_CODE");
-			Column_list.add("TXN_AMOUNT");
-			Column_list.add("ACTUAL_TXN_AMT");
-			Column_list.add("TXN_ACTIVITY_FEE");
-			Column_list.add("ACQ_SETTLE_CURRENCY_CD");
-			Column_list.add("ACQ_SETTLE_AMNT");
-			Column_list.add("ACQ_SETTLE_FEE");
-			Column_list.add("ACQ_SETTLE_PROCESS_FEE");
-			Column_list.add("TXN_ACQ_CONV_RATE");
-			Column_list.add("PART_ID");
-			Column_list.add("CREATEDDATE");
-			Column_list.add("CREATEDBYFILEDATE");
-			Column_list.add("DCRS_REMARKS");
-			Column_list.add("CYCLE");
-			Column_list.add("FPAN");
-			Column_list.add("FILENAME");
+			Column_list = getColumnList("settlement_nfs_iccw_acq_nfs");
 			data.add(Column_list);
 			final List<String> columns11 = Column_list;
 			DailyData = getJdbcTemplate().query(getInterchange10, new Object[] {},
@@ -1253,7 +1450,8 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			String getInterchange2 = "select * from settlement_mastercard_iss_pos where FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks ='MASTERCARD_ISS_POS_UNRECON-2'";
 			String getInterchange3 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
-					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks  IN('MASTERCARD_ISS_POS_MATCHED-2','CBS_RAW_MATCH' )";
+					+ settlementBean.getDatepicker()
+					+ "','%Y/%m/%d') and dcrs_remarks  IN('MASTERCARD_ISS_POS_MATCHED-2','CBS_RAW_MATCH' )";
 			String getInterchange4 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') and dcrs_remarks ='MASTERCARD_ISS_POS_UNRECON-2'";
 			String getInterchange5 = "select * from settlement_mastercard_iss_pos_cbs where FILEDATE = DATE_FORMAT('"
@@ -1266,21 +1464,21 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			final List<String> columns = Column_list;
 			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_pos");
 			data.add(Column_list);
@@ -1301,7 +1499,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_pos_cbs");
 			data.add(Column_list);
@@ -1322,7 +1520,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_pos_cbs");
 			data.add(Column_list);
@@ -1343,7 +1541,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-						Column_list = new ArrayList<>();
+			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_pos_cbs");
 			data.add(Column_list);
 			final List<String> columns5 = Column_list;
@@ -1363,7 +1561,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_pos_cbs");
 			data.add(Column_list);
@@ -1414,21 +1612,21 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			final List<String> columns = Column_list;
 			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_cbs");
 			data.add(Column_list);
@@ -1449,7 +1647,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_cbs");
 			data.add(Column_list);
@@ -1470,7 +1668,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_cbs");
 			data.add(Column_list);
@@ -1491,7 +1689,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_atm");
 			data.add(Column_list);
@@ -1512,7 +1710,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_iss_atm");
 			data.add(Column_list);
@@ -1562,23 +1760,23 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list = getColumnList("settlement_mastercard_acq_atm");
 			data.add(Column_list);
 			final List<String> columns = Column_list;
-			List<Object>DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_atm");
 			data.add(Column_list);
@@ -1599,7 +1797,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_cbs");
 			data.add(Column_list);
@@ -1620,7 +1818,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_cbs");
 			data.add(Column_list);
@@ -1641,7 +1839,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_cbs");
 			data.add(Column_list);
@@ -1662,7 +1860,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_atm");
 			data.add(Column_list);
@@ -1683,7 +1881,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-		
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -1714,21 +1912,21 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			final List<String> columns = Column_list;
 			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_int_atm");
 			data.add(Column_list);
@@ -1749,7 +1947,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_int_cbs");
 			data.add(Column_list);
@@ -1770,7 +1968,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_int_cbs");
 			data.add(Column_list);
@@ -1791,7 +1989,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_int_cbs");
 			data.add(Column_list);
@@ -1812,7 +2010,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-						Column_list = new ArrayList<>();
+			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_mastercard_acq_int_cbs");
 			data.add(Column_list);
 			final List<String> columns6 = Column_list;
@@ -1832,7 +2030,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-	
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -1842,7 +2040,8 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadVISAISSINTPOSReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadVISAISSINTATMReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList();
@@ -1914,21 +2113,21 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			final List<String> columns = Column_list;
 			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list.add("CARD_NO");
 			Column_list.add("TRACE_NO");
@@ -1969,7 +2168,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list.add("CARD_NO");
 			Column_list.add("TRACE_NO");
@@ -2010,7 +2209,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("CARD_NO");
 			Column_list.add("TRACE_NO");
@@ -2051,7 +2250,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("CARD_NO");
 			Column_list.add("TRACE_NO");
@@ -2092,7 +2291,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4A");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("DATE_TIME");
 			Column_list.add("REC_TYPE");
@@ -2195,7 +2394,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-	
+
 			Column_list = new ArrayList<>();
 			Column_list.add("DATE_TIME");
 			Column_list.add("REC_TYPE");
@@ -2298,7 +2497,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("TC");
 			Column_list.add("TCR_CODE");
@@ -2408,7 +2607,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 8");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("TC");
 			Column_list.add("TCR_CODE");
@@ -2463,7 +2662,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 9");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("TC");
 			Column_list.add("TCR_CODE");
@@ -2518,7 +2717,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list.add("TC");
 			Column_list.add("TCR_CODE");
@@ -2573,7 +2772,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 11");
-		
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -2583,10 +2782,12 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadVISAISSDOMPOSReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadVISAISSDOMATMReport(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadVISAACUIRERATMReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList();
@@ -2615,23 +2816,23 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_switch");
 			data.add(Column_list);
 			final List<String> columns = Column_list;
-			List<Object>DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_switch");
 			data.add(Column_list);
@@ -2652,7 +2853,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_cbs");
 			data.add(Column_list);
@@ -2673,7 +2874,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_cbs");
 			data.add(Column_list);
@@ -2694,7 +2895,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_cbs");
 			data.add(Column_list);
@@ -2715,7 +2916,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_cbs");
 			data.add(Column_list);
@@ -2736,7 +2937,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_cbs");
 			data.add(Column_list);
@@ -2757,7 +2958,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 7");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_visa");
 			data.add(Column_list);
@@ -2778,7 +2979,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 8");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_visa");
 			data.add(Column_list);
@@ -2799,7 +3000,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 9");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_dom_atm_visa");
 			data.add(Column_list);
@@ -2820,7 +3021,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10");
-		
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -2854,27 +3055,27 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='VISA-ACQ-INT-ATM-UNRECON-2'";
 			String getInterchange10 = "SELECT * FROM settlement_visa_acq_int_atm_visa WHERE FILEDATE=DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='ORG-WDL-REVERSAL-MATCHED'";
-	List<String> Column_list = new ArrayList<>();
+			List<String> Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_switch");
 			data.add(Column_list);
 			final List<String> columns = Column_list;
-			List<Object>DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_switch");
 			data.add(Column_list);
@@ -2895,7 +3096,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_cbs");
 			data.add(Column_list);
@@ -2916,7 +3117,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_cbs");
 			data.add(Column_list);
@@ -2937,7 +3138,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 4");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_cbs");
 			data.add(Column_list);
@@ -2958,7 +3159,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_cbs");
 			data.add(Column_list);
@@ -2979,7 +3180,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_cbs");
 			data.add(Column_list);
@@ -3000,7 +3201,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 7");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_visa");
 			data.add(Column_list);
@@ -3021,7 +3222,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 8");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_visa");
 			data.add(Column_list);
@@ -3042,7 +3243,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 9");
-		
+
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_visa_acq_int_atm_visa");
 			data.add(Column_list);
@@ -3063,7 +3264,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10");
-		
+
 			System.out.println("Success ");
 			return data;
 		} catch (Exception e) {
@@ -3075,21 +3276,25 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	public List<Object> downloadJCBACQReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();
 		try {
-			String getInterchange2 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
-			String getInterchange3 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
-			String getInterchange4 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
-			String getInterchange5 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
-							List<String> Column_list = new ArrayList<String>();
+			String getInterchange2 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange3 = "SELECT * FROM settlement_jcb_cbs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+			String getInterchange4 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='JCB-MATCHED-2'";
+			String getInterchange5 = "SELECT *FROM settlement_jcb_jcb WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='JCB-UNRECON-2'";
+			List<String> Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<String>();
-	
+
 			Column_list = getColumnList("settlement_jcb_cbs");
-				data.add(Column_list);
-		    final List<Object> beanList = new ArrayList<Object>();
+			data.add(Column_list);
+			final List<Object> beanList = new ArrayList<Object>();
 			final List<String> columns2 = Column_list;
-		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns2) {
@@ -3102,17 +3307,17 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-			 
-				Column_list = new ArrayList<String>();
-			
-				Column_list = getColumnList("settlement_jcb_cbs");
-					data.add(Column_list);
+
+			Column_list = new ArrayList<String>();
+
+			Column_list = getColumnList("settlement_jcb_cbs");
+			data.add(Column_list);
 			final List<String> columns3 = Column_list;
-			 final 	List<Object> beanList3 = new ArrayList<Object>();
-			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+			final List<Object> beanList3 = new ArrayList<Object>();
+			List<Object> DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns3) {
@@ -3124,18 +3329,18 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData3);
-			  System.gc();
+			System.gc();
 			System.out.println("query 3");
 			Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_jcb_jcb");
-				data.add(Column_list);
+			data.add(Column_list);
 			final List<String> columns4 = Column_list;
-			 final 	List<Object> beanList4 = new ArrayList<Object>();
-			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
+			final List<Object> beanList4 = new ArrayList<Object>();
+			List<Object> DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns4) {
@@ -3148,18 +3353,18 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData4);
 			System.out.println("query 4");
-			
+
 			System.gc();
 			Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_jcb_jcb");
-				data.add(Column_list);
-			final List<String> columns5= Column_list;
-			 final 	List<Object> beanList5 = new ArrayList<Object>();
-			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange5, new Object[] {},
+			data.add(Column_list);
+			final List<String> columns5 = Column_list;
+			final List<Object> beanList5 = new ArrayList<Object>();
+			List<Object> DailyData5 = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns5) {
@@ -3171,34 +3376,37 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData5);
-			
-		
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
 			return null;
 		}
-	
-}
+
+	}
 
 	public List<Object> downloadDFSACQReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();
 		try {
-			String getInterchange2 = "SELECT * FROM settlement_dfs_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-MATCHED-2'";
-			String getInterchange3 = "SELECT * FROM settlement_dfs_cbs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-UNRECON-2'";
-			String getInterchange4 = "SELECT * FROM settlement_dfs_dfs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-MATCHED-2'";
-			String getInterchange5 = "SELECT * FROM settlement_dfs_dfs WHERE FILEDATE = STR_TO_DATE('"+settlementBean.getDatepicker()+"','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-UNRECON-2'";
-							List<String> Column_list = new ArrayList<String>();
+			String getInterchange2 = "SELECT * FROM settlement_dfs_cbs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-MATCHED-2'";
+			String getInterchange3 = "SELECT * FROM settlement_dfs_cbs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-UNRECON-2'";
+			String getInterchange4 = "SELECT * FROM settlement_dfs_dfs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-MATCHED-2'";
+			String getInterchange5 = "SELECT * FROM settlement_dfs_dfs WHERE FILEDATE = STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS = 'DFS-UNRECON-2'";
+			List<String> Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_dfs_cbs");
-				data.add(Column_list);
-		    final List<Object> beanList = new ArrayList<Object>();
+			data.add(Column_list);
+			final List<Object> beanList = new ArrayList<Object>();
 			final List<String> columns2 = Column_list;
-		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns2) {
@@ -3211,17 +3419,17 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-			 
-				Column_list = new ArrayList<String>();
-				Column_list = new ArrayList<>();
-				Column_list = getColumnList("settlement_dfs_cbs");
-					data.add(Column_list);
+
+			Column_list = new ArrayList<String>();
+			Column_list = new ArrayList<>();
+			Column_list = getColumnList("settlement_dfs_cbs");
+			data.add(Column_list);
 			final List<String> columns3 = Column_list;
-			 final 	List<Object> beanList3 = new ArrayList<Object>();
-			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+			final List<Object> beanList3 = new ArrayList<Object>();
+			List<Object> DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns3) {
@@ -3233,18 +3441,18 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData3);
-			  System.gc();
+			System.gc();
 			System.out.println("query 3");
 			Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_dfs_dfs");
-				data.add(Column_list);
+			data.add(Column_list);
 			final List<String> columns4 = Column_list;
-			 final 	List<Object> beanList4 = new ArrayList<Object>();
-			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
+			final List<Object> beanList4 = new ArrayList<Object>();
+			List<Object> DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns4) {
@@ -3257,18 +3465,18 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData4);
 			System.out.println("query 4");
-			
+
 			System.gc();
 			Column_list = new ArrayList<String>();
 			Column_list = new ArrayList<>();
 			Column_list = getColumnList("settlement_dfs_dfs");
-				data.add(Column_list);
-			final List<String> columns5= Column_list;
-			 final 	List<Object> beanList5 = new ArrayList<Object>();
-			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange5, new Object[] {},
+			data.add(Column_list);
+			final List<String> columns5 = Column_list;
+			final List<Object> beanList5 = new ArrayList<Object>();
+			List<Object> DailyData5 = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns5) {
@@ -3280,15 +3488,15 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData5);
-			
-		
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
 			return null;
 		}
-	
-}
+
+	}
+
 	@Override
 	public List<Object> downloadIssuerDhanaReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();
@@ -3305,14 +3513,18 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ISS-CBS-UNRECON-2'\r\n"
 					+ "AND DATE_FORMAT(STR_TO_DATE(TRAN_DATE, '%d-%m-%Y'), '%Y-%m-%d') > DATE_ADD(STR_TO_DATE('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d'), INTERVAL-6 DAY) ";
-					String getInterchange7 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO,\r\nTRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID,\r\nACCOUNT_1_NUMBER, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE,\r\nPART_ID, FPAN, CYCLE, FILEDATE, DCRS_REMARKS, FILENAME FROM settlement_nfs_iss_nfs WHERE FILEDATE = DATE_FORMAT('"
+			String getInterchange7 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO,\r\nTRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID,\r\nACCOUNT_1_NUMBER, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE,\r\nPART_ID, FPAN, CYCLE, FILEDATE, DCRS_REMARKS, FILENAME FROM settlement_nfs_iss_nfs WHERE FILEDATE = DATE_FORMAT('"
 					+
 
-					settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS LIKE 'NFS-ISS-MATCHED-2%' AND DATE_FORMAT(STR_TO_DATE(TRANSACTION_DATE, '%y%m%d'), '%Y-%m-%d')> DATE_ADD(STR_TO_DATE('"+ settlementBean.getDatepicker() + "','%Y/%m/%d'), INTERVAL-6 DAY)";
+					settlementBean.getDatepicker()
+					+ "','%Y/%m/%d') AND DCRS_REMARKS LIKE 'NFS-ISS-MATCHED-2%' AND DATE_FORMAT(STR_TO_DATE(TRANSACTION_DATE, '%y%m%d'), '%Y-%m-%d')> DATE_ADD(STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d'), INTERVAL-6 DAY)";
 			String getInterchange8 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO,\r\nTRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID,\r\nACCOUNT_1_NUMBER, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE,\r\nPART_ID, FPAN, CYCLE, FILEDATE, DCRS_REMARKS, FILENAME\r\nFROM settlement_nfs_iss_nfs WHERE FILEDATE = DATE_FORMAT('"
 					+
 
-					settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ISS-UNRECON-2' AND DATE_FORMAT(STR_TO_DATE(TRANSACTION_DATE, '%y%m%d'), '%Y-%m-%d')> DATE_ADD(STR_TO_DATE('"+ settlementBean.getDatepicker() + "','%Y/%m/%d'), INTERVAL-6 DAY)";
+					settlementBean.getDatepicker()
+					+ "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ISS-UNRECON-2' AND DATE_FORMAT(STR_TO_DATE(TRANSACTION_DATE, '%y%m%d'), '%Y-%m-%d')> DATE_ADD(STR_TO_DATE('"
+					+ settlementBean.getDatepicker() + "','%Y/%m/%d'), INTERVAL-6 DAY)";
 			String getInterchange9 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER, SYS_TRACE_AUDIT_NO,\r\nTRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, ACQUIRER_ID, NETWORK_ID,\r\nACCOUNT_1_NUMBER, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE,\r\nPART_ID, FPAN, CYCLE, FILEDATE, DCRS_REMARKS, FILENAME\r\nFROM settlement_nfs_iss_nfs WHERE FILEDATE = DATE_FORMAT('"
 					+
 
@@ -3342,12 +3554,12 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILEDATE");
 			Column_list.add("FILENAME");
 			data.add(Column_list);
-		    final List<Object> beanList = new ArrayList<Object>();
+			final List<Object> beanList = new ArrayList<Object>();
 			final List<String> columns2 = Column_list;
-		  List<Object>	DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns2) {
@@ -3360,8 +3572,8 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 2");
-			 
-				Column_list = new ArrayList<String>();
+
+			Column_list = new ArrayList<String>();
 			Column_list.add("CARD_NO");
 			Column_list.add("TRACE_NO");
 			Column_list.add("AC_NO");
@@ -3378,11 +3590,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns3 = Column_list;
-			 final 	List<Object> beanList3 = new ArrayList<Object>();
-			  List<Object>		DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
+			final List<Object> beanList3 = new ArrayList<Object>();
+			List<Object> DailyData3 = getJdbcTemplate().query(getInterchange3, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns3) {
@@ -3394,7 +3606,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 						}
 					});
 			data.add(DailyData3);
-			  System.gc();
+			System.gc();
 			System.out.println("query 3");
 			Column_list = new ArrayList<String>();
 			Column_list.add("CARD_NO");
@@ -3413,11 +3625,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns4 = Column_list;
-			 final 	List<Object> beanList4 = new ArrayList<Object>();
-			  List<Object>		DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
+			final List<Object> beanList4 = new ArrayList<Object>();
+			List<Object> DailyData4 = getJdbcTemplate().query(getInterchange4, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-						
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns4) {
@@ -3430,7 +3642,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData4);
 			System.out.println("query 4");
-			
+
 			System.gc();
 			Column_list = new ArrayList<String>();
 			Column_list.add("CARD_NO");
@@ -3448,12 +3660,12 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILEDATE");
 			Column_list.add("FILENAME");
 			data.add(Column_list);
-			final List<String> columns5= Column_list;
-			 final 	List<Object> beanList5 = new ArrayList<Object>();
-			  List<Object>		DailyData5= getJdbcTemplate().query(getInterchange5, new Object[] {},
+			final List<String> columns5 = Column_list;
+			final List<Object> beanList5 = new ArrayList<Object>();
+			List<Object> DailyData5 = getJdbcTemplate().query(getInterchange5, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns5) {
@@ -3466,7 +3678,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData5);
 			System.out.println("query 5");
-		
+
 			System.gc();
 			Column_list = new ArrayList<String>();
 			Column_list.add("PARTICIPANT_ID");
@@ -3505,41 +3717,42 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns7 = Column_list;
-			 final 	List<Object> beanList7= new ArrayList<Object>();
-			  List<Object>	DailyData7 = getJdbcTemplate().query(getInterchange7, new Object[] {},
+			final List<Object> beanList7 = new ArrayList<Object>();
+			List<Object> DailyData7 = getJdbcTemplate().query(getInterchange7, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							int count=0;
+							int count = 0;
 							while (rs.next()) {
 								count++;
-								
-								if(count<=200000) {
+
+								if (count <= 200000) {
 									Map<String, String> data = new HashMap<String, String>();
 									for (String column : columns7) {
 										data.put(column, rs.getString(column));
 									}
 									beanList7.add(data);
-								}if(count>200000 && count<=400000 ) {
+								}
+								if (count > 200000 && count <= 400000) {
 									Map<String, String> data3 = new HashMap<String, String>();
 									for (String column : columns7) {
 										data3.put(column, rs.getString(column));
 									}
 									beanList7.add(data3);
-								}else {
+								} else {
 									Map<String, String> data2 = new HashMap<String, String>();
 									for (String column : columns7) {
 										data2.put(column, rs.getString(column));
 									}
 									beanList7.add(data2);
 								}
-								
+
 							}
 							return beanList7;
 						}
 					});
 			data.add(DailyData7);
 			System.out.println("query 7");
-	
+
 			Column_list = new ArrayList<String>();
 			Column_list.add("PARTICIPANT_ID");
 			Column_list.add("TRANSACTION_TYPE");
@@ -3577,11 +3790,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns8 = Column_list;
-			 final 	List<Object> beanList8 = new ArrayList<Object>();
-			  List<Object>		DailyData8= getJdbcTemplate().query(getInterchange8, new Object[] {},
+			final List<Object> beanList8 = new ArrayList<Object>();
+			List<Object> DailyData8 = getJdbcTemplate().query(getInterchange8, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns8) {
@@ -3594,7 +3807,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData8);
 			System.out.println("query 8");
-	
+
 			System.gc();
 			Column_list = new ArrayList<String>();
 			Column_list.add("PARTICIPANT_ID");
@@ -3633,11 +3846,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns9 = Column_list;
-			 final 	List<Object> beanList9 = new ArrayList<Object>();
-			  List<Object>		DailyData9 = getJdbcTemplate().query(getInterchange9, new Object[] {},
+			final List<Object> beanList9 = new ArrayList<Object>();
+			List<Object> DailyData9 = getJdbcTemplate().query(getInterchange9, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns9) {
@@ -3650,7 +3863,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData9);
 			System.out.println("query 9");
-		
+
 			Column_list = new ArrayList<String>();
 			Column_list.add("TRANSTYPE");
 			Column_list.add("RESP_CODE");
@@ -3673,11 +3886,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILEDATE");
 			data.add(Column_list);
 			final List<String> columns10 = Column_list;
-			 final 	List<Object> beanList10 = new ArrayList<Object>();
-			  List<Object>		DailyData10 = getJdbcTemplate().query(getInterchange10, new Object[] {},
+			final List<Object> beanList10 = new ArrayList<Object>();
+			List<Object> DailyData10 = getJdbcTemplate().query(getInterchange10, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns10) {
@@ -3690,7 +3903,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData10);
 			System.out.println("query 10");
-			
+
 			Column_list = new ArrayList<String>();
 			Column_list.add("TRANSTYPE");
 			Column_list.add("RESP_CODE");
@@ -3713,11 +3926,11 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILEDATE");
 			data.add(Column_list);
 			final List<String> columns11 = Column_list;
-			 final 	List<Object> beanList11 = new ArrayList<Object>();
-			  List<Object>	DailyData11 = getJdbcTemplate().query(getInterchange11, new Object[] {},
+			final List<Object> beanList11 = new ArrayList<Object>();
+			List<Object> DailyData11 = getJdbcTemplate().query(getInterchange11, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
-							
+
 							while (rs.next()) {
 								Map<String, String> data = new HashMap<String, String>();
 								for (String column : columns11) {
@@ -3730,7 +3943,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData11);
 			System.out.println("query 11");
-		
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
@@ -3739,25 +3952,32 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> downloadIssuerDhanaReport2(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<ViewFiles> searchViewFile1(String type, String fromDate) throws Exception, SQLException {
-		return null;}
+		return null;
+	}
 
 	public List<SearchData> searchData(String category, String rrn_no, String fromDate) throws Exception, SQLException {
-		return null;}
+		return null;
+	}
 
 	public List<ViewFiles> searchViewFile(String type, String fromDate) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> excelMicroAtmTTUMDownload(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> excelMicroAtmReportDownload(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadDhanaReportCTCACQ(SettlementBean settlementBean) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadDhanaReportCTCISS(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList();
@@ -3788,23 +4008,23 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("FILENAME");
 			data.add(Column_list);
 			final List<String> columns = Column_list;
-			List<Object>	DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("getInterchange1 " + getInterchange1);
-		
+
 			String getInterchange2 = "select BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, FEE, BR_CODE, ISS_SOL_ID, MCC, REMARKS, NETWORK, POSTED_DATE, GL_ACCOUNT, TR_NO, DCRS_REMARKS, FILEDATE, FILENAME from settlement_nfs_iss_c2c_cbs \r\nwhere FILEDATE =STR_TO_DATE('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ISS-C2C-UNRECON-2'";
 			Column_list = new ArrayList<>();
@@ -3846,7 +4066,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("getInterchange2 " + getInterchange2);
-		
+
 			String getInterchange4 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER,\r\nSYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, \r\nACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT,\r\nTXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, \r\nCREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME from settlement_nfs_iss_c2c_nfs \r\nwhere FILEDATE =STR_TO_DATE('"
 					+
 
@@ -3912,7 +4132,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("getInterchange4 " + getInterchange4);
-		
+
 			String getInterchange6 = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, APPROVAL_NUMBER,\r\nSYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, CARD_ACC_TERMINAL_LOC, \r\nACQUIRER_ID, NETWORK_ID, ACCOUNT_1_NUMBER, ACCOUNT_1_BRANCH_ID, ACCOUNT_2_NUMBER, ACCOUNT_2_BRANCH_ID, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT,\r\nTXN_ACTIVITY_FEE, ISS_SETTLE_CURRENCY_CD, ISS_SETTLE_AMNT, ISS_SETTLE_FEE, ISS_SETTLE_PROCESS_FEE, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, \r\nCREATEDBY, FILEDATE, DCRS_REMARKS, FPAN, CYCLE, FILENAME from settlement_nfs_iss_c2c_nfs \r\nwhere FILEDATE =STR_TO_DATE('"
 					+
 
@@ -3975,7 +4195,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("getInterchange6 " + getInterchange6);
-	
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
@@ -4007,23 +4227,23 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("CREATEDDATE");
 			data.add(Column_list);
 			final List<String> columns = Column_list;
-			List<Object>	DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
+			List<Object> DailyData = getJdbcTemplate().query(getInterchange1, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 1");
-					String getInterchange2 = "SELECT CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, BR_CODE, ISS_SOL_ID, REMARKS, NETWORK, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE FROM settlement_nfs_acq_cbs WHERE FILEDATE = DATE_FORMAT('"
+			String getInterchange2 = "SELECT CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, BR_CODE, ISS_SOL_ID, REMARKS, NETWORK, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE FROM settlement_nfs_acq_cbs WHERE FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ACQ-CBS-MATCHED-1'";
 			Column_list = new ArrayList<>();
 			Column_list.add("CARD_NO");
@@ -4043,23 +4263,23 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 			Column_list.add("CREATEDDATE");
 			data.add(Column_list);
 			final List<String> columns2 = Column_list;
-		DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
+			DailyData = getJdbcTemplate().query(getInterchange2, new Object[] {},
 					new ResultSetExtractor<List<Object>>() {
-				public List<Object> extractData(ResultSet rs) throws SQLException {
-					List<Object> beanList = new ArrayList<Object>();
-					while (rs.next()) {
-						Map<String, String> data = new HashMap<String, String>();
-						for (String column : columns2) {
-							data.put(column, rs.getString(column));
+						public List<Object> extractData(ResultSet rs) throws SQLException {
+							List<Object> beanList = new ArrayList<Object>();
+							while (rs.next()) {
+								Map<String, String> data = new HashMap<String, String>();
+								for (String column : columns2) {
+									data.put(column, rs.getString(column));
+								}
+								beanList.add(data);
+							}
+							return beanList;
 						}
-						beanList.add(data);
-					}
-					return beanList;
-				}
-			});
-	data.add(DailyData);
+					});
+			data.add(DailyData);
 			System.out.println("query 2");
-		
+
 			String getInterchange3 = "SELECT CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, BR_CODE, ISS_SOL_ID, REMARKS, NETWORK, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE FROM settlement_nfs_acq_cbs WHERE FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ACQ-CBS-UNRECON-1'";
 			Column_list = new ArrayList<>();
@@ -4096,7 +4316,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 3");
-			
+
 			System.gc();
 			String getInterchange5 = "SELECT PARTICIPANT_ID,TRANSACTION_TYPE,FROM_ACCOUNT_TYPE,TO_ACCOUNT_TYPE,TXN_SERIAL_NO,RESPONSE_CODE,PAN_NUMBER,MEMBER_NUMBER,APPROVAL_NUMBER,SYS_TRACE_AUDIT_NO,TRANSACTION_DATE,TRANSACTION_TIME,MERCHANT_CATEGORY_CD,CARD_ACC_SETTLE_DT,\r\nCARD_ACC_ID,CARD_ACC_TERMINAL_ID,CARD_ACC_TERMINAL_LOC,ACQUIRER_ID,ACQ_SETTLE_DATE,TXN_CURRENCY_CODE,TXN_AMOUNT,ACTUAL_TXN_AMT,TXN_ACTIVITY_FEE,ACQ_SETTLE_CURRENCY_CD,ACQ_SETTLE_AMNT,ACQ_SETTLE_FEE,ACQ_SETTLE_PROCESS_FEE,TXN_ACQ_CONV_RATE,\r\nPART_ID,DCRS_TRAN_NO,NEXT_TRAN_DATE,CREATEDDATE,CREATEDBY,FILEDATE,DCRS_REMARKS,CYCLE,FPAN,FILENAME FROM \r\n settlement_nfs_acq_nfs WHERE FILEDATE= STR_TO_DATE('"
 					+
@@ -4160,7 +4380,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 5");
-		
+
 			System.gc();
 			String getInterchange6 = "SELECT CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, BR_CODE, ISS_SOL_ID, REMARKS, NETWORK, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE FROM settlement_nfs_acq_cbs WHERE FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='NFS-ACQ-CBS-UNRECON-2'";
@@ -4198,7 +4418,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 6");
-		
+
 			String getInterchange7 = "SELECT PARTICIPANT_ID,TRANSACTION_TYPE,FROM_ACCOUNT_TYPE,TO_ACCOUNT_TYPE,TXN_SERIAL_NO,RESPONSE_CODE,PAN_NUMBER,MEMBER_NUMBER,APPROVAL_NUMBER,SYS_TRACE_AUDIT_NO,TRANSACTION_DATE,TRANSACTION_TIME,MERCHANT_CATEGORY_CD,CARD_ACC_SETTLE_DT,\r\nCARD_ACC_ID,CARD_ACC_TERMINAL_ID,CARD_ACC_TERMINAL_LOC,ACQUIRER_ID,ACQ_SETTLE_DATE,TXN_CURRENCY_CODE,TXN_AMOUNT,ACTUAL_TXN_AMT,TXN_ACTIVITY_FEE,ACQ_SETTLE_CURRENCY_CD,ACQ_SETTLE_AMNT,ACQ_SETTLE_FEE,ACQ_SETTLE_PROCESS_FEE,TXN_ACQ_CONV_RATE,\r\nPART_ID,DCRS_TRAN_NO,NEXT_TRAN_DATE,CREATEDDATE,CREATEDBY,FILEDATE,DCRS_REMARKS,CYCLE,FPAN,FILENAME FROM \r\n settlement_nfs_acq_nfs WHERE FILEDATE=STR_TO_DATE('"
 					+
 
@@ -4261,7 +4481,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 7");
-			
+
 			String getInterchange7A = "SELECT PARTICIPANT_ID, TRANSACTION_TYPE, FROM_ACCOUNT_TYPE, TO_ACCOUNT_TYPE, TXN_SERIAL_NO, RESPONSE_CODE, PAN_NUMBER, MEMBER_NUMBER, \r\nAPPROVAL_NUMBER, SYS_TRACE_AUDIT_NO, TRANSACTION_DATE, TRANSACTION_TIME, MERCHANT_CATEGORY_CD, CARD_ACC_SETTLE_DT, CARD_ACC_ID, CARD_ACC_TERMINAL_ID, \r\nCARD_ACC_TERMINAL_LOC, ACQUIRER_ID, ACQ_SETTLE_DATE, TXN_CURRENCY_CODE, TXN_AMOUNT, ACTUAL_TXN_AMT, TXN_ACTIVITY_FEE, ACQ_SETTLE_CURRENCY_CD, ACQ_SETTLE_AMNT, \r\nACQ_SETTLE_FEE, ACQ_SETTLE_PROCESS_FEE, TXN_ACQ_CONV_RATE, PART_ID, DCRS_TRAN_NO, NEXT_TRAN_DATE, CREATEDDATE, CREATEDBY, FILEDATE, DCRS_REMARKS, CYCLE, FPAN, FILENAME\r\nFROM settlement_nfs_acq_nfs WHERE FILEDATE = DATE_FORMAT('"
 					+
 
@@ -4324,7 +4544,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 8");
-	
+
 			String getInterchange8 = "SELECT TRANSTYPE,RESP_CODE,CARDNO,RRN,STANNO,ACQ,ISS,TRASN_DATE,TRANS_TIME,ATMID,SETTLEDATE,REQUESTAMT,RECEIVEDAMT,STATUS,DCRS_REMARKS,FILEDATE,CYCLE,MERCHANT_TYPE,FPAN,CREATEDDATE,FILENAME \r\nFROM    settlement_nfs_acq_rev_report WHERE FILEDATE= STR_TO_DATE('"
 					+
 
@@ -4369,7 +4589,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 9");
-		
+
 			String getInterchange9 = "SELECT TRANSTYPE,RESP_CODE,CARDNO,RRN,STANNO,ACQ,ISS,TRASN_DATE,TRANS_TIME,ATMID,SETTLEDATE,REQUESTAMT,RECEIVEDAMT,STATUS,DCRS_REMARKS,FILEDATE,CYCLE,MERCHANT_TYPE,FPAN,CREATEDDATE,FILENAME FROM settlement_nfs_acq_rev_report WHERE FILEDATE= STR_TO_DATE('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS='UNMATCHED'";
 			Column_list = new ArrayList<>();
@@ -4412,7 +4632,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 					});
 			data.add(DailyData);
 			System.out.println("query 10");
-		
+
 			return data;
 		} catch (Exception e) {
 			System.out.println("Exception in getInterchangeData " + e);
@@ -4441,13 +4661,16 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	}
 
 	public List<Object> getUnreconAcqOffusTTUMReport(UnMatchedTTUMBean beanObj, String TTUMTYPE) {
-		return null;}
+		return null;
+	}
 
 	public List<String> getNFSVoucher(UnMatchedTTUMBean beanObj) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadDhanaReport2(SettlementBean beanObj) {
-		return null;}
+		return null;
+	}
 
 	public List<Object> downloadDhanaReport3(SettlementBean beanObj) {
 		return null;

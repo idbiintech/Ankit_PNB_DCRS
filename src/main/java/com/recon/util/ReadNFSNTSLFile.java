@@ -2151,11 +2151,8 @@ public class ReadNFSNTSLFile {
       logger.info("sql insert query " + sql1);
       sql1 = "INSERT INTO ntsl_nfs_rawdata(DESCRIPTION,NO_OF_TXNS,DEBIT,CREDIT,CYCLE,FILEDATE,CREATEDBY,CREATEDDATE,SR_NO,BANKNAME,FILENAME) VALUES(?,?,?,?,?,date_format(?,'dd-mm-yy'),?,SYSDATE(),?,?,?)";
     } 
-    String sql1Delete = "delete from ntsl_icd_rawdata where  date_format(filedate,'DD-MM-YY') = date_format('" + 
-      beanObj.getDatepicker() + 
-      "','DD-MM-YY') and rowid not in (select min(rowid) from  ntsl_ICD_rawdata where  date_format(filedate,'DD-MM-YY') = date_format('" + 
-      beanObj.getDatepicker() + "','DD-MM-YY') group by NO_OF_TXNS, DEBIT, CREDIT, DESCRIPTION )";
-    PreparedStatement psdelete = con.prepareStatement(sql1Delete);
+   
+
     PreparedStatement ps = con.prepareStatement(sql1);
     PreparedStatement psF = con.prepareStatement(sql1);
     PreparedStatement ps2 = con.prepareStatement(sql1);
@@ -2253,7 +2250,7 @@ public class ReadNFSNTSLFile {
           } 
         } 
         ps.executeBatch();
-        psdelete.execute();
+   
         long end = System.currentTimeMillis();
         logger.info("start and end diff" + (start - end));
         mapObj.put("result", Boolean.valueOf(true));

@@ -435,7 +435,8 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
 	    	
 	    	
 	      if (category.equalsIgnoreCase("ACQUIRER")) {
-	        String str = "select count(*) from settlement_jcb_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+	      String str = "select sum(count) from (SELECT COUNT(*) as count FROM settlement_jcb_cbs whERE filedate = STR_to_date('"+filedate+"','%Y/%m/%d')  union all SELECT COUNT(*) as count FROM settlement_jcb_jcb WHERE filedate = STR_to_date('"+filedate+"','%Y/%m/%d') ) a";
+
 	        logger.info("Query is " + str);
 	        int i = ((Integer)getJdbcTemplate().queryForObject(str, new Object[0], Integer.class)).intValue();
 	        logger.info("Count is " + i);
@@ -472,7 +473,9 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
 	    	
 	    	
 	      if (category.equalsIgnoreCase("ACQUIRER")) {
-	    	  String str = "select count(*) from settlement_dfs_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+	    	
+	  	    String str = "select sum(count) from (SELECT COUNT(*) as count FROM settlement_dfs_cbs whERE filedate = STR_to_date('"+filedate+"','%Y/%m/%d')  union all SELECT COUNT(*) as count FROM settlement_dfs_dfs WHERE filedate = STR_to_date('"+filedate+"','%Y/%m/%d') ) a";
+
 		        logger.info("Query is " + str);
 		        int i = ((Integer)getJdbcTemplate().queryForObject(str, new Object[0], Integer.class)).intValue();
 		        logger.info("Count is " + i);

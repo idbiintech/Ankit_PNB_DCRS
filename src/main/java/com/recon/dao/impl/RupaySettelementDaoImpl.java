@@ -943,7 +943,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 	}
 
 	private class RupaySettlementProcRRB extends StoredProcedure {
-		private static final String insert_proc = "RUPAY_POS_RRB_SETTLEMENT";
+		private static final String insert_proc = "RUPAY_RRB_SETTLEMENT";
 
 		public RupaySettlementProcRRB(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -1338,7 +1338,7 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 	}
 
 	private class RupaySettlementProcINT extends StoredProcedure {
-		private static final String insert_proc = "RUPAY_INT_POS_SETTLEMENT";
+		private static final String insert_proc = "RUPAY_INT_POS_SETTLEMENT_PNB";
 
 		public RupaySettlementProcINT(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);

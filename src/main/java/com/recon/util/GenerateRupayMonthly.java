@@ -22,7 +22,8 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 public class GenerateRupayMonthly extends AbstractExcelView {
   protected void buildExcelDocument(Map<String, Object> map, HSSFWorkbook workbook1, HttpServletRequest request, HttpServletResponse response) throws Exception {
     System.out.println("Inside Excel Download");
-    List<Object> Data = (List<Object>)map.get("Monthly_data");
+    @SuppressWarnings("unchecked")
+	List<Object> Data = (List<Object>)map.get("Monthly_data");
     String name = (String)map.get("ReportName");
     String formattedString = LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"));
     String filename = (name != null && !name.equalsIgnoreCase("")) ? name : "NFS_SETTLEMENT_REPORT";
@@ -45,8 +46,10 @@ public class GenerateRupayMonthly extends AbstractExcelView {
   }
   
   private void createSheet(SXSSFWorkbook workbook, String sheetName, List<Object> data, int headerIndex, int dataIndex, int maxRowCount) {
-    List<String> headers = (List<String>)data.get(headerIndex);
-    List<Object> dataList = (List<Object>)data.get(dataIndex);
+    @SuppressWarnings("unchecked")
+	List<String> headers = (List<String>)data.get(headerIndex);
+    @SuppressWarnings("unchecked")
+	List<Object> dataList = (List<Object>)data.get(dataIndex);
     SXSSFSheet sheet = workbook.createSheet(sheetName);
     CellStyle headerStyle = createHeaderStyle(workbook);
     createHeaderRow(sheet, headers, headerStyle);

@@ -136,6 +136,25 @@ public class RupayTTUMController {
 		logger.info("***** GenerateTTUMNEPALORBHUTAN.GenerateTTUMNEPALORBHUTAN GET End ****");
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = { "GETNTSLRAWMATCHING" }, method = { RequestMethod.GET })
+	public ModelAndView GETNTSLRAWMATCHING(ModelAndView modelAndView, @RequestParam("category") String category,
+			HttpServletRequest request) throws Exception {
+		logger.info("***** GenerateTTUMNEPALORBHUTAN Start Get method  ****");
+		modelAndView.addObject("category", category);
+		String display = "";
+		List<String> subcat = new ArrayList<>();
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		logger.info("in GetHeaderList" + category);
+		beanObj.setCategory(category);
+		subcat = iSourceService.getSubcategories(category);
+		modelAndView.addObject("subcategory", subcat);
+		modelAndView.addObject("display", display);
+		modelAndView.addObject("unmatchedTTUMBean", beanObj);
+		modelAndView.setViewName("GetNtslrawMatching");
+		logger.info("***** GenerateTTUMNEPALORBHUTAN.GenerateTTUMNEPALORBHUTAN GET End ****");
+		return modelAndView;
+	}
 
 	@RequestMapping(value = { "GenerateTTUMATMPOSCROSSROUNTING" }, method = { RequestMethod.GET })
 	public ModelAndView GenerateTTUMATMPOSCROSSROUNTING(ModelAndView modelAndView,
@@ -174,6 +193,25 @@ public class RupayTTUMController {
 		logger.info("***** GenerateNFSACQTOVIAROUTING.GenerateNFSACQTOVIAROUTING GET End ****");
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = { "GenerateNTSLMATICHING" }, method = { RequestMethod.GET })
+	public ModelAndView GenerateNTSLMATICHING(ModelAndView modelAndView, @RequestParam("category") String category,
+			HttpServletRequest request) throws Exception {
+		logger.info("***** GenerateNTSLMATICHING Start Get method  ****");
+		modelAndView.addObject("category", category);
+		String display = "";
+		List<String> subcat = new ArrayList<>();
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		logger.info("in GetHeaderList" + category);
+		beanObj.setCategory(category);
+		subcat = iSourceService.getSubcategories(category);
+		modelAndView.addObject("subcategory", subcat);
+		modelAndView.addObject("display", display);
+		modelAndView.addObject("unmatchedTTUMBean", beanObj);
+		modelAndView.setViewName("GenerateNTSLMATICHING");
+		logger.info("***** GenerateNFSACQTOVIAROUTING.GenerateNFSACQTOVIAROUTING GET End ****");
+		return modelAndView;
+	}
 
 	@RequestMapping(value = { "GenerateUnmatchedTTUM" }, method = { RequestMethod.POST })
 	@ResponseBody
@@ -193,6 +231,81 @@ public class RupayTTUMController {
 		if (output != null && ((Boolean) output.get("result")).booleanValue()) {
 			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
 				output2 = rupayTTUMService.runTTUMProces(beanObj);
+			} else {
+				output2 = rupayTTUMService.runTTUMProcess2(beanObj);
+			}
+		} else {
+			return output.get("msg").toString();
+		}
+		if (output2 != null && ((Boolean) output2.get("result")).booleanValue()) {
+			System.out.println("msg " + output2.get("msg"));
+			String value = output2.get("msg").toString();
+			if (value.contains("NOT"))
+				return "File Not Uploaded";
+			if (value.contains("ALL"))
+				return "TTUM ALLREADY PROCESS";
+			if (value.contains("SUCCESS"))
+				return "PROCESS SUCCESSFULLY!";
+			return output2.get("msg").toString();
+		}
+		return output2.get("msg").toString();
+	}
+
+	@RequestMapping(value = { "GenerateUnmatchedTTUMJCB" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String GenerateUnmatchedTTUMJCB(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
+			HttpServletRequest request, HttpSession httpSession) throws Exception {
+		HashMap<String, Object> output2;
+		logger.info("***** GenerateUnmatchedTTUM.GenerateUnmatchedTTUM post Start ****");
+		logger.info("GenerateUnmatchedTTUM POST");
+		String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+		logger.info("Created by is " + Createdby + " localDate is " + beanObj.getLocalDate());
+		logger.info("filedate is " + beanObj.getFileDate() + " ttum type is " + beanObj.getTypeOfTTUM());
+		System.out.println("st sub category for domestic tum is " + beanObj.getStSubCategory());
+		System.out.println("FILENAme is " + beanObj.getFileName());
+		beanObj.setCreatedBy(Createdby);
+		boolean executed = false;
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedJCB(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue()) {
+			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+				output2 = rupayTTUMService.runTTUMProcesJCB(beanObj);
+			} else {
+				output2 = rupayTTUMService.runTTUMProcess2(beanObj);
+			}
+		} else {
+			return output.get("msg").toString();
+		}
+		if (output2 != null && ((Boolean) output2.get("result")).booleanValue()) {
+			System.out.println("msg " + output2.get("msg"));
+			String value = output2.get("msg").toString();
+			if (value.contains("NOT"))
+				return "File Not Uploaded";
+			if (value.contains("ALL"))
+				return "TTUM ALLREADY PROCESS";
+			if (value.contains("SUCCESS"))
+				return "PROCESS SUCCESSFULLY!";
+			return output2.get("msg").toString();
+		}
+		return output2.get("msg").toString();
+	}
+	@RequestMapping(value = { "GenerateUnmatchedTTUMDFS" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String GenerateUnmatchedTTUMDFS(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
+			HttpServletRequest request, HttpSession httpSession) throws Exception {
+		HashMap<String, Object> output2;
+		logger.info("***** GenerateUnmatchedTTUM.GenerateUnmatchedTTUM post Start ****");
+		logger.info("GenerateUnmatchedTTUM POST");
+		String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+		logger.info("Created by is " + Createdby + " localDate is " + beanObj.getLocalDate());
+		logger.info("filedate is " + beanObj.getFileDate() + " ttum type is " + beanObj.getTypeOfTTUM());
+		System.out.println("st sub category for domestic tum is " + beanObj.getStSubCategory());
+		System.out.println("FILENAme is " + beanObj.getFileName());
+		beanObj.setCreatedBy(Createdby);
+		boolean executed = false;
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedDFS(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue()) {
+			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
+				output2 = rupayTTUMService.runTTUMProcesDFS(beanObj);
 			} else {
 				output2 = rupayTTUMService.runTTUMProcess2(beanObj);
 			}
@@ -361,6 +474,28 @@ public class RupayTTUMController {
 				return "PROCESS SUCCESSFULLY!";
 			return output2.get("msg").toString();
 		}
+		return output2.get("msg").toString();
+	}
+
+
+	@RequestMapping(value = { "GenerateNTSLRAWMATCHINGDATA" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String GenerateNTSLRAWMATCHINGDATA(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
+			HttpServletRequest request, HttpSession httpSession) throws Exception {
+		logger.info("***** GenerateUnmatchedTTUM.GenerateUnmatchedTTUM post Start ****");
+		logger.info("GenerateUnmatchedTTUM POST");
+		String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+		logger.info("Created by is " + Createdby + " localDate is " + beanObj.getLocalDate());
+		logger.info("filedate is " + beanObj.getFileDate() + " ttum type is " + beanObj.getTypeOfTTUM());
+		System.out.println("st sub category for domestic tum is " + beanObj.getStSubCategory());
+		System.out.println("FILENAme is " + beanObj.getFileName());
+		beanObj.setCreatedBy(Createdby);
+		boolean executed = false;
+	
+		HashMap<String, Object> output2 = null;
+
+					output2 = rupayTTUMService.runTTUMProcesVISA(beanObj);
+			
 		return output2.get("msg").toString();
 	}
 
@@ -622,6 +757,53 @@ public class RupayTTUMController {
 		return String.valueOf(subcat) + "_" + typeOfTTUM + "Failed";
 	}
 
+	@RequestMapping(value = { "rollbackTTUMJCB" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String rollbackTTUMJCB(@RequestParam("filedate") String filedate,
+			@RequestParam("typeOfTTUM") String typeOfTTUM, @RequestParam("subCat") String subcat)
+			throws ParseException, Exception {
+		boolean checkProcFlag;
+		logger.info("rollbackTTUMReport  " + filedate + " " + typeOfTTUM);
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		beanObj.setLocalDate(filedate);
+		beanObj.setTypeOfTTUM(typeOfTTUM);
+		beanObj.setStSubCategory(subcat);
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedJCB(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue())
+			return "TTUM is Already Rollback";
+		if (subcat.contains("ISSUER")) {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMJCB(beanObj);
+		} else {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMNFS2(beanObj);
+		}
+		if (checkProcFlag)
+			return "TTUM Rollback Completed";
+		return String.valueOf(subcat) + "_" + typeOfTTUM + "Failed";
+	}
+	@RequestMapping(value = { "rollbackTTUMDFS" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String rollbackTTUMDFS(@RequestParam("filedate") String filedate,
+			@RequestParam("typeOfTTUM") String typeOfTTUM, @RequestParam("subCat") String subcat)
+			throws ParseException, Exception {
+		boolean checkProcFlag;
+		logger.info("rollbackTTUMReport  " + filedate + " " + typeOfTTUM);
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		beanObj.setLocalDate(filedate);
+		beanObj.setTypeOfTTUM(typeOfTTUM);
+		beanObj.setStSubCategory(subcat);
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedDFS(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue())
+			return "TTUM is Already Rollback";
+		if (subcat.contains("ISSUER")) {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMDFS(beanObj);
+		} else {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMNFS2(beanObj);
+		}
+		if (checkProcFlag)
+			return "TTUM Rollback Completed";
+		return String.valueOf(subcat) + "_" + typeOfTTUM + "Failed";
+	}
+
 	@RequestMapping(value = { "checkTTUMProcessed" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public String checkTTUMProcessed(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
@@ -727,6 +909,10 @@ public class RupayTTUMController {
 			boolean executed = false;
 			if (beanObj.getCategory().equalsIgnoreCase("ICD")) {
 				TTUMData = SETTLTTUMSERVICE.getTTUMICD(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
+				TTUMData = SETTLTTUMSERVICE.getTTUMJCB(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
+				TTUMData = SETTLTTUMSERVICE.getTTUMDFS(beanObj);
 			} else {
 				TTUMData = SETTLTTUMSERVICE.getTTUMNFS(beanObj);
 			}
@@ -779,6 +965,23 @@ public class RupayTTUMController {
 					Column_list.add("RRN");
 					Column_list.add("NARRATION");
 				}
+			}else if (beanObj.getCategory().equalsIgnoreCase("JCB") || beanObj.getCategory().equalsIgnoreCase("DFS")) {
+		
+				Column_list.add("DISPUTE_DATE");
+				Column_list.add("BANK_NAME");
+				Column_list.add("CARD_NO");
+				Column_list.add("AC_NO");
+				Column_list.add("DR_CR");
+				Column_list.add("TXN_DATE");
+				Column_list.add("TXN_TIME");
+				Column_list.add("AMOUNT");
+				Column_list.add("RRN");
+				Column_list.add("TERMINAL_ID");
+				Column_list.add("NARRATION");
+				Column_list.add("TTUM_TYPE");
+				Column_list.add("FILEDATE");
+				Column_list.add("UID");
+				
 			} else if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
 				Column_list.add("DR_CR");
 				Column_list.add("DISPUTE_DATE");
@@ -812,6 +1015,16 @@ public class RupayTTUMController {
 						+ ".xls";
 				zipName = "ICD_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
 						+ ".zip";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
+				fileName = "JCB_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".xls";
+				zipName = "JCB_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".zip";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
+				fileName = "DFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".xls";
+				zipName = "DFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".zip";
 			} else {
 				fileName = "NFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
 						+ ".xls";
@@ -842,12 +1055,22 @@ public class RupayTTUMController {
 			boolean executed = false;
 			if (beanObj.getCategory().equalsIgnoreCase("ICD")) {
 				TTUMData = SETTLTTUMSERVICE.getICDTTUM(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
+				TTUMData = SETTLTTUMSERVICE.getACQJCB(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
+				TTUMData = SETTLTTUMSERVICE.getACQDFS(beanObj);
 			} else {
 				TTUMData = SETTLTTUMSERVICE.getNFSRECONACQTTUM(beanObj);
 			}
 			System.out.println("nfsSettlementBean.getStSubCategory()" + beanObj.getStSubCategory());
 			if (beanObj.getCategory().equalsIgnoreCase("ICD")) {
 				fileName = "ICD" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
+						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
+				fileName = "JCB" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
+						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
+				fileName = "DFS" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
 						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
 			} else {
 				fileName = "NFS" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
@@ -861,7 +1084,13 @@ public class RupayTTUMController {
 			if (beanObj.getCategory().equalsIgnoreCase("ICD")) {
 				zipName = "ICD" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
 						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
-			} else {
+			} else	if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
+				zipName = "JCB" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
+						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
+				zipName = "DFS" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
+						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
+			}else {
 				zipName = "NFS" + beanObj.getTypeOfTTUM().replaceAll("\\s", "") + "TTUM"
 						+ beanObj.getLocalDate().replaceAll("/", "") + "_VAL.txt";
 			}
@@ -2015,6 +2244,44 @@ public class RupayTTUMController {
 		modelAndView.addObject("display", display);
 		modelAndView.addObject("unmatchedTTUMBean", beanObj);
 		modelAndView.setViewName("GenerateNFSTTUM");
+		logger.info("***** RupayTTUMController.GenerateNFSTTUM GET End ****");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = { "GenerateJCBTTUM" }, method = { RequestMethod.GET })
+	public ModelAndView GenerateJCBTTUM(ModelAndView modelAndView, @RequestParam("category") String category,
+			HttpServletRequest request) throws Exception {
+		logger.info("***** GenerateNFSTTUM Start Get method  ****");
+		modelAndView.addObject("category", category);
+		String display = "";
+		List<String> subcat = new ArrayList<>();
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		logger.info("in GetHeaderList" + category);
+		beanObj.setCategory(category);
+		subcat = iSourceService.getSubcategories(category);
+		modelAndView.addObject("subcategory", subcat);
+		modelAndView.addObject("display", display);
+		modelAndView.addObject("unmatchedTTUMBean", beanObj);
+		modelAndView.setViewName("GenerateJCBTTUM");
+		logger.info("***** RupayTTUMController.GenerateNFSTTUM GET End ****");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = { "GenerateDFSTTUM" }, method = { RequestMethod.GET })
+	public ModelAndView GenerateDFSTTUM(ModelAndView modelAndView, @RequestParam("category") String category,
+			HttpServletRequest request) throws Exception {
+		logger.info("***** GenerateNFSTTUM Start Get method  ****");
+		modelAndView.addObject("category", category);
+		String display = "";
+		List<String> subcat = new ArrayList<>();
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		logger.info("in GetHeaderList" + category);
+		beanObj.setCategory(category);
+		subcat = iSourceService.getSubcategories(category);
+		modelAndView.addObject("subcategory", subcat);
+		modelAndView.addObject("display", display);
+		modelAndView.addObject("unmatchedTTUMBean", beanObj);
+		modelAndView.setViewName("GenerateDFSTTUM");
 		logger.info("***** RupayTTUMController.GenerateNFSTTUM GET End ****");
 		return modelAndView;
 	}
