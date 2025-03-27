@@ -483,7 +483,7 @@ public class ReadImpDataImpl extends Message implements ReadImpData{
 				}
 				//System.out.println("b4 insert filedate :>>>"+filedate);
 				String concat_address=DE43_NAME+","+DE43_ADDRESS+","+DE43_SUBURB+","+DE43_POSTCODE;
-				String query="insert into MASTERCARD_POS_RAWDATA(msgtype,pan,processing_code,amount,AMOUNT_RECON,Amount_Cardholder,CONV_RATE_RECON,date_val,expire_date,data_code,card_seq_num,funcation_code,msg_res_code, "    
+				String query="insert into mastercard_pos_rawdata (msgtype,pan,processing_code,amount,AMOUNT_RECON,Amount_Cardholder,CONV_RATE_RECON,date_val,expire_date,data_code,card_seq_num,funcation_code,msg_res_code, "    
 						+ "card_acc_code,amount_org,aquierer_ref_no,fi_id_code,retrv_ref_no,approval_code,service_code,card_acc_term_id,card_acc_id_code,additional_data ,"
 						+ "currency_code_tran,currency_code_recon,TRAN_LIFECYCLE_ID,msg_num,date_action,tran_dest_id_code,tran_org_id_code,CARD_ISS_REF_DATA,recv_inst_idcode, "
 						+ "terminal_type,elec_com_indic,processing_mode,currency_exponent,business_act,settlement_ind,CARD_ACCP_NAME_LOC,header_type,file_name,FILEDATE,FPAN )  "

@@ -129,6 +129,7 @@ public class CompareConfigController {
   @RequestMapping(value = {"searchswitchViewFile"}, method = {RequestMethod.POST})
   @ResponseBody
   public List<ViewFiles> searchswitchViewFile(@RequestParam String txntype, @RequestParam String fromDate) throws SQLException, Exception {
+	  System.out.println("data "+txntype + " "+  fromDate);
     return this.nfsTTUMService.searchSwitchViewFile1(txntype, fromDate);
   }
   
@@ -225,6 +226,7 @@ public class CompareConfigController {
     } 
   }
   
+  
   @RequestMapping(value = {"increaseCount"}, method = {RequestMethod.GET})
   public ModelAndView increaseCount(ModelAndView modelAndView, HttpServletRequest request, SettlementBean settlementBean) throws Exception {
     modelAndView.addObject("SettlementBean", settlementBean);
@@ -253,7 +255,8 @@ public class CompareConfigController {
   @RequestMapping(value = {"searchViewFile"}, method = {RequestMethod.POST})
   @ResponseBody
   public List<ViewFiles> searchViewFile(@RequestParam String type, @RequestParam String fromDate) throws SQLException, Exception {
-    return this.nfsTTUMService.searchViewFile1(type, fromDate);
+
+    return this.nfsTTUMService.searchViewFile(type, fromDate);
   }
   
   @RequestMapping(value = {"AutoCompare"}, method = {RequestMethod.GET})

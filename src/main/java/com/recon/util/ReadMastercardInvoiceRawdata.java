@@ -2041,7 +2041,7 @@ public class ReadMastercardInvoiceRawdata {
 					}
 					if (textline.startsWith("Total Billing Activity")) {
 
-						TotalCharge = textline.substring(20, 32);
+						TotalCharge = textline.substring(22, 32);
 						System.out.println("Total " + TotalCharge);
 
 						ps.setString(1, rate);

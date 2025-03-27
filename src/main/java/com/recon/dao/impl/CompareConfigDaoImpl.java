@@ -1177,7 +1177,11 @@ public class CompareConfigDaoImpl extends JdbcDaoSupport implements ICompareConf
     } else if (setupBean.getCategory().equalsIgnoreCase("NFS")) {
       subcatquery = String.valueOf(subcatquery) + " AND FILE_SUBCATEGORY = '" + setupBean.getStSubCategory() + "' ";
     } else if (setupBean.getCategory().equalsIgnoreCase("MASTERCARD")) {
-      subcatquery = String.valueOf(subcatquery) + " FILE_CATEGORY = '" + setupBean.getCategory() + "' ";
+    
+      
+      subcatquery = String.valueOf(subcatquery) + " FILE_CATEGORY = '" + setupBean.getCategory() + "'  AND FILE_SUBCATEGORY ='"+ setupBean.getStSubCategory() +"'";
+      
+      
     } else if (setupBean.getCategory().equalsIgnoreCase("ICD")) {
       subcatquery = String.valueOf(subcatquery) + " AND FILE_SUBCATEGORY = '" + setupBean.getStSubCategory() + "' ";
     } else if (setupBean.getCategory().equalsIgnoreCase("DFS")) {

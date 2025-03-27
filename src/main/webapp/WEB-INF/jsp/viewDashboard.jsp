@@ -133,11 +133,11 @@ label{
 color: purple; text-align: left; font-weight: bold;font-size: 16px;display:block;
 }
 .leftSolid{
-color: white; text-align: center; font-weight: bold;font-size: 16px;  background:white;
+color: purple; text-align: center; font-weight: bold;font-size: 16px;  background:white;
   border-radius: 8px;
 }
 .leftSolid{
-color: white; text-align: center; font-weight: bold;font-size: 16px; background: white;
+color: purple; text-align: center; font-weight: bold;font-size: 16px; background: white;
   border-radius: 8px;
 }
 .leftDotted{
@@ -174,8 +174,11 @@ color: black; text-align: center; font-size: 13px;  background: white;
 							<label  >FILE TYPE</label> 
 							<select class="form-control" id="txntype" name="txntype"  style=" width:480px;height:40px ; text-align: left;font-size: 14px;">
 								<option value="0" >SELECT</option>
-								<option value="SWITCH" align="left">SWITCH</option>
-								<option value="CBS" align="left">CBS</option>
+								<option value="SWITCH MAPPED" align="left">SWITCH MAPPED</option>
+									<option value="SWITCH UNMAPPED" align="left">SWITCH UNMAPPED</option>
+								<option value="CBS MAPPED" align="left">CBS MAPPED</option>
+								<option value="CBS UNMAPPED" align="left">CBS UNMAPPED</option>
+								
 								<option value="RUPAY DSCR" align="left">RUPAY DSCR</option>
 								<option value="RUPAY ALL DISPUTE" align="left">RUPAY ALL DISPUTE</option>
 								<option value="RUPAY INTERNATIONAL" align="left">RUPAY INTERNATIONAL</option>
@@ -273,7 +276,7 @@ color: black; text-align: center; font-size: 13px;  background: white;
 
 	$(document).ready(function() {
 		$("#startDatePicker").datepicker({
-			dateFormat : "dd-mm-y"
+			dateFormat : "yy/mm/dd"
 		});
 
 		/* $("#whatsNew").modal('show'); */
@@ -359,9 +362,7 @@ color: black; text-align: center; font-size: 13px;  background: white;
 				//document.getElementById("breadcrumb").style.display = '';
 
 			}, 2500);
-				var atmList = response.size;
-				var str = response[0].filename;
-				var newstr = str.replaceAll(",", "<br>");
+			
 				$.each(response,
 				function(i, item) {
 					$('<tr>').html(
@@ -369,7 +370,7 @@ color: black; text-align: center; font-size: 13px;  background: white;
 								+ "</td><td  class='leftDotted'>"
 								+ response[count].filecount
 								+ "</td><td  class='leftDotted'>"
-								+ newstr
+								+ response[count].filename
 								+ "</td><td  class='leftDotted'>"
 								+ response[count].remark
 								+ "</td  class='leftDotted'>").appendTo(

@@ -965,7 +965,29 @@
 			value="/WEB-INF/jsp/GenerateICDTTUM.jsp" />
 	</definition>
 
+	<definition name="GenerateICCWTTUM" extends="baseLayout">
+		<put-attribute name="title" value="ICD TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/GenerateICCWTTUM.jsp" />
+	</definition>
 
+	<definition name="viewSwitchDashboard" extends="baseLayout">
+		<put-attribute name="title" value="ICD TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/viewSwitchDashboard.jsp" />
+	</definition>
+
+<definition name="viewRowDataDashboard" extends="baseLayout">
+		<put-attribute name="title" value="ICD TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/viewRowDataDashboard.jsp" />
+	</definition>
+
+<definition name="viewCBSDashboard" extends="baseLayout">
+		<put-attribute name="title" value="ICD TTUM" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/viewCBSDashboard.jsp" />
+	</definition>
 	<definition name="GenerateRUPAYTTUM" extends="baseLayout">
 		<put-attribute name="title" value="RUAPY TTUM" />
 		<put-attribute name="body"

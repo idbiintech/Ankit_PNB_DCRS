@@ -290,7 +290,7 @@ response.setHeader("X-Frame-Options", "deny");
 		debugger;
 		//$('#dollar_field').hide();
 		$("#localDate").datepicker({
-			dateFormat : "dd-mm-y",
+			dateFormat : "yy/mm/dd",
 			maxDate : 0
 		});
 

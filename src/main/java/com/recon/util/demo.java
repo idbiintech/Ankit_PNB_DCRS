@@ -21,7 +21,7 @@ public class demo  {
 		 Connection con = null;
 		 PreparedStatement ps=null;
 		 try {
-	            String query = "insert into dcrs_error_log values (?,?,sysdate)";
+	            String query = "insert into dcrs_error_log values (?,?,sysdate())";
 	            //System.out.println("logSQLException query==" + query);
 	            OracleConn conn = new OracleConn();
 				con = conn.getconn();

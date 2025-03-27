@@ -22,6 +22,10 @@ public interface RupayTTUMService {
   
   HashMap<String, Object> runTTUMProcesICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
+  
+  HashMap<String, Object> runTTUMProcesICCW(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> runTTUMProcesICCW2(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
   HashMap<String, Object> runTTUMProcesNFSRUPAY(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   HashMap<String, Object> runTTUMProcess2ICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
@@ -169,6 +173,7 @@ public interface RupayTTUMService {
   
   HashMap<String, Object> checkTTUMProcessedICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
+  HashMap<String, Object> checkTTUMProcessedICCW(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   HashMap<String, Object> checkTTUMProcessedNFSRUPAY(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   HashMap<String, Object> checkrunProcessFinacleTTUM(UnMatchedTTUMBean paramUnMatchedTTUMBean);

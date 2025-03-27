@@ -99,9 +99,9 @@ public interface NFSUnmatchTTUMService {
   
   List<Object> excelMicroAtmTTUMDownload(SettlementBean paramSettlementBean);
   
-  List<ViewFiles> searchViewFile(String paramString1, String paramString2);
+  List<ViewFiles> searchViewFile(String paramString1, String paramString2 )throws Exception, SQLException ;
   
-  List<ViewFiles> searchViewFile1(String paramString1, String paramString2) throws Exception, SQLException;
+  List<ViewFiles> searchViewFile1(String paramString1, String paramString2 , String ModuleType) throws Exception, SQLException;
   
   List<SearchData> searchData(String paramString1, String paramString2, String paramString3) throws Exception, SQLException;
   

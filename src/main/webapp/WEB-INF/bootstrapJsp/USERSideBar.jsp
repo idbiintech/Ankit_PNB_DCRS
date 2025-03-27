@@ -159,6 +159,10 @@ sidebar-menu {
 									class="fa fa-line-chart"></i> <span
 									style="font-size: 15px; font-weight: bold;">Increase
 										File</span><i class="fa fa-angle-left pull-right"></i></a></li>
+											<li><a href="GenerateNTSLMATICHING.do?category=VISA"><i
+						class="fa fa-skyatlas"></i> <span
+						style="font-size: 15px; font-weight: bold;">NTSL RAW MATCHING</span></a></li>
+	
 						</ul></li>
 					<li class="treeview"><a href="#"><i class="fa fa-wifi"></i>
 							<span style="font-size: 15px; font-weight: bold;">Networks</span>
@@ -475,7 +479,7 @@ sidebar-menu {
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Generate
 												Reports</span></a></li>
-									<li><a href="GenerateICDTTUM.do?category=ICCW"><i
+									<li><a href="GenerateICCWTTUM.do?category=ICCW"><i
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Generate
 												TTUM</span></a></li>
@@ -790,15 +794,10 @@ sidebar-menu {
 							TTUM</span></a></li>
 							
 							
-								<li><a href="GenerateNTSLMATICHING.do?category=VISA"><i
+			<!-- 	<li><a href="GETNTSLRAWMATCHING.do?category=VISA"><i
 						class="fa fa-skyatlas"></i> <span
-						style="font-size: 15px; font-weight: bold;">NFS ACQ VISA
-							Routing</span></a></li>
-				<li><a href="GETNTSLRAWMATCHING.do?category=VISA"><i
-						class="fa fa-skyatlas"></i> <span
-						style="font-size: 15px; font-weight: bold;">NTSL RAW
-							MATCHING</span></a></li>
-
+						style="font-size: 15px; font-weight: bold;">NTSL RAW MATCHING</span></a></li>
+ -->
 
 				<!-- 			<a
 					href="webapp/WEB-INF/PGPEncryptionTool/PGPEncryption.exe" download> -->

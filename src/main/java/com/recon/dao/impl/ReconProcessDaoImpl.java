@@ -379,14 +379,36 @@ public class ReconProcessDaoImpl extends JdbcDaoSupport implements IReconProcess
         msg = "Previous File is not Processed";
         return msg;
       } 
-      String query = "select count(*) from settlement_nfs_iss_c2c_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d')- interval 1 day ";
+      String query = "select count(*) from settlement_nfs_iss_c2c_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') - interval 1 day ";
       logger.info("Query is " + query);
       int count = ((Integer)getJdbcTemplate().queryForObject(query, new Object[0], Integer.class)).intValue();
       logger.info("Count is " + count);
       if (count > 0)
-        return null; 
-      msg = "Previous File is not Processed";
-      return msg;
+      {
+    	  String query2 = "select count(*) from settlement_nfs_iss_c2c_cbs where  FILEDATE = DATE_FORMAT('" + filedate + "','%Y/%m/%d') ";
+          logger.info("Query is " + query2);
+          int count2 = ((Integer)getJdbcTemplate().queryForObject(query2, new Object[0], Integer.class)).intValue();
+          logger.info("Count is " + count2);
+
+          if (count2 == 0) {
+        	  
+        	  return null; 
+          }else {
+        	  msg = "RECON Processed for selected Date";
+              return msg;
+        	  
+          }
+    	  
+      }else {
+    	  msg = "Previous Day Recon is not Processed";
+          return msg;
+    	  
+      }
+    	  
+       
+      
+    
+      
     } catch (Exception ex) {
       logger.error(" error in ReconProcessDaoImpl.validateFile", 
           new Exception("ReconProcessDaoImpl.validateFile", ex));

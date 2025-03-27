@@ -10,9 +10,12 @@ import com.recon.service.RupayTTUMService;
 import com.recon.service.SettlementTTUMService;
 import com.recon.util.FileDetailsJson;
 import com.recon.util.GenerateUCOTTUM;
+import com.recon.util.ViewFiles;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -373,6 +376,53 @@ public class RupayTTUMController {
 		}
 		return output2.get("msg").toString();
 	}
+	@RequestMapping(value = { "GenerateUnmatchedTTUMICCW" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String GenerateUnmatchedTTUMICCW(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
+			HttpServletRequest request, HttpSession httpSession) throws Exception {
+		HashMap<String, Object> output2;
+		logger.info("***** GenerateUnmatchedTTUMICCW.GenerateUnmatchedTTUM post Start ****");
+		logger.info("GenerateUnmatchedTTUMICCW POST");
+		String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+		logger.info("Created by is " + Createdby + " localDate is " + beanObj.getLocalDate());
+		logger.info("filedate is " + beanObj.getFileDate() + " ttum type is " + beanObj.getTypeOfTTUM());
+		System.out.println("st sub category for domestic tum is " + beanObj.getStSubCategory());
+		System.out.println("FILENAme is " + beanObj.getFileName());
+		beanObj.setCreatedBy(Createdby);
+		boolean executed = false;
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedICCW(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue()) {
+			if (beanObj.getStSubCategory().equalsIgnoreCase("ISSUER")) {
+				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("PROACTIVE")) {
+					output2 = rupayTTUMService.runTTUMProcesICCW(beanObj);
+				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("DROP")) {
+					output2 = rupayTTUMService.runTTUMProcesICCW(beanObj);
+				} else {
+					output2 = rupayTTUMService.runTTUMProces(beanObj);
+				}
+			} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO DEBIT")) {
+				output2 = rupayTTUMService.runTTUMProcesICCW2(beanObj);
+			} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
+				output2 = rupayTTUMService.runTTUMProcesICCW2(beanObj);
+			} else {
+				output2 = rupayTTUMService.runTTUMProces(beanObj);
+			}
+		} else {
+			return output.get("msg").toString();
+		}
+		if (output2 != null && ((Boolean) output2.get("result")).booleanValue()) {
+			System.out.println("msg " + output2.get("msg"));
+			String value = output2.get("msg").toString();
+			if (value.contains("NOT"))
+				return "File Not Uploaded";
+			if (value.contains("ALL"))
+				return "TTUM ALLREADY PROCESS";
+			if (value.contains("SUCCESS"))
+				return "PROCESS SUCCESSFULLY!";
+			return output2.get("msg").toString();
+		}
+		return output2.get("msg").toString();
+	}
 
 	@RequestMapping(value = { "GenerateUnmatchedTTUMNFSRUPAY" }, method = { RequestMethod.POST })
 	@ResponseBody
@@ -499,6 +549,16 @@ public class RupayTTUMController {
 		return output2.get("msg").toString();
 	}
 
+	
+	@RequestMapping(value = "ntslRawMatching", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ViewFiles> ntslRawMatching(@RequestParam String cycle , @RequestParam String localDate,  @RequestParam String ModuleType ) throws SQLException, Exception {
+		System.out.println("Data "+ localDate + " " +cycle +" "+ ModuleType);
+		
+		return nfsTTUMService.searchViewFile1(cycle, localDate , ModuleType);
+		
+	}
+	
 	@RequestMapping(value = { "GenerateUnmatchedTTUMCTC" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public String GenerateUnmatchedTTUMPost(@ModelAttribute("unmatchedTTUMBean") UnMatchedTTUMBean beanObj,
@@ -717,6 +777,41 @@ public class RupayTTUMController {
 			return String.valueOf(subcat) + "_" + typeOfTTUM + " TTUM Rollback Completed";
 		return String.valueOf(subcat) + "_" + typeOfTTUM + " TTUM Failed";
 	}
+	@RequestMapping(value = { "rollbackTTUMICCW" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String rollbackTTUMICCW(@RequestParam("filedate") String filedate,
+			@RequestParam("typeOfTTUM") String typeOfTTUM, @RequestParam("subCat") String subcat)
+			throws ParseException, Exception {
+		boolean checkProcFlag;
+		logger.info("rollbackTTUMICD  " + filedate + " " + typeOfTTUM);
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		beanObj.setLocalDate(filedate);
+		beanObj.setTypeOfTTUM(typeOfTTUM);
+		beanObj.setStSubCategory(subcat);
+		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedICCW(beanObj);
+		if (output != null && ((Boolean) output.get("result")).booleanValue())
+			return String.valueOf(typeOfTTUM) + " TTUM is Already Rollback!";
+		
+		
+		if (subcat.contains("ISSUER")) {
+			if (beanObj.getTypeOfTTUM().equalsIgnoreCase("PROACTIVE")) {
+				checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMICCW(beanObj);
+			} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("DROP")) {
+				checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMICCW(beanObj);
+			} else {
+				checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMCTC2(beanObj);
+			}
+		} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO DEBIT")) {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMICCW2(beanObj);
+		} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMICCW2(beanObj);
+		} else {
+			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMCTC2(beanObj);
+		}
+		if (checkProcFlag)
+			return String.valueOf(subcat) + "_" + typeOfTTUM + " TTUM Rollback Completed";
+		return String.valueOf(subcat) + "_" + typeOfTTUM + " TTUM Failed";
+	}
 
 	@RequestMapping(value = { "rollbackTTUMNFSRUPAY" }, method = { RequestMethod.POST })
 	@ResponseBody
@@ -794,7 +889,7 @@ public class RupayTTUMController {
 		HashMap<String, Object> output = rupayTTUMService.checkTTUMProcessedDFS(beanObj);
 		if (output != null && ((Boolean) output.get("result")).booleanValue())
 			return "TTUM is Already Rollback";
-		if (subcat.contains("ISSUER")) {
+		if (subcat.contains("ACQUIRER")) {
 			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMDFS(beanObj);
 		} else {
 			checkProcFlag = SETTLTTUMSERVICE.rollBackTTUMNFS2(beanObj);
@@ -911,6 +1006,8 @@ public class RupayTTUMController {
 				TTUMData = SETTLTTUMSERVICE.getTTUMICD(beanObj);
 			}else if (beanObj.getCategory().equalsIgnoreCase("JCB")) {
 				TTUMData = SETTLTTUMSERVICE.getTTUMJCB(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("ICCW")) {
+				TTUMData = SETTLTTUMSERVICE.getTTUMICCW(beanObj);
 			}else if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
 				TTUMData = SETTLTTUMSERVICE.getTTUMDFS(beanObj);
 			} else {
@@ -1025,6 +1122,11 @@ public class RupayTTUMController {
 						+ ".xls";
 				zipName = "DFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
 						+ ".zip";
+			}else	if (beanObj.getCategory().equalsIgnoreCase("ICCW")) {
+				fileName = "ICCW_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".xls";
+				zipName = "ICCW_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
+						+ ".zip";
 			} else {
 				fileName = "NFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
 						+ ".xls";
@@ -1059,6 +1161,8 @@ public class RupayTTUMController {
 				TTUMData = SETTLTTUMSERVICE.getACQJCB(beanObj);
 			}else if (beanObj.getCategory().equalsIgnoreCase("DFS")) {
 				TTUMData = SETTLTTUMSERVICE.getACQDFS(beanObj);
+			}else if (beanObj.getCategory().equalsIgnoreCase("ICCW")) {
+				TTUMData = SETTLTTUMSERVICE.getISSICCW(beanObj);
 			} else {
 				TTUMData = SETTLTTUMSERVICE.getNFSRECONACQTTUM(beanObj);
 			}
@@ -1187,7 +1291,7 @@ public class RupayTTUMController {
 				Column_list.add("BANK_NAME");
 				Column_list.add("CARD_NO");
 				Column_list.add("AC_NO");
-				Column_list.add("TXN_DATE");
+				Column_list.add("DATE_OF_TXN");
 				Column_list.add("TRACE_NO");
 				Column_list.add("AMOUNT");
 				Column_list.add("FILEDATE");
@@ -2302,6 +2406,26 @@ public class RupayTTUMController {
 		modelAndView.addObject("unmatchedTTUMBean", beanObj);
 		modelAndView.setViewName("GenerateICDTTUM");
 		logger.info("***** RupayTTUMController.GenerateNFSTTUM GET End ****");
+		return modelAndView;
+	}
+	
+
+	@RequestMapping(value = { "GenerateICCWTTUM" }, method = { RequestMethod.GET })
+	public ModelAndView GenerateICCWTTUM(ModelAndView modelAndView, @RequestParam("category") String category,
+			HttpServletRequest request) throws Exception {
+		logger.info("***** GenerateICCWTTUM Start Get method  ****");
+		modelAndView.addObject("category", category);
+		String display = "";
+		List<String> subcat = new ArrayList<>();
+		UnMatchedTTUMBean beanObj = new UnMatchedTTUMBean();
+		logger.info("in GetHeaderList" + category);
+		beanObj.setCategory(category);
+		subcat = iSourceService.getSubcategories(category);
+		modelAndView.addObject("subcategory", subcat);
+		modelAndView.addObject("display", display);
+		modelAndView.addObject("unmatchedTTUMBean", beanObj);
+		modelAndView.setViewName("GenerateICCWTTUM");
+		logger.info("***** GenerateICCWTTUM.GenerateICCWTTUM GET End ****");
 		return modelAndView;
 	}
 

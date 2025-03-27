@@ -70,7 +70,7 @@ public class MastercardServiceImpl extends JdbcDaoSupport implements MastercardS
       } else if (beanObj.getFileName().equalsIgnoreCase("INVOICE")) {
         qy = "SELECT COUNT(*) FROM  mastercard_invoice_rawtada where FILEDATE=  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
       } else if (beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")) {
-        qy = "SELECT COUNT(*) FROM mastercard_invoicepdf_rawtada where FILEDATE =  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
+        qy = "SELECT COUNT(*) FROM mastercard_invoicepdf_rawtada where FILEDATE =  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d') and FILENAME='"+file_name+"'";
       } else if (beanObj.getFileName().equalsIgnoreCase("ATMMASTER")) {
         qy = "SELECT COUNT(*) FROM ubi_atm_master where FILEDATE=  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
       } else {

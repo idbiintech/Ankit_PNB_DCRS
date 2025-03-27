@@ -177,9 +177,12 @@ public class RupayAdjustntFileUpServiceImpl extends JdbcDaoSupport implements Ru
           line = row.replaceAll("\",", "|");
         } else {
           line = row.replaceAll("\",\"", "|");
+          
           line = line.replace("\",", "|");
           line = line.replace(",\"", "|");
           line = line.replace("\"", "");
+          //comment Ankit
+         
         } 
         String[] data = line.split("\\|", -1);
         for (int i = 0; i < data.length; i++) {

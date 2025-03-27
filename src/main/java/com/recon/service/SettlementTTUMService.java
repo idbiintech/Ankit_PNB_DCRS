@@ -42,6 +42,7 @@ public interface SettlementTTUMService {
   List<Object> getTTUMICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   List<Object> getTTUMJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   List<Object> getTTUMDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getTTUMICCW(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getTTUMVISA(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
@@ -106,6 +107,7 @@ public interface SettlementTTUMService {
   List<Object> getDailyNFSTTUMDataMASTERCARD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   List<Object> getNFSRECONACQTTUM(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getISSICCW(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   List<Object> getACQJCB(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   List<Object> getACQDFS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
@@ -313,6 +315,8 @@ public interface SettlementTTUMService {
   HashMap<String, Object> rollBackTTUMVISA9INTPOS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean rollBackTTUMICCW(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  boolean rollBackTTUMICCW2(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMICD2(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   

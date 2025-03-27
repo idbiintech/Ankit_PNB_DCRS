@@ -454,8 +454,12 @@ public class ReconProcess {
 						if (result)
 							return "Recon is processed";
 						return "Issue while processing recon";
+					}else {
+						
+						msg = "Recon is proceed";
+
 					}
-					msg = "Previous File Not processed.";
+					
 					logger.info(msg);
 				} else if (category.equalsIgnoreCase("JCB")) {
 					if (this.reconProcess.validateFile1CTC3(subCat, compareSetupBeans, filedate) == null) {

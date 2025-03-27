@@ -276,6 +276,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("TOTAL FEE COLLECT RC")
 							|| line.trim().contains("FEE COLLECT RC")
 							|| line.trim().contains("CREDIT ADJUSTMENT")
+							|| line.trim().contains("DEBIT ADJUSTMENT")
 							|| line.trim().contains("TOTAL OTHER INTERCHANGE") || line.trim().startsWith("A0")) {
 						
 						

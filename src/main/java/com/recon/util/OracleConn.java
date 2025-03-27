@@ -100,16 +100,18 @@ public class OracleConn implements java.io.Serializable {
             //production main 
       //   url="@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=CARDSRECNPR-scan.unionbankofindia.co.in)(PORT=1621))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=DEBITCRD)))"; 
       
-           url="jdbc:mysql://10.161.79.12:3511/debitcard_recon_pnb"; 
-          // url="jdbc:mysql://103.108.12.208:3511/debitcard_recon_pnb"; 
+        url="jdbc:mysql://10.161.79.12:3511/debitcard_recon_pnb"; 
+      //  url="jdbc:mysql://103.108.12.208:3511/debitcard_recon_pnb";
+         //url="jdbc:mysql://10.161.76.21:3511/debitcard_recon_pnb"; 
              
             login = "reconuser";	
-          // password = "r1e2c3o4n5";
-           password = "Un1ted@PNB#!";
+       // password = "r1e2c3o4n5";
+        password = "Un1ted@PNB#!";
+          //password = "Recon@123";
 //            
             //uco uat db
             /*url="jdbc:oracle:thin:@172.19.143.60:1621:DCRS";
-            login = "DEBITCARD_RECON";
+            login = "DEBITCARD_RECON"; 
             password = "DEBITCARD_RECON";*/
             
             //uco prod db
