@@ -538,6 +538,7 @@ public class SettlementController {
       settlementBean.getDatepicker().replaceAll("/", "-") + ".xls";
     zipName = "NFS_" + settlementBean.getStsubCategory().replaceAll("\\s", "") + "ACQ" + "_TTUM_" + 
       settlementBean.getDatepicker().replaceAll("/", "-") + ".zip";
+    
     obj.generateExcelTTUM(stPath, fileName, Excel_data, "REPORT", zipName);
     logger.info("File is created");
     obj.generateExcelTTUM(stPath, fileName2, Excel_data2, "REPORT", zipName);
@@ -953,9 +954,9 @@ public class SettlementController {
       Excel_data.add(Column_list);
       Excel_data.add(TTUMData);
       System.out.println("filename in nfs ttum is " + fileName);
-      fileName = "CTCAETTLEMENTREPORT" + beanObj.getLocalDate() + ".xls";
-      zipName = "CTCAETTLEMENTREPORT" + beanObj.getLocalDate() + ".zip";
-      obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+      fileName = "CTCSETTLEMENTREPORT" + beanObj.getLocalDate() + ".xls";
+      zipName = "CTCSETTLEMENTREPORT" + beanObj.getLocalDate() + ".zip";
+      obj.generateExcelTTUM(stPath, fileName, Excel_data,"CTC Settlement_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
       logger.info("File is created");
       File file = new File(String.valueOf(stPath) + File.separator + fileName);
       logger.info("path of zip file " + stPath + File.separator + fileName);

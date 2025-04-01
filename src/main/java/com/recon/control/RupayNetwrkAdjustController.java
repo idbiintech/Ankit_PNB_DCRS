@@ -450,7 +450,7 @@ public class RupayNetwrkAdjustController {
         fileName = "RUPAY_" + beanObj.getAcqtypeOfTTUM() + "_TTUMS_" + beanObj.getFileDate().replaceAll("/", "") + "_.xls";
         zipName = "RUPAY_" + beanObj.getAcqtypeOfTTUM() + "_TTUM_" + beanObj.getFileDate().replaceAll("/", "") + 
           "_VAL.zip";
-        obj.generateExcelTTUM(stPath, fileName, Excel_data, beanObj.getAcqtypeOfTTUM(), zipName);
+        obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY TTUM_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
         logger.info("File is created");
         File file = new File(String.valueOf(stPath) + File.separator + fileName);
         logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -574,7 +574,7 @@ public class RupayNetwrkAdjustController {
         zipName = String.valueOf(beanObj.getCategory()) + "_" + beanObj.getAcqtypeOfTTUM().toUpperCase() + "_TTUM_" + 
           beanObj.getFileDate().replaceAll("/", "") + ".zip";
       } 
-      obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+      obj.generateExcelTTUM(stPath, fileName, Excel_data, beanObj.getCategory()+" "+beanObj.getAcqtypeOfTTUM()+" TTUM_"+ beanObj.getFileDate().replaceAll("/", "-"), zipName);
       logger.info("File is created");
       File file = new File(String.valueOf(stPath) + File.separator + fileName);
       logger.info("path of zip file " + stPath + File.separator + fileName);

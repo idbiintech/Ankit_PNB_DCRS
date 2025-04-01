@@ -669,7 +669,7 @@ public class RupayTTUMController {
 					+ ".xls";
 			zipName = "CTC_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "-")
 					+ ".zip";
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "CTC "+beanObj.getTypeOfTTUM()+" TTUM_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -1133,7 +1133,7 @@ public class RupayTTUMController {
 				zipName = "NFS_" + beanObj.getTypeOfTTUM() + "_TTUM_" + beanObj.getLocalDate().replaceAll("/", "")
 						+ ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, beanObj.getCategory()+" TTUM_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -1284,7 +1284,36 @@ public class RupayTTUMController {
 				Column_list.add("AMOUNT");
 				Column_list.add("FILEDATE");
 				Column_list.add("NARRATION");
-			} else if (beanObj.getTypeOfTTUM().contains("LORO DEBIT")
+			} else if (beanObj.getStSubCategory().equalsIgnoreCase("ACQ INT ATM")) {
+				
+				if (beanObj.getTypeOfTTUM().contains("LORO CREDIT")){
+					Column_list.add("DR_CR");
+					Column_list.add("DISPUTE_DATE");
+					Column_list.add("BANK_NAME");
+					Column_list.add("CARD_NO");
+					Column_list.add("AC_NO");
+					Column_list.add("DATE_OF_TXN");
+					Column_list.add("AUTH_CODE");
+					Column_list.add("ATM_ID");
+					Column_list.add("AMOUNT");
+					Column_list.add("FILEDATE");
+					Column_list.add("NARRATION");
+					Column_list.add("UID");
+					
+				}else {
+					Column_list.add("DR_CR");
+					Column_list.add("DISPUTE_DATE");
+					Column_list.add("BANK_NAME");
+					Column_list.add("CARD_NO");
+					Column_list.add("AC_NO");
+					Column_list.add("DATE_OF_TXN");
+					Column_list.add("TRACE_NO");
+					Column_list.add("AMOUNT");
+					Column_list.add("FILEDATE");
+					Column_list.add("NARRATION");
+					Column_list.add("UID");
+				}
+			}else if (beanObj.getTypeOfTTUM().contains("LORO DEBIT")
 					|| beanObj.getTypeOfTTUM().contains("LORO CREDIT")) {
 				Column_list.add("DR_CR");
 				Column_list.add("DISPUTE_DATE");
@@ -1320,7 +1349,7 @@ public class RupayTTUMController {
 					+ beanObj.getLocalDate().replaceAll("/", "-") + ".xls";
 			zipName = "VISA_" + beanObj.getStSubCategory().replaceAll("\\s", "") + beanObj.getTypeOfTTUM() + "_TTUM_"
 					+ beanObj.getLocalDate().replaceAll("/", "-") + ".zip";
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "VISA"+beanObj.getStSubCategory().replaceAll("\\s", "") +" TTUM_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -2095,9 +2124,9 @@ public class RupayTTUMController {
 						+ nfsSettlementBean.getLocalDate().replaceAll("/", "") + ".zip";
 			}
 			if (nfsSettlementBean.getCategory().contains("RUPAY")) {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY", zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getStSubCategory()+" "+nfsSettlementBean.getTypeOfTTUM() +" TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			} else {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "QSPARC", zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getStSubCategory()+" "+nfsSettlementBean.getTypeOfTTUM() +" TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			}
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);

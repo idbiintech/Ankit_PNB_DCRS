@@ -4027,8 +4027,8 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 				return DailyData;
 			}else {
-				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM c2c_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE(?,'%Y/%m/%d') AND TTUM_TYPE = ?";
-				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM c2c_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE(?,'%Y-%m-%d') AND TTUM_TYPE = ?";
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate().replaceAll("/","-") , beanObj.getTypeOfTTUM() },
 						new ResultSetExtractor<List<Object>>() {
 							public List<Object> extractData(ResultSet rs) throws SQLException {
 								List<Object> beanList = new ArrayList<Object>();
@@ -8345,7 +8345,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 				}
 			} else if (beanObj.getStSubCategory().equalsIgnoreCase("ACQ INT ATM")) {
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
-					getData1 = "SELECT DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, TRACE_NO, NARRATION, FILEDATE, UID  FROM visa_acq_int_atm_loro_credit_ttum_data  where filedate= STR_TO_DATE(' "
+					getData1 = "SELECT DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, AUTH_CODE, NARRATION, FILEDATE,ATM_ID, UID  FROM visa_acq_int_atm_loro_credit_ttum_data  where filedate= STR_TO_DATE(' "
 							+ beanObj.getLocalDate() + "','%Y/%m/%d') ";
 					logger.info("data get sql " + getData1);
 					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
@@ -8364,7 +8364,8 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 										table_Data.put("CARD_NO", rs.getString("CARD_NO"));
 										table_Data.put("AC_NO", rs.getString("AC_NO"));
 										table_Data.put("DATE_OF_TXN", rs.getString("DATE_OF_TXN"));
-										table_Data.put("TRACE_NO", rs.getString("TRACE_NO"));
+										table_Data.put("AUTH_CODE", rs.getString("AUTH_CODE"));
+										table_Data.put("ATM_ID", rs.getString("ATM_ID"));
 										table_Data.put("AMOUNT", rs.getString("AMOUNT"));
 										table_Data.put("FILEDATE", rs.getString("FILEDATE"));
 										table_Data.put("NARRATION", rs.getString("NARRATION"));

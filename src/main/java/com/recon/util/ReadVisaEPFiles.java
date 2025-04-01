@@ -370,6 +370,7 @@ public class ReadVisaEPFiles {
 
 							|| line.trim().startsWith("ORIGINAL WITHDRAWAL")
 							|| line.trim().startsWith("CREDIT ADJUSTMENT")
+							|| line.trim().startsWith("DEBIT ADJUSTMENT")
 ) {
 						//DESCRIPTION = DESCRIPTION+line.substring(1, 33).trim();
 						//System.out.println("data "+line.substring(7, 33) );
@@ -384,7 +385,7 @@ public class ReadVisaEPFiles {
 					DESCRIPTION3 = line.substring(1, 33).trim();
 				}
 
-					if (line.trim().contains("CHNINT PRGM AP") ||line.trim().contains("NEPAL - INDIA") ||line.trim().contains("TUR SPRPREM CARD") || line.trim().contains("AP CLS") || line.trim().contains("AP GLD")|| line.trim().contains("AP ALT")
+					if (line.trim().contains("CHNINT PRGM AP") ||line.trim().contains("INDIA - NEPAL") ||line.trim().contains("NEPAL - INDIA") ||line.trim().contains("TUR SPRPREM CARD") || line.trim().contains("AP CLS") || line.trim().contains("AP GLD")|| line.trim().contains("AP ALT")
 							|| line.trim().contains("AP SIG") || line.trim().contains("TOTAL NEPAL - INDIA")
 							|| line.trim().contains("INDIA -") || line.trim().contains("BUSINESS DB")
 							|| line.trim().contains("BUSINESS DB T1") || line.trim().contains("EIRF/NAT DB T1")
@@ -455,7 +456,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("VISA PART PRGM") || line.trim().contains("SPR PREMIUM DGD")
 							|| line.trim().contains("SPR PREMIUM CARD")		|| line.trim().contains("ATM TRAVEL") || line.trim().contains("AP ATM TRAVEL")|| line.trim().contains("ATM DCC AF")
 							|| line.trim().contains("NONPREMIUM ALT") 
-							|| line.trim().contains("PREMIUM DGD") || line.trim().contains("AP BUS")
+							|| line.trim().contains("BAL INQ DECLINE")|| line.trim().contains("PREMIUM DGD") || line.trim().contains("AP BUS")
 							|| line.trim().contains("TUR NONPREM CARD") || line.trim().contains("TUR NONPREM DGD")
 							|| line.trim().contains("ORIGINAL CREDIT") || line.trim().contains("TUR PREM DGD")
 							|| line.trim().contains("AP STD PLT") || line.trim().contains("BUS DGD")|| line.trim().contains("AP STD") || line.trim().contains("TUR PREM CARD")

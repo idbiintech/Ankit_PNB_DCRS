@@ -412,11 +412,11 @@ public class MastercardSettlementController {
 					+ nfsSettlementBean.getTypeOfTTUM() + "_TTUM_"
 					+ nfsSettlementBean.getLocalDate().replaceAll("/", "") + ".zip";
 			if (nfsSettlementBean.getCategory().contains("RUPAY"))
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY", zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			if (nfsSettlementBean.getCategory().contains("MASTERCARD")) {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "MASTERCARD", zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, "MASTERCARD TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			} else {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "QSPARC", zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getCategory()+" TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			}
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -657,7 +657,7 @@ public class MastercardSettlementController {
 				fileName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".xls";
 				zipName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "Mastercard TTUN_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);

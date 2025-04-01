@@ -527,11 +527,16 @@ public class ReadNUploadCBSFiles {
             !thisline.trim().contains("solid") && !thisline.trim().contains("---------") && 
             thisline.trim().length() != 0) {
             count++;
+            System.out.println("thisline is " + thisline.trim());
             batchExecuted = false;
             sr_no = 1;
             String[] splitData = thisline.split("\\|", -1);
             for (int i = 1; i <= splitData.length; i++)
-              ps9949.setString(sr_no++, splitData[i - 1]); 
+              ps9949.setString(sr_no++, splitData[i - 1]);
+            if(setupBean.getP_FILE_NAME().contains("5165005139949") ) {
+            	 ps9949.setString(20, "");
+            	 ps9949.setString(21, "");
+            }
             ps9949.setString(22, setupBean.getFileDate());
             ps9949.setString(23, setupBean.getP_FILE_NAME());
             ps9949.setString(24, setupBean.getFileDate());

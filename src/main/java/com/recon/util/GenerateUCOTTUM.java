@@ -5,8 +5,11 @@ import com.recon.model.MastercardUploadBean;
 import com.recon.model.NFSSettlementBean;
 import com.recon.model.RupayUploadBean;
 import com.recon.model.UnMatchedTTUMBean;
+
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,17 +22,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFCell;
+import org.apache.poi.xssf.streaming.SXSSFCreationHelper;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 public class GenerateUCOTTUM extends JdbcDaoSupport {
@@ -733,84 +745,178 @@ public class GenerateUCOTTUM extends JdbcDaoSupport {
       logger.info("Exception in generateTTUMFile " + e);
     } 
   }
-  
-  public void generateExcelTTUM(String stPath, String FileName, List<Object> ExcelData, String TTUMName, String zipName) {
-    List<String> files = new ArrayList<>();
-    try {
-      logger.info("Filename is " + FileName);
-      List<Object> TTUMData = (List<Object>)ExcelData.get(1);
-      System.out.println("TTUM DATA IS NULL??");
-      List<String> Excel_Headers = (List<String>)ExcelData.get(0);
-      OutputStream fileOut = new FileOutputStream(String.valueOf(stPath) + File.separator + FileName);
-      SXSSFWorkbook workbook = new SXSSFWorkbook();
-      for (int record_count = 0; record_count < TTUMData.size(); record_count++) {
-        List<Object> Data = (List<Object>)TTUMData.get(record_count);
-        SXSSFSheet sheet = workbook.createSheet("Report" + record_count);
-        SXSSFRow titlerow = sheet.createRow(0);
-        SXSSFCell titleCell = titlerow.createCell(0);
-        titlerow.setHeightInPoints(40.0F);
-        titleCell.setCellValue("PUNJAB NATIONAL BANK");
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 13));
-        CellStyle titleStyle = workbook.createCellStyle();
-        Font titleFont = workbook.createFont();
-        titleFont.setBold(true);
-        titleFont.setColor(IndexedColors.RED.getIndex());
-        titleFont.setFontHeightInPoints((short)15);
-        titleStyle.setFont(titleFont);
-        titleStyle.setAlignment(HorizontalAlignment.CENTER);
-        titleCell.setCellStyle(titleStyle);
-        SXSSFRow header = sheet.createRow(1);
-        for (int j = 0; j < Excel_Headers.size(); j++) {
-          SXSSFCell headerCell = header.createCell(j);
-          headerCell.setCellValue(Excel_Headers.get(j));
-        } 
-        for (int k = 0; k < Data.size(); k++) {
-          SXSSFRow rowEntry = sheet.createRow(k + 2);
-          Map<String, String> map_data = (Map<String, String>)Data.get(k);
-          if (map_data.size() > 0)
-            for (int m = 0; m < Excel_Headers.size(); m++)
-              rowEntry.createCell(m).setCellValue(map_data.get(Excel_Headers.get(m)));  
-        } 
-      } 
-      workbook.write(fileOut);
-      fileOut.close();
-      File file = new File(stPath);
-      String[] filelist = file.list();
-      byte b;
-      int i;
-      String[] arrayOfString1;
-      for (i = (arrayOfString1 = filelist).length, b = 0; b < i; ) {
-        String Names = arrayOfString1[b];
-        files.add(String.valueOf(stPath) + File.separator + Names);
-        b++;
-      } 
-      logger.info("Before zipping all files zipname is " + zipName);
-      FileOutputStream fos = new FileOutputStream(String.valueOf(stPath) + File.separator + zipName);
-      ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(fos));
-      try {
-        for (String filespath : files) {
-          File input = new File(filespath);
-          FileInputStream fis = new FileInputStream(input);
-          ZipEntry ze = new ZipEntry(input.getName());
-          zipOut.putNextEntry(ze);
-          byte[] tmp = new byte[4096];
-          int size = 0;
-          while ((size = fis.read(tmp)) != -1)
-            zipOut.write(tmp, 0, size); 
-          zipOut.flush();
-          fis.close();
-        } 
-        zipOut.close();
-        fos.close();
-        System.out.println("1............Done... Zipped the files...");
-      } catch (Exception fe) {
-        System.out.println("Exception in zipping is " + fe);
-      } 
-      System.out.println("Zipping completed..............");
-    } catch (Exception e) {
-      logger.info("Exception in generateTTUMFile " + e);
-    } 
-  }
+  public void generateExcelTTUM(String stPath, String FileName, List<Object> ExcelData, String date, String zipName) {
+
+		StringBuffer lineData;
+		List<String> files = new ArrayList<>();
+		FileInputStream fis;
+		try {
+
+			logger.info("Filename is " + FileName);
+			List<Object> TTUMData = (List<Object>) ExcelData.get(1);
+			System.out.println("TTUM DATA IS NULL??");
+			List<String> Excel_Headers = (List<String>) ExcelData.get(0);
+			String data[] = date.split("_");
+
+			String filenames = data[0];
+
+			String filedate = data[1];
+			// if(TTUMData.size() > 0 ) {
+
+			List<Object> Data;
+
+			OutputStream fileOut = new FileOutputStream(stPath + File.separator + FileName);
+
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			System.out.println("user dir "+System.getProperty("user.dir"));
+			FileInputStream fiss = new FileInputStream("src/main/webapp/dist/img/logo_recon.png");
+				byte[] bytes = org.apache.poi.util.IOUtils.toByteArray(fiss);
+			int pictureIdx = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+			fiss.close();
+			SXSSFCreationHelper helper = (SXSSFCreationHelper) workbook.getCreationHelper();
+			//create sheet
+			double newWidth= 700.0;
+			double newheight= 300.0;
+			BufferedImage image = ImageIO.read(new ByteArrayInputStream(bytes));
+			int originalwidth= image.getWidth();
+			int originalHeight= image.getHeight();
+			
+			
+		
+			double widthFactor= newWidth/originalwidth;
+			double heightFactory= newheight/originalHeight;
+			
+			
+			for (int record_count = 0; record_count < TTUMData.size(); record_count++) {
+				Data = (List<Object>) TTUMData.get(record_count);
+				SXSSFSheet sheet = workbook.createSheet("Report" + record_count);
+				Drawing drawing = sheet.createDrawingPatriarch();
+				//add a picture shape
+				XSSFClientAnchor anchor = (XSSFClientAnchor) helper.createClientAnchor();
+				//set top-left corner of the picture,
+				//subsequent call of Picture#resize() will operate relative to it
+				anchor.setCol1(0);
+				anchor.setRow1(0);
+				Picture pict = drawing.createPicture(anchor, pictureIdx);
+				//auto-size picture relative to its top-left cor
+				/*
+				 * Row row =sheet.createRow(rawIndex); row.createCell(0);
+				 * row.createCell(record_count)
+				 */
+				System.out.println(" heightFactory "+ heightFactory + "widthFactor "+ widthFactor);
+				pict.resize(widthFactor,heightFactory);
+				
+				
+				SXSSFRow titlerow = sheet.createRow(0);
+				SXSSFCell titleCell = titlerow.createCell(0);
+				titlerow.setHeightInPoints(80);
+
+				titleCell.setCellValue(filenames + " Voucher Dated " + filedate);
+
+				sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 13));
+				CellStyle titleStyle = workbook.createCellStyle();
+				org.apache.poi.ss.usermodel.Font titleFont = workbook.createFont();
+				titleFont.setBold(true);
+				titleFont.setColor(IndexedColors.RED.getIndex());
+				titleFont.setFontHeightInPoints((short) 15);
+				titleStyle.setFont(titleFont);
+				titleStyle.setAlignment(HorizontalAlignment.CENTER);
+				titleCell.setCellStyle(titleStyle);
+
+				/*
+				 * HSSFRow titlerow2 = sheet.RconRreateRow(1); HSSFCell titleCell2 =
+				 * titlerow2.createCell(1); titlerow2.setHeightInPoints(20);
+				 * 
+				 * titleCell2.setCellValue("EXCEL NAME - "+FileName.replace(".xls", "")); //
+				 * sheet.addMergedRegion(new CellRangeAddress(0,0,0,13)); HSSFCellStyle
+				 * titleStyle2 = workbook.createCellStyle(); HSSFFont titleFont2 =
+				 * workbook.createFont(); titleFont2.setBold(true);
+				 * titleFont2.setColor(IndexedColors.BLACK.getIndex());
+				 * titleFont2.setFontHeightInPoints((short) 12);
+				 * titleStyle2.setFont(titleFont2);
+				 * titleStyle2.setAlignment(HorizontalAlignment.CENTER);
+				 * titleCell2.setCellStyle(titleStyle2);
+				 * 
+				 * 
+				 */
+				SXSSFRow header = sheet.createRow(1);
+
+				CellStyle headerStyle = workbook.createCellStyle();
+				headerStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+				headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+				// create header row
+
+				for (int i = 0; i < Excel_Headers.size(); i++) {
+
+					SXSSFCell headerCell = header.createCell(i);
+
+					headerCell.setCellValue(Excel_Headers.get(i));
+
+					headerCell.setCellStyle(headerStyle);
+
+				}
+
+				SXSSFRow rowEntry;
+
+				for (int i = 0; i < Data.size(); i++) {
+					rowEntry = sheet.createRow(i + 2);
+					Map<String, String> map_data = (Map<String, String>) Data.get(i);
+					if (map_data.size() > 0) {
+
+						for (int m = 0; m < Excel_Headers.size(); m++) {
+
+							rowEntry.createCell(m).setCellValue(map_data.get(Excel_Headers.get(m)));
+						}
+					}
+
+				}
+
+			}
+
+			workbook.write(fileOut);
+			fileOut.close();
+
+			File file = new File(stPath);
+			String[] filelist = file.list();
+
+			for (String Names : filelist) {
+				// logger.info("Files name is " + Names);
+				files.add(stPath + File.separator + Names);
+			}
+			logger.info("Before zipping all files zipname is " + zipName);
+			// FileOutputStream fos = new
+			// FileOutputStream(stPath+File.separator+ "EXCEL_TTUMS.zip");
+			FileOutputStream fos = new FileOutputStream(stPath + File.separator + zipName);
+			ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(fos));
+			try {
+				for (String filespath : files) {
+					File input = new File(filespath);
+					fis = new FileInputStream(input);
+					ZipEntry ze = new ZipEntry(input.getName());
+					// System.out.println("Zipping the file: "+input.getName());
+					zipOut.putNextEntry(ze);
+					byte[] tmp = new byte[4 * 1024];
+					int size = 0;
+					while ((size = fis.read(tmp)) != -1) {
+						zipOut.write(tmp, 0, size);
+					}
+					zipOut.flush();
+					fis.close();
+				}
+				zipOut.close();
+				fos.close();
+				System.out.println("1............Done... Zipped the files...");
+			} catch (Exception fe) {
+				System.out.println("Exception in zipping is " + fe);
+			}
+			System.out.println("Zipping completed..............");
+		} catch (Exception e) {
+			logger.info("Exception in generateTTUMFile " + e);
+
+		}
+
+	}
   
   public void generateExcelTTUMReport(String stPath, String FileName, List<Object> ExcelData, String TTUMName, String zipName) {
     List<String> files = new ArrayList<>();

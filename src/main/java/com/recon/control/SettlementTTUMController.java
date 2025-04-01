@@ -672,7 +672,8 @@ public class SettlementTTUMController {
 					+ ".xls";
 			zipName = "ICD_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_" + nfsSettlementBean.getDatepicker()
 					+ ".zip";
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+	
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "ICD Adjustment_"+  nfsSettlementBean.getDatepicker(), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -1010,7 +1011,7 @@ public class SettlementTTUMController {
 					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".xls";
 			zipName = "NFS_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_"
 					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".zip";
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "NFS Adjustment_"+  nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -1155,7 +1156,7 @@ public class SettlementTTUMController {
 				fileName = "NFSSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".xls";
 				zipName = "NFSSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "REFUND", zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getAdjCategory()+" Settlement_"+  nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
