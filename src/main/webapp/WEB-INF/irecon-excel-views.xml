@@ -1,0 +1,69 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--  Monthly Data Load Excel Bean  -->
+<!--  <bean id="monthlyDataLoadExcel" class="com.pf.util.MonthlyDataLoadExcel"></bean>  -->
+<!--  Consolidated Report Excel Bean  -->
+<!--  <bean id="consolidatedReportExcel" class="com.pf.util.ConsolidatedReportExcel"></bean>  -->
+<!--  TTUM Excel Bean  -->
+<!--  <bean id="generateTTUMExcel" class="com.recon.util.GenerateTTUMExcel"></bean>  -->
+<bean id="GenerateAmexTTUMExcel" class="com.recon.util.GenerateAmexTTUMExcel"/>
+<bean id="GenerateCashnetTTUMExcel" class="com.recon.util.GenerateCashnetTTUMExcel"/>
+<bean id="generateRupayTTUMExcel" class="com.recon.util.GenerateRupayTTUMExcel"/>
+<bean id="generateReportExcel" class="com.recon.util.GenerateReport"/>
+<bean id="generateExcelReport" class="com.recon.util.GenerateExcelReport"/>
+<bean id="Mastercard_c_excel" class="com.recon.util.Mastercard_c_excel"/>
+<bean id="Mastercard_Iss_Switch" class="com.recon.util.Mastercard_Iss_Switch"/>
+<bean id="Mastercard_Iss_Cbs" class="com.recon.util.Mastercard_Iss_Cbs"/>
+<bean id="GenerateMastcard_SurchExcel" class="com.recon.util.GenerateMastcard_SurchExcel"/>
+<bean id="Mastercard_Issuer_Excel" class="com.recon.util.Mastercard_Issuer_Excel"/>
+<bean id="Mastercard_Acq_Cbs" class="com.recon.util.Mastercard_Acq_Cbs"/>
+<bean id="Mastercard_Atm_Dcc" class="com.recon.util.Mastercard_Atm_Dcc"/>
+<bean id="Mastercard_Acq_switch" class="com.recon.util.Mastercard_Acq_switch"/>
+<bean id="GenerateCardtocard_ttum" class="com.recon.util.GenerateCardtocard_ttum"/>
+<bean id="RupayDisputeTTUMExcel" class="com.recon.util.RupayDisputeTTUMExcel"/>
+<bean id="ExcelTemplate" class="com.recon.util.chargeback.ExcelTemplate"/>
+<bean id="GenerateMastercardChargebk" class="com.recon.util.GenerateMastercardChargebk"/>
+<bean id="SettlementFinalReport" class="com.recon.util.chargeback.SettlementFinalReportExcel"/>
+<bean id="SettlementTTUMREPORT" class="com.recon.util.SettlementTTUMReportExcel"/>
+<bean id="ChargeBackDownloadExcel" class="com.recon.util.chargeback.ChargeBackDownloadExcel"/>
+<bean id="ChargeBackReportExcel" class="com.recon.util.chargeback.ChargeBackReportExcel"/>
+<bean id="GenerateNFSMonthlyReport" class="com.recon.util.GenerateNFSMonthlyReport"/>
+<bean id="GenerateVISAACQUIRERATMReport" class="com.recon.util.GenerateVISAACQUIRERATMReport"/>
+<bean id="GenerateVISAACQUIRERATMINTReport" class="com.recon.util.GenerateVISAACQUIRERATMINTReport"/>
+<bean id="GenerateNFSISSMonthlyReport" class="com.recon.util.GenerateNFSISSMonthlyReport"/>
+
+<bean id="GenerateNFSACQMonthlyReport" class="com.recon.util.GenerateNFSACQMonthlyReport"/>
+
+<bean id="GenerateCTCACQMonthlyReport" class="com.recon.util.GenerateCTCACQMonthlyReport"/>
+<bean id="GenerateCTCISSMonthlyReport" class="com.recon.util.GenerateCTCISSMonthlyReport"/>
+<bean id="GenerateNFSDailyReport" class="com.recon.util.GenerateNFSDailyReport"/>
+<bean id="GenerateVisaSettlementReport" class="com.recon.util.GenerateVisaSettlementReport"/>
+<bean id="GenerateRefundTTUMReports" class="com.recon.util.GenerateRefundTTUMReports"/>
+<bean id="GenerateRupayMonthly" class="com.recon.util.GenerateRupayMonthly"/>
+
+
+<bean id="GenerateQSPARCDOMReport" class="com.recon.util.GenerateQSPARCDOMReport"/>
+<bean id="GenerateICDISSReport" class="com.recon.util.GenerateICDISSReport"/>
+<bean id="GenerateICDACQReport" class="com.recon.util.GenerateICDACQReport"/>
+<bean id="GenerateICCWISSReport" class="com.recon.util.GenerateICCWISSReport"/>
+<bean id="GenerateICCWACQReport" class="com.recon.util.GenerateICCWACQReport"/>
+<bean id="GenerateMCISSPOSReport" class="com.recon.util.GenerateMCISSPOSReport"/>
+<bean id="GenerateMCISSATMReport" class="com.recon.util.GenerateMCISSATMReport"/>
+<bean id="GenerateVISAISSINTPOSReport" class="com.recon.util.GenerateVISAISSINTPOSReport"/>
+<bean id="GenerateVISAISSINTATMReport" class="com.recon.util.GenerateVISAISSINTATMReport"/>
+<bean id="GenerateVISAISSDOMPOSReport" class="com.recon.util.GenerateVISAISSDOMPOSReport"/>
+<bean id="GenerateVISAISSDOMATMReport" class="com.recon.util.GenerateVISAISSDOMATMReport"/>
+<bean id="GenerateJCBACQMonthlyReport" class="com.recon.util.GenerateJCBACQMonthlyReport"/>
+<bean id="GenerateDFSACQMonthlyReport" class="com.recon.util.GenerateDFSACQMonthlyReport"/>
+<bean id="GenerateMCACQATMReport" class="com.recon.util.GenerateMCACQATMReport"/>
+<bean id="GenerateMCACQATMReportINT" class="com.recon.util.GenerateMCACQATMReportINT"/>
+<bean id="GenerateRupayMonthlyINT" class="com.recon.util.GenerateRupayMonthlyINT"/>
+<bean id="GenerateRupaySettlementReport" class="com.recon.util.GenerateRupaySettlementReport"/>
+<bean id="GenerateUCOTTUMExcel" class="com.recon.util.GenerateUCOTTUMExcel"/>
+<!--  Loan Outstanding Report Excel Bean  -->
+<!--  <bean id="loanOutstandingReportExcel" class="com.pf.util.LoanOutstandingReportExcel"></bean>  -->
+<!--  Loan Disbursement Report Excel Bean  -->
+<!--  <bean id="loanDisbursementReportExcel" class="com.pf.util.LoanDisbursementReportExcel"></bean>  -->
+<!--  NPS Report Excel Bean  -->
+<!--  <bean id="nPSReportExcel" class="com.pf.util.NPSReportExcel"></bean>  -->
+</beans>
