@@ -979,7 +979,8 @@ public class ReadNUploadCBSFiles {
             sr_no = 1;
             String[] splitData = thisline.split("\\|", -1);
             for (int i = 1; i <= splitData.length; i++)
-              ps9936.setString(sr_no++, splitData[i - 1]); 
+            	
+            ps9936.setString(sr_no++, splitData[i - 1]); 
             ps9936.setString(22, setupBean.getFileDate());
             ps9936.setString(23, setupBean.getP_FILE_NAME());
             ps9936.setString(24, setupBean.getFileDate());
@@ -1002,7 +1003,8 @@ public class ReadNUploadCBSFiles {
             sr_no = 1;
             String[] splitData = thisline.split("\\|", -1);
             for (int i = 1; i <= splitData.length; i++)
-              ps.setString(sr_no++, splitData[i - 1]); 
+            	
+            ps.setString(sr_no++, splitData[i - 1]); 
             ps.setString(22, setupBean.getFileDate());
             ps.setString(23, setupBean.getP_FILE_NAME());
             ps.setString(24, setupBean.getFileDate());

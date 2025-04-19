@@ -3457,7 +3457,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 			if (beanObj.getStSubCategory().equalsIgnoreCase("ACQUIRER")) {
 				if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO CREDIT")) {
 					query = "select Count(*) FROM nfs_iccw_acq_recon_ttums WHERE FILEDATE=STR_TO_DATE('"
-							+ beanObj.getLocalDate() + "','%Y%m/%d')  AND TTUM_TYPE='LORO CREDIt'";
+							+ beanObj.getLocalDate() + "','%Y%m/%d')  AND TTUM_TYPE='LORO CREDIT'";
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("LORO DEBIT")) {
 					query = "select Count(*)  FROM nfs_iccw_acq_recon_ttums WHERE FILEDATE=STR_TO_DATE('"
 							+ beanObj.getLocalDate() + "','%Y/%m/%d')  AND TTUM_TYPE='LORO DEBIT'";

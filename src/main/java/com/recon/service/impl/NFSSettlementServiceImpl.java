@@ -1173,9 +1173,9 @@ public class NFSSettlementServiceImpl extends JdbcDaoSupport implements NFSSettl
   public boolean checkSettlementRupay(RupayUploadBean beanObj) {
     try {
       int procCount = 0;
-      String checkProcessFlag = "SELECT COUNT(*) FROM rupay_dscr_rawdata WHERE filedate = str_to_date(?,'%Y/%m/%d')";
+      String checkProcessFlag = "SELECT COUNT(*) FROM rupay_dscr_rawdata WHERE filedate = str_to_date(?,'%Y/%m/%d') and cycle=? ";
       this.logger.info("checkProcessFlag sql  " + checkProcessFlag);
-      procCount = ((Integer)getJdbcTemplate().queryForObject(checkProcessFlag, new Object[] { beanObj.getFileDate() }, Integer.class)).intValue();
+      procCount = ((Integer)getJdbcTemplate().queryForObject(checkProcessFlag, new Object[] { beanObj.getFileDate(),  beanObj.getCycle() }, Integer.class)).intValue();
       this.logger.info("Already Process count " + procCount);
       if (procCount > 0)
         return true; 
@@ -1185,6 +1185,22 @@ public class NFSSettlementServiceImpl extends JdbcDaoSupport implements NFSSettl
       return false;
     } 
   }
+  
+  public boolean checkSettlementRupay2(RupayUploadBean beanObj) {
+	    try {
+	      int procCount = 0;
+	      String checkProcessFlag = "SELECT COUNT(*) FROM rupay_dscr_rawdata WHERE filedate = str_to_date(?,'%Y/%m/%d')";
+	      this.logger.info("checkProcessFlag sql  " + checkProcessFlag);
+	      procCount = ((Integer)getJdbcTemplate().queryForObject(checkProcessFlag, new Object[] { beanObj.getFileDate() }, Integer.class)).intValue();
+	      this.logger.info("Already Process count " + procCount);
+	      if (procCount > 0)
+	        return true; 
+	      return false;
+	    } catch (Exception e) {
+	      this.logger.info("Exception occurred in checkSettVoucherProcess " + e);
+	      return false;
+	    } 
+	  }
   
   public boolean checkSettlementVisa(RupayUploadBean beanObj) {
     try {

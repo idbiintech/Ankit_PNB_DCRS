@@ -77,6 +77,7 @@ public interface NFSSettlementService {
 	boolean checkAdjTTUMProcessREPORTSETTL(NFSSettlementBean beanObj);
 	
 	boolean checkSettlementRupay(RupayUploadBean beanObj);
+	boolean checkSettlementRupay2(RupayUploadBean beanObj);
 	boolean checkSettlementVisa(RupayUploadBean beanObj);
 
 	boolean checkSettlementRupayINT(RupayUploadBean beanObj);

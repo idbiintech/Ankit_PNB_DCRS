@@ -1349,7 +1349,7 @@ public class RupayTTUMController {
 					+ beanObj.getLocalDate().replaceAll("/", "-") + ".xls";
 			zipName = "VISA_" + beanObj.getStSubCategory().replaceAll("\\s", "") + beanObj.getTypeOfTTUM() + "_TTUM_"
 					+ beanObj.getLocalDate().replaceAll("/", "-") + ".zip";
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "VISA"+beanObj.getStSubCategory().replaceAll("\\s", "") +" TTUM_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "VISA"+beanObj.getStSubCategory().replaceAll("\\s", "") + "TTUM_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);

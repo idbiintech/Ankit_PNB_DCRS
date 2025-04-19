@@ -913,11 +913,15 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		List<Object> data = new ArrayList();
 		try {
 			String getData = null;
-			getData = "SELECT  CONCAT(RPAD(GL_CODE,16,' '),RPAD(CONCAT('INR',SUBSTR(GL_CODE,1,6)),11,' '),CASE WHEN DEBIT>0 THEN 'D' ELSE 'C' END,\r\nLPAD(REPLACE(FORMAT(CASE WHEN DEBIT>0 THEN DEBIT ELSE CREDIT END, 2),',',''),17,'0') ,RPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' ')\r\n,LPAD(REMARKS,416,' '))TTUM FROM  rupay_pos_dom_settlement WHERE FILEDATE=STR_TO_DATE('"
-					+
-
-					beanObj.getFileDate() + "','%Y/%m/%d')  and cycle='" + beanObj.getCycle() + "'";
-			List<Object> DailyData = getJdbcTemplate().query(getData,
+			if( beanObj.getCycle().equalsIgnoreCase("5")) {
+				getData = "SELECT  CONCAT(RPAD(GL_CODE,16,' '),RPAD(CONCAT('INR',SUBSTR(GL_CODE,1,6)),11,' '),CASE WHEN DEBIT>0 THEN 'D' ELSE 'C' END,\r\nLPAD(REPLACE(FORMAT(CASE WHEN DEBIT>0 THEN DEBIT ELSE CREDIT END, 2),',',''),17,'0') ,RPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' ')\r\n,LPAD(REMARKS,416,' '))TTUM FROM  rupay_pos_dom_settlement WHERE FILEDATE=STR_TO_DATE('"+beanObj.getFileDate() + "','%Y/%m/%d')  ";
+				
+			}else {
+				
+				getData = "SELECT  CONCAT(RPAD(GL_CODE,16,' '),RPAD(CONCAT('INR',SUBSTR(GL_CODE,1,6)),11,' '),CASE WHEN DEBIT>0 THEN 'D' ELSE 'C' END,\r\nLPAD(REPLACE(FORMAT(CASE WHEN DEBIT>0 THEN DEBIT ELSE CREDIT END, 2),',',''),17,'0') ,RPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' ')\r\n,LPAD(REMARKS,416,' '))TTUM FROM  rupay_pos_dom_settlement WHERE FILEDATE=STR_TO_DATE('"+beanObj.getFileDate() + "','%Y/%m/%d')  and cycle='" + beanObj.getCycle() + "'";
+				
+			}
+		List<Object> DailyData = getJdbcTemplate().query(getData,
 					new Object[] {  }, new ResultSetExtractor<List<Object>>() {
 						public List<Object> extractData(ResultSet rs) throws SQLException {
 							List<Object> beanList = new ArrayList<Object>();
@@ -4478,6 +4482,41 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 	}
 
+	
+	public boolean rollBackRupaySettl2(NFSSettlementBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackRupaySettl2 rollBackexe = new rollBackRupaySettl2( getJdbcTemplate());
+			inParams.put("FILEDT", beanObj.getDatepicker());
+
+			outParams = rollBackexe.execute(inParams);
+			logger.info("OUT PARAM IS " + outParams.get("msg"));
+			String data = outParams.get("msg").toString();
+			if (data.equalsIgnoreCase("SUCCESS"))
+				return true;
+			return false;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+
+	private class rollBackRupaySettl2 extends StoredProcedure {
+		private static final String insert_proc = "RUPAY_POS_SETTLEMENT_ROLLBACK_TEST";
+
+		public rollBackRupaySettl2(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("FILEDT",  Types.VARCHAR));
+
+		
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
+			compile();
+		}
+
+	}
+
 	public boolean rollBackRupaySettlRRB(NFSSettlementBean beanObj) {
 		Map<String, Object> inParams = new HashMap<>();
 		Map<String, Object> outParams = new HashMap<>();
@@ -4712,7 +4751,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 	}
 
 	private class TTUMRollbackReportSETTLMASTERCARDINT extends StoredProcedure {
-		private static final String insert_proc = "MC_INT_SETTLEMENT_ROLLBACK";
+		private static final String insert_proc = "MC_INT_SETTLEMENT_TTUM_ROLLBACK";
 
 		public TTUMRollbackReportSETTLMASTERCARDINT(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
@@ -4952,12 +4991,9 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		Map<String, Object> outParams = new HashMap<>();
 		try {
 			rollBackRupayRefund rollBackexe = new rollBackRupayRefund( getJdbcTemplate());
-			inParams.put("filedt", beanObj.getDatepicker());
-			if (beanObj.getStSubCategory().equalsIgnoreCase("RUPAY_INT_MFC")) {
-				inParams.put("CATEGORY", "RUPAY_INT_MFC_TTUM");
-			} else {
-				inParams.put("CATEGORY", beanObj.getStSubCategory());
-			}
+			inParams.put("V_FILEDATE", beanObj.getDatepicker());
+	inParams.put("V_TYPE", beanObj.getAdjCategory());
+			
 			outParams = rollBackexe.execute(inParams);
 			logger.info("OUT PARAM IS" + outParams.get("msg"));
 			String data = outParams.get("msg").toString();
@@ -4971,13 +5007,13 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 	}
 
 	private class rollBackRupayRefund extends StoredProcedure {
-		private static final String insert_proc = "REFUND_TTUM_ROLLBACK";
+		private static final String insert_proc = "MASTERCARD_DOM_REFUND_TTUM_ROLLBACK";
 
 		public rollBackRupayRefund(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
-			declareParameter(new SqlParameter("FILE_DATE",  Types.VARCHAR));
-			declareParameter(new SqlParameter("CATEGORY",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FILEDATE",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_TYPE",  Types.VARCHAR));
 
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();

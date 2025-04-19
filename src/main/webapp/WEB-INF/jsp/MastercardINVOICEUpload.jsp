@@ -350,7 +350,7 @@ color: purple; text-align: left; font-weight: bold;font-size: 16px;text-transfor
 							<form:select class="form-control" path="fileName" id="fileName" onchange="FileNameChange(this)">
 								<option value="0">--Select --</option>
 									<!-- <option value="TAD">TAD</option> -->
-									<option value="INVOICE">INVOICE</option>
+									<option value="INVOICE">INVOICE</option>	<option value="INVOICETXT">INVOICE TXT</option>
 										<option value="INVOICEPDF">INVOICE PDF</option>
 									<!-- <option value="461">461</option> -->
 							</form:select>

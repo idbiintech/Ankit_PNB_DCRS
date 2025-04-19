@@ -155,8 +155,9 @@ tbody.scrollContent tr.alternateRow td {
 							<thead class="fixedHeader">
 								<tr>
 									<th class="leftSolid">Network File</th>
-									<th class="leftSolid" style="width: 190px; text-align: center;">CBS</th>
+								
 									<th class="leftSolid" style="width: 190px; text-align: center;">Switch</th>
+										<th class="leftSolid" style="width: 190px; text-align: center;">CBS</th>
 									<th class="leftSolid" style="width: 190px; text-align: center;">Networks</th>
 
 

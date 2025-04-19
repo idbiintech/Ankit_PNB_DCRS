@@ -147,6 +147,8 @@ public interface SettlementTTUMService {
   
   boolean rollBackRupaySettl(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   
+  boolean rollBackRupaySettl2(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
+  
   boolean rollBackRupaySettlRRB(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   
   boolean rollBackRupaySettlINT(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;

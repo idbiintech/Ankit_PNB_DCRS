@@ -924,6 +924,38 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 		}
 
 	}
+	
+	public boolean processSettlement2(RupayUploadBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			RupaySettlementProc2 rollBackexe = new RupaySettlementProc2(getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getFileDate());
+			inParams.put("Entered_cycle", beanObj.getCycle());
+			outParams = rollBackexe.execute(inParams);
+			this.logger.info("rollBackexe " + outParams.toString());
+			if (outParams != null && outParams.get("msg") != null)
+				return false;
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private class RupaySettlementProc2 extends StoredProcedure {
+		private static final String insert_proc = "RUPAY_POS_SETTLEMENT_TEST";
+
+		public RupaySettlementProc2(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+		 	declareParameter(new SqlParameter("I_FILEDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("Entered_cycle", Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE, Types.VARCHAR));
+			compile();
+		}
+
+	}
 
 	public boolean processSettlementRRB(RupayUploadBean beanObj) {
 		Map<String, Object> inParams = new HashMap<>();
@@ -1493,7 +1525,21 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 			return false;
 		}
 	}
-
+	public boolean validateSettlementProcess2(RupayUploadBean beanObj) {
+		try {
+			String checkProcess = "select count(*) from  rupay_pos_dom_settlement where  FILEDATE =str_to_date(?,'%Y/%m/%d')";
+			int processCount = ((Integer) getJdbcTemplate().queryForObject(checkProcess,
+					new Object[] { beanObj.getFileDate() }, Integer.class)).intValue();
+			this.logger.info("query " + checkProcess + " count " + processCount + " filedate " + beanObj.getFileDate()
+					+ " cycle " + beanObj.getCycle());
+			if (processCount > 0)
+				return true;
+			return false;
+		} catch (Exception e) {
+			this.logger.info("Exception in validateSettlementProcess " + e);
+			return false;
+		}
+	}
 	public boolean validateSettlementProcessRRB(RupayUploadBean beanObj) {
 		try {
 			String checkProcess = "select count(*) from  rupay_dom_rrb_settlement where  FILEDATE =str_to_date(?,'%Y/%m/%d') and cycle=?";
@@ -1654,8 +1700,18 @@ public class RupaySettelementDaoImpl extends JdbcDaoSupport implements RupaySett
 		cols.add("CR_COUNT");
 		cols.add("CREDIT");
 		cols.add("NARRATION");
-		String getData = "select GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION from rupay_pos_dom_settlement where filedate =STR_TO_DATE(?,'%Y/%m/%d')and cycle=? ";
-		List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() , beanObj.getCycle()},
+		String getData="";
+		if( beanObj.getCycle().equalsIgnoreCase("5")) {
+			
+		getData = "select GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION from rupay_pos_dom_settlement where filedate =STR_TO_DATE(?,'%Y/%m/%d') ";
+			
+		}else {
+			
+		getData = "select GL_CODE, PARTICULARS, DB_COUNT, DEBIT, CR_COUNT, CREDIT, NARRATION from rupay_pos_dom_settlement where filedate =STR_TO_DATE(?,'%Y/%m/%d')and cycle='"+ beanObj.getCycle()+"' ";
+			
+		}
+		
+	List<Object> settlementData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
 				new ResultSetExtractor<List<Object>>() {
 					public List<Object> extractData(ResultSet rs) throws SQLException {
 						List<Object> beanList = new ArrayList<Object>();

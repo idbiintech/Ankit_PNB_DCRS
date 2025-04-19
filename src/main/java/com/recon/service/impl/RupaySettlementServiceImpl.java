@@ -398,6 +398,9 @@ public class RupaySettlementServiceImpl implements RupaySettlementService {
   public boolean processSettlement(RupayUploadBean beanObj) {
     return this.rupayDao.processSettlement(beanObj);
   }
+  public boolean processSettlement2(RupayUploadBean beanObj) {
+	    return this.rupayDao.processSettlement2(beanObj);
+	  }
   
   public boolean processSettlementRRB(RupayUploadBean beanObj) {
     return this.rupayDao.processSettlementRRB(beanObj);
@@ -429,6 +432,9 @@ public class RupaySettlementServiceImpl implements RupaySettlementService {
   public boolean validateSettlementProcess(RupayUploadBean beanObj) {
     return this.rupayDao.validateSettlementProcess(beanObj);
   }
+  public boolean validateSettlementProcess2(RupayUploadBean beanObj) {
+	    return this.rupayDao.validateSettlementProcess2(beanObj);
+	  }
   
   public boolean validateSettlementProcessRRB(RupayUploadBean beanObj) {
     return this.rupayDao.validateSettlementProcessRRB(beanObj);

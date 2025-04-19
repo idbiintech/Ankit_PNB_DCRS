@@ -63,12 +63,12 @@ public class ReadVisa745EPFiles {
 					}
 					if ((DESPUT_TYPE.contains("ACQUIRER TRANSACTION") && line.trim().startsWith("255"))
 							|| line.trim().startsWith("38") || line.trim().startsWith("47")
-							|| line.trim().startsWith("12") || line.trim().startsWith("07")
+							|| line.trim().startsWith("04")		|| line.trim().startsWith("12") || line.trim().startsWith("07") || line.trim().startsWith("08")
 							|| line.trim().startsWith("10") || line.trim().startsWith("18")
-							|| line.trim().startsWith("02") || line.trim().startsWith("21")
+							|| line.trim().startsWith("06")		|| line.trim().startsWith("02") || line.trim().startsWith("21")
 							|| line.trim().startsWith("16") || line.trim().startsWith("15")
 							|| line.trim().startsWith("38") || line.trim().startsWith("14")
-							|| line.trim().startsWith("13") || line.trim().startsWith("04")) {
+							|| line.trim().startsWith("13") || line.trim().startsWith("11")) {
 						Code = line.trim().substring(0, 3);
 
 						if (line.trim().length() != 117 && line.trim().length() != 92)
@@ -76,10 +76,10 @@ public class ReadVisa745EPFiles {
 								if (line.trim().startsWith("18") ||line.trim().startsWith("38") || line.trim().startsWith("21")
 										|| line.trim().startsWith("47") || line.trim().startsWith("15")
 										|| line.trim().startsWith("16") || line.trim().startsWith("14")
-										|| line.trim().startsWith("12") || line.trim().startsWith("04")
+										|| line.trim().startsWith("11")|| line.trim().startsWith("12") || line.trim().startsWith("04")
 										|| line.trim().startsWith("02") || line.trim().startsWith("10")
-										|| line.trim().startsWith("07") || line.trim().startsWith("10")
-										|| line.trim().startsWith("07") || line.trim().startsWith("13")) {
+										|| line.trim().startsWith("06") || line.trim().startsWith("18")
+										|| line.trim().startsWith("08") 		|| line.trim().startsWith("07") || line.trim().startsWith("13")) {
 									System.out.println("data " + line.trim() + " length " + line.trim().length());
 									SETT_DATE = line.trim().substring(3, 9);
 									SETT_TIME = line.trim().substring(9, 18);

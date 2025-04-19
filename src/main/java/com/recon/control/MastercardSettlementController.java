@@ -156,6 +156,7 @@ public class MastercardSettlementController {
 			if (beanObj.getFileName().equalsIgnoreCase("140") || beanObj.getFileName().equalsIgnoreCase("461")
 					|| beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")
 					|| beanObj.getFileName().equalsIgnoreCase("INVOICE")
+					|| beanObj.getFileName().equalsIgnoreCase("INVOICETXT")
 					|| beanObj.getFileName().equalsIgnoreCase("ATMMASTER")) {
 				validations = this.mastercardService.checkFileUpload(beanObj, file.getOriginalFilename());
 			} else {
@@ -412,11 +413,14 @@ public class MastercardSettlementController {
 					+ nfsSettlementBean.getTypeOfTTUM() + "_TTUM_"
 					+ nfsSettlementBean.getLocalDate().replaceAll("/", "") + ".zip";
 			if (nfsSettlementBean.getCategory().contains("RUPAY"))
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data,
+						"RUPAY TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			if (nfsSettlementBean.getCategory().contains("MASTERCARD")) {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, "MASTERCARD TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data,
+						"MASTERCARD TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			} else {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getCategory()+" TTUM_"+  nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getCategory() + " TTUM_"
+						+ nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			}
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -657,7 +661,8 @@ public class MastercardSettlementController {
 				fileName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".xls";
 				zipName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "Mastercard TTUN_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
+			obj.generateExcelTTUM(stPath, fileName, Excel_data,
+					"Mastercard TTUN_" + beanObj.getFileDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -727,7 +732,7 @@ public class MastercardSettlementController {
 					return "Failed";
 				}
 			} else {
-				result =SETTLTTUMSERVICE.TTUMRollbackReportSETTLMASTERCARD(filedate);
+				result = SETTLTTUMSERVICE.TTUMRollbackReportSETTLMASTERCARD(filedate);
 				if (result) {
 					return "RollBack Success";
 
@@ -736,7 +741,7 @@ public class MastercardSettlementController {
 				}
 			}
 
-		}else {
+		} else {
 			if (ttumCetegory.contains("REPORT")) {
 				result = SETTLTTUMSERVICE.TTUMRollbackReportSETTLMASTERCARDINT(filedate);
 				if (result) {
@@ -746,7 +751,7 @@ public class MastercardSettlementController {
 					return "Failed";
 				}
 			} else {
-				result =SETTLTTUMSERVICE.TTUMRollbackReportSETTLMASTERCARDINT(filedate);
+				result = SETTLTTUMSERVICE.TTUMRollbackReportSETTLMASTERCARDINT(filedate);
 				if (result) {
 					return "RollBack Success";
 
@@ -756,7 +761,7 @@ public class MastercardSettlementController {
 			}
 
 		}
-		
+
 	}
 
 	@RequestMapping(value = { "MastercardSettlementTTUM" }, method = { RequestMethod.GET })

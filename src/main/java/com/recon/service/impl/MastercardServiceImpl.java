@@ -69,7 +69,9 @@ public class MastercardServiceImpl extends JdbcDaoSupport implements MastercardS
         qy = "SELECT COUNT(*) FROM  mastercard_461_rawdata where FILEDATE= STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d') and FILENAME = '" + file_name + "'";
       } else if (beanObj.getFileName().equalsIgnoreCase("INVOICE")) {
         qy = "SELECT COUNT(*) FROM  mastercard_invoice_rawtada where FILEDATE=  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
-      } else if (beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")) {
+      }else if (beanObj.getFileName().equalsIgnoreCase("INVOICETXT")) {
+          qy = "SELECT COUNT(*) FROM  mastercard_invoicetxt_rawdata where FILEDATE=  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d') and FILENAME='"+file_name+"'";
+        } else if (beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")) {
         qy = "SELECT COUNT(*) FROM mastercard_invoicepdf_rawtada where FILEDATE =  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d') and FILENAME='"+file_name+"'";
       } else if (beanObj.getFileName().equalsIgnoreCase("ATMMASTER")) {
         qy = "SELECT COUNT(*) FROM ubi_atm_master where FILEDATE=  STR_to_date('" + beanObj.getFileDate() + "','%Y/%m/%d')";
@@ -140,7 +142,10 @@ public class MastercardServiceImpl extends JdbcDaoSupport implements MastercardS
       } else if (beanObj.getFileName().equalsIgnoreCase("INVOICE")) {
         ReadMastercardInvoiceRawdata readFile = new ReadMastercardInvoiceRawdata();
         output = readFile.readINVOICEFile(file, getConnection(), beanObj);
-      } else if (beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")) {
+      } else if (beanObj.getFileName().equalsIgnoreCase("INVOICETXT")) {
+          ReadMastercardInvoiceRawdata readFile = new ReadMastercardInvoiceRawdata();
+          output = readFile.readINVOICETXTFile(file, getConnection(), beanObj);
+        } else if (beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")) {
         ReadMastercardInvoiceRawdata readFile = new ReadMastercardInvoiceRawdata();
         output = readFile.readINVOICEFilePDF(file, getConnection(), beanObj);
       } else if (beanObj.getFileName().equalsIgnoreCase("ATMMASTER")) {

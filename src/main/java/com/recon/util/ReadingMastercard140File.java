@@ -178,7 +178,7 @@ public class ReadingMastercard140File {
   public HashMap<String, Object> read140File(MultipartFile file, Connection conn, MastercardUploadBean beanObj) {
     HashMap<String, Object> output = new HashMap<>();
     int lineNumber = 0, readedCount = 0;
-    String line = null, service_level = null, file_type = null, file_id = null, service_id = null, cycle = "", sett_date = "", GlobleSECRESS = "";
+    String line = null,CURRENCY_CODE="", service_level = null, file_type = null, file_id = null, service_id = null, cycle = "", sett_date = "", GlobleSECRESS = "";
     int counter = 0, grandCounter = 0;
     boolean blockstarts = false, tableStarts = false, chargeback_table = false;
     HashMap<Integer, String> proc_code = new HashMap<>();
@@ -188,27 +188,35 @@ public class ReadingMastercard140File {
     HashMap<Integer, String> amount_part_tran_type = new HashMap<>();
     HashMap<Integer, String> fee_part_tran_type = new HashMap<>();
     HashMap<Integer, String> function = new HashMap<>();
-    String INSERT_DATA = "INSERT INTO mastercard_settlement_rawdata (SETTLEMENT_DATE, FILE_ID, FILE_TYPE, FUNCTIONS, PROC_CODE, COUNTS, RECON_AMT, TRANS_FEE, SERVICE_ID, AMT_PART_TRAN_TYPE, FEE_PART_TRAN_TYPE, CREATEDBY, FILE_NAME,cycle,FILEDATE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    String INSERT_DATA = "INSERT INTO mastercard_settlement_rawdata (SETTLEMENT_DATE, FILE_ID, FILE_TYPE, FUNCTIONS, PROC_CODE, COUNTS, RECON_AMT, TRANS_FEE, SERVICE_ID, AMT_PART_TRAN_TYPE, FEE_PART_TRAN_TYPE, CREATEDBY, FILE_NAME,cycle,FILEDATE,BUSSINESS_SERVICE_ID,CURRENCY_CODE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     try {
       PreparedStatement pst = conn.prepareStatement(INSERT_DATA);
       BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
       while ((line = br.readLine()) != null) {
+    	   if (line.trim().contains("CLEARING CYCLE")) {
+               cycle = line.trim().substring(17, 18);
+    	   }
+    	   if (line.contains("CURRENCY CODE :")) {
+    		   CURRENCY_CODE = line.substring(17, line.length());
+    		   System.out.println("CURRENCY_CODE "+ CURRENCY_CODE);
+    	   } 
         lineNumber++;
-        System.out.println("s " + line.trim());
+      //  System.out.println("cycle " + cycle );
         if (line.trim().contains("1IP727020-AA") || line.trim().contains("1IP727010-AA")) {
           blockstarts = true;
           continue;
         } 
         if (blockstarts) {
           readedCount++;
-          if (line.trim().contains("CLEARING CYCLE"))
-            cycle = line.trim().substring(17, 18); 
+       
+          
           if (line.contains(":")) {
             String[] values = line.split(":");
             if (values[0].trim().equalsIgnoreCase("BUSINESS SERVICE ID") || values[0].trim().equalsIgnoreCase("FILE ID") || values[0].trim().equalsIgnoreCase("BUSINESS SERVICE LEVEL"))
               if (values[0].trim().equalsIgnoreCase("BUSINESS SERVICE LEVEL")) {
                 String[] subVal = values[1].trim().split("\\s");
                 service_level = subVal[0].trim();
+        
               } else if (values[0].trim().equalsIgnoreCase("BUSINESS SERVICE ID")) {
                 service_id = values[1].trim();
                 file_type = values[1].substring(0, 4).trim();
@@ -229,6 +237,7 @@ public class ReadingMastercard140File {
               } else {
                 file_type = "US";
               } 
+           //   System.out.println("cycle1 " + cycle );
               pst.setString(1, sett_date);
               pst.setString(2, file_id);
               pst.setString(3, line.substring(74, 77).trim());
@@ -244,12 +253,16 @@ public class ReadingMastercard140File {
               pst.setString(13, file.getOriginalFilename());
               pst.setString(14, cycle);
               pst.setString(15, beanObj.getFileDate());
+              pst.setString(16, service_level);
+              pst.setString(17, CURRENCY_CODE);
+              CURRENCY_CODE="";
+
               pst.execute();
             } 
             tableStarts = true;
           } 
           if (tableStarts) {
-            System.out.println("ORIG " + line.trim());
+           // System.out.println("ORIG " + line.trim());
             if ((line.contains("ORIG") && (!line.contains("/") || line.contains("C/B"))) || (
               line.contains("RVSL") && !line.contains("/") && line.contains("ATM CASH"))) {
               counter++;
@@ -277,11 +290,11 @@ public class ReadingMastercard140File {
                 function.put(Integer.valueOf(counter), "CHARGEBACK");
                 proc_code.put(Integer.valueOf(counter), values[0].trim());
               } else {
-                System.out.println(line.contains("RVSL"));
+               // System.out.println(line.contains("RVSL"));
                 if (line.contains("RVSL") && !line.contains("/") && line.contains("ATM CASH")) {
                   function.put(Integer.valueOf(counter), "RVSL");
                 } else {
-                  System.out.println("GlobleSECRESS " + GlobleSECRESS);
+                 // System.out.println("GlobleSECRESS " + GlobleSECRESS);
                   if (GlobleSECRESS.equalsIgnoreCase("SEC PRES")) {
                     function.put(Integer.valueOf(counter), "SEC PRES");
                   } else {
@@ -298,8 +311,9 @@ public class ReadingMastercard140File {
               continue;
             } 
             if (service_level.equalsIgnoreCase(line.trim())) {
-              System.out.println("Last Line" + line);
+            //  System.out.println("Last Line" + line);
               for (int i = 1; i <= proc_code.size(); i++) {
+         
                 pst.setString(1, sett_date);
                 pst.setString(2, file_id);
                 pst.setString(3, file_type);
@@ -315,6 +329,9 @@ public class ReadingMastercard140File {
                 pst.setString(13, file.getOriginalFilename());
                 pst.setString(14, cycle);
                 pst.setString(15, beanObj.getFileDate());
+                pst.setString(16, service_level);
+                pst.setString(17, CURRENCY_CODE);
+                CURRENCY_CODE="";
                 pst.execute();
               } 
               counter = 0;
@@ -355,6 +372,9 @@ public class ReadingMastercard140File {
               pst.setString(sr_no++, file.getOriginalFilename());
               pst.setString(sr_no++, cycle);
               pst.setString(sr_no++, beanObj.getFileDate());
+              pst.setString(sr_no++, service_level);
+              pst.setString(sr_no++, CURRENCY_CODE);
+              CURRENCY_CODE="";
               pst.execute();
             } 
           } 

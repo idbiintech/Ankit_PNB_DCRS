@@ -1988,6 +1988,74 @@ public class ReadMastercardInvoiceRawdata {
 		return output;
 
 	}
+	public HashMap<String, Object> readINVOICETXTFile(MultipartFile file, Connection conn, MastercardUploadBean beanObj) {
+
+		System.out.println("Inside the rupayAdjustmentFileUpload");
+		HashMap<String, Object> output = new HashMap<String, Object>();
+		int totalCount = 0, rowCount = 0;
+		String res = "";
+		String row = "";
+		String line = "";
+		int sr_no = 0;
+		List<String> columnName = new ArrayList<>();
+		List<List<String>> Data = new ArrayList<List<String>>();
+		try {
+		
+			String tableName = "";
+
+			String INSERT_QUERY = "INSERT INTO  mastercard_invoicetxt_rawdata   (Billable_ICA,Service_Code,Total_for_invoice,Total_for_invoice_exchange_rate,FILEDATE,FILENAME,exchange_rate) VALUES(?,?,?,?,?,?,?)";
+	
+			
+			String thisline="", Billable_ICA="", Service_Code="", total_invoice_for="", total_invoice_for_EXCHANGE="", exchange_rate="";
+			PreparedStatement ps = conn.prepareStatement(INSERT_QUERY);
+				BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+			while ((thisline = br.readLine()) != null) {
+				
+			
+			if(thisline.contains("Billable ICA:")) {
+				Billable_ICA= thisline.substring(74, thisline.length());
+				System.out.println("Billable_ICA "+ Billable_ICA);
+			}else if(thisline.contains("Service Code")) {
+				Service_Code= thisline.substring(14, 19);
+				System.out.println("Service Code "+ Service_Code);
+			}else if(thisline.contains(" Total for Invoice: ")) {
+				total_invoice_for= thisline.substring(80, 107);
+				System.out.println("total_invoice_for "+ total_invoice_for);
+			}else if(thisline.contains("Total for Invoice in INR at exchange rate of")) {
+				total_invoice_for_EXCHANGE= thisline.substring(80, 107);
+				exchange_rate=thisline.substring(46, 53);
+				System.out.println("Total for Invoice in INR at exchange rate of"+ total_invoice_for_EXCHANGE+ " "+ exchange_rate);
+			
+
+				ps.setString(1, Billable_ICA);
+				ps.setString(2, Service_Code);
+				ps.setString(3, total_invoice_for);
+				ps.setString(4, total_invoice_for_EXCHANGE);
+	
+				ps.setString(5, beanObj.getFileDate());
+				ps.setString(6, file.getOriginalFilename());
+				ps.setString(7, exchange_rate);
+				ps.execute();}
+				
+			
+		
+				
+			}
+			System.out.println("Success");
+	
+
+			System.out.println("Completed inserting ");
+			output.put("result", true);
+			output.put("msg", "FILE UPLOADED SUCCESSFULLY!");
+
+		} catch (Exception e) {
+			output.put("result", false);
+			output.put("msg", "FILE NOT UPLOADED! ");
+			System.out.println("Exception in read140File " + e);
+		}
+		return output;
+
+	}
 
 	public HashMap<String, Object> readINVOICEFilePDF(MultipartFile file, Connection conn,
 			MastercardUploadBean beanObj) {

@@ -258,25 +258,26 @@ public class ReadVisaEPFiles {
 
 						TRANSACTIONS_TYPE = line.trim();
 					} else if (line.trim().startsWith("ORIGINAL DEBIT") ||line.trim().startsWith("ORIGINAL CREDIT") || line.trim().startsWith("PURCHASE")
-							|| line.trim().startsWith("QUASI-CASH") || line.trim().startsWith("MERCHANDISE CREDIT")
+							|| line.trim().startsWith("MANUAL CASH")	|| line.trim().startsWith("QUASI-CASH") || line.trim().startsWith("MERCHANDISE CREDIT")
 							|| line.trim().startsWith("ATM CASH")) {
 
 						DESCRIPTION = line.trim();
 
 					}
 
-					if (line.trim().contains("TOTAL ORIGINAL CREDIT") || line.trim().contains("ORIGINAL")
+					if (line.trim().contains("NET   MANUAL CASH")||line.trim().contains("NET MANUAL CASH") ||line.trim().contains("TOTAL MANUAL CASH")||line.trim().contains("ORIGINAL ADVANCE") ||line.trim().contains("TOTAL ORIGINAL CREDIT") || line.trim().contains("ORIGINAL")
 							|| line.trim().contains("ORIGINAL SALE")
 							|| line.trim().contains("ORIGINAL SALE        RVRSL") || line.trim().contains("DISPUTE FIN")
 							|| line.trim().contains("DISPUTE RESP FIN") || line.trim().contains("TOTAL PURCHASE")
 							|| line.trim().contains("NET   PURCHASE")
 							|| line.trim().contains("TOTAL ISSUER INTERCHANGE")
 							|| line.trim().contains("NET   ISSUER INTERCHANGE")
-							|| line.trim().contains("TOTAL QUASI-CASH") || line.trim().contains("NET   QUASI-CASH")
+							|| line.trim().contains("TOTAL QUASI-CASH") || line.trim().contains("NET   QUASI-CASH")  || line.trim().contains("QUASI-CASH") 
 							|| line.trim().contains("ORIGINAL") || line.trim().contains("ORIGINAL             RVRSL")
 							|| line.trim().contains("TOTAL MERCHANDISE CREDIT")
 							|| line.trim().contains("NET   MERCHANDISE CREDIT")
 							|| line.trim().contains("ORIGINAL WITHDRAWAL")
+							|| line.trim().contains("TOTAL ORIGINAL WITHDRAWAL")
 							|| line.trim().contains("ORIGINAL WITHDRAWAL  RVRSL")
 							|| line.trim().contains("TOTAL ATM CASH") || line.trim().contains("NET   ATM CASH")
 							|| line.trim().contains("TOTAL ISSUER INTERCHANGE")
@@ -284,20 +285,32 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("NET   FEE COLLECT RC")
 							|| line.trim().contains("TOTAL FEE COLLECT RC") || line.trim().contains("FEE COLLECT RC")
 							|| line.trim().contains("CREDIT ADJUSTMENT") || line.trim().contains("DEBIT ADJUSTMENT")
-							|| line.trim().contains("TOTAL OTHER INTERCHANGE") || line.trim().startsWith("A0")) {
+							|| line.trim().contains("TOTAL OTHER INTERCHANGE") || line.trim().startsWith("A0") || line.trim().startsWith("A1")) {
 
-						if (DESCRIPTION.contains("ORIGINAL DEBIT") ||DESCRIPTION.contains("ORIGINAL CREDIT") ||DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
+						if (DESCRIPTION.contains("MANUAL CASH") ||DESCRIPTION.contains("ORIGINAL DEBIT") ||DESCRIPTION.contains("ORIGINAL CREDIT") ||DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
 								|| DESCRIPTION.contains("QUASI-CASH") || DESCRIPTION.contains("MERCHANDISE CREDIT")) {
 
-							// System.out.println("ORIGINAL SALE " + line.trim());
+							// System.out.println("ORIGINAL SALE" + line.trim());
 
 							if (line.trim().startsWith("A0") && DESCRIPTION.contains("PURCHASE")) {
 
 								SUB_DESCRIPTION = "ORIGINAL SALE        RVRSL";
+								
+								
 							} else if (line.trim().startsWith("A0") && DESCRIPTION.contains("ATM CASH")) {
 
 								SUB_DESCRIPTION = "ORIGINAL WITHDRAWAL";
-							} else {
+							} else if (line.trim().startsWith("A1") && DESCRIPTION.equalsIgnoreCase("ATM CASH")) {
+
+								if(SUB_DESCRIPTION.equalsIgnoreCase("ORIGINAL WITHDRAWAL")) {
+									
+									SUB_DESCRIPTION="ORIGINAL WITHDRAWAL";
+									
+								}else {
+									SUB_DESCRIPTION = "ORIGINAL SALE";
+								}
+					
+							}else {
 								SUB_DESCRIPTION = line.substring(1, 33).trim();
 							}
 
@@ -338,7 +351,7 @@ public class ReadVisaEPFiles {
 
 							PS120.addBatch();
 
-							SUB_DESCRIPTION = "";
+					
 							COUNT = "";
 							CREDIT_AMOUNT = "";
 							DEBIT_AMOUNT = "";
@@ -357,13 +370,13 @@ public class ReadVisaEPFiles {
 					if (line.trim().contains("ISSUER TRANSACTIONS") || line.trim().contains("ACQUIRER TRANSACTIONS")) {
 
 						TRANSACTIONS_TYPE = line.trim();
-					} else if (line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
+					} else if (line.trim().startsWith("MANUAL CASH") ||line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
 							|| line.trim().startsWith("MERCHANDISE CREDIT") || line.trim().startsWith("ORIGINAL CREDIT")
 							|| line.trim().startsWith("QUASI-CASH CREDIT") || line.trim().startsWith("ATM CASH")
 							|| line.trim().startsWith("ATM DECLINE") || line.trim().startsWith("ATM BALANCE INQUIRY")) {
 						DESCRIPTION = line.substring(1, 33).trim();
 
-					} else if (line.trim().startsWith("ORIGINAL") || line.trim().startsWith("ORIGINAL SALE")
+					} else if (line.trim().startsWith("ORIGINAL ADVANCE")||line.trim().startsWith("ORIGINAL") || line.trim().startsWith("ORIGINAL SALE")
 							|| line.trim().startsWith("ORIGINAL SALE          RVRSL")
 							|| line.trim().startsWith("ORIGINAL WITHDRAWAL    RVRSL")
 							|| line.trim().startsWith("DISPUTE FIN") || line.trim().startsWith("DISPUTE RESP FIN")
@@ -384,8 +397,8 @@ public class ReadVisaEPFiles {
 						DESCRIPTION3 = line.substring(1, 33).trim();
 					}
 
-					if (line.trim().contains("CHNINT PRGM AP") || line.trim().contains("INDIA - NEPAL")
-							|| line.trim().contains("NEPAL - INDIA") || line.trim().contains("TUR SPRPREM CARD")
+					if (line.trim().contains("STANDARD") ||line.trim().contains("CHNINT PRGM AP") || line.trim().contains("INDIA - NEPAL")
+							|| line.trim().contains("BHUTAN - INDIA")|| line.trim().contains("NEPAL - INDIA") || line.trim().contains("TUR SPRPREM CARD")
 							|| line.trim().contains("AP CLS") || line.trim().contains("AP GLD")
 							|| line.trim().contains("AP ALT") || line.trim().contains("AP SIG")
 							|| line.trim().contains("TOTAL NEPAL - INDIA") || line.trim().contains("INDIA -")
@@ -414,9 +427,10 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("NET   ATM BALANCE INQUIRY")
 							|| line.trim().contains("TOTAL ISSUER REIMB FEES")
 							|| line.trim().contains("NET   ISSUER REIMB FEES")
-							|| line.trim().contains("DISBURSE OC NNS") || line.trim().contains("NET   ORIGINAL CREDIT")
+							|| line.trim().contains("DISBURSE OC NNS") || line.trim().contains("NET   ORIGINAL CREDIT") || line.trim().contains("ORIGINAL CREDIT")
 							|| line.trim().contains("TOTAL ORIGINAL CREDIT")
 							|| line.trim().contains("TOTAL QUASI-CASH CREDIT")
+							|| line.trim().contains("NET   MANUAL CASH")|| line.trim().contains("NET   MANUAL CASH")|| line.trim().contains("MANUAL CASH")
 							|| line.trim().contains("NET   QUASI-CASH CREDIT")
 							|| line.trim().contains("NET   MERCHANDISE CREDIT")
 							|| line.trim().contains("TOTAL MERCHANDISE CREDIT") || line.trim().contains("CANADA - A.P.")
@@ -429,7 +443,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("THAILAND - INDIA")
 							|| line.trim().contains("TOTAL CURRENCY CONVERSION FEES")
 							|| line.trim().contains("NET   CURRENCY CONVERSION FEES")
-							|| line.trim().contains("BNGLDESH - INDIA") || line.trim().contains("L.A.C. - A.P.")
+							|| line.trim().contains("BNGLDESH - INDIA")|| line.trim().contains("BHUTAN - INDIA") || line.trim().contains("L.A.C. - A.P.")
 							|| line.trim().contains("INSURANCE DB") || line.trim().contains("SRILANKA - INDIA")
 							|| line.trim().contains("P.REP.CH - INDIA") || line.trim().contains("FIJI - INDIA")
 							|| line.trim().contains("INDNESIA - INDIA") || line.trim().contains("MACAU_CN - INDIA")
@@ -439,7 +453,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("TAIWAN - INDIA") || line.trim().contains("CAMBODIA - INDIA")
 							|| line.trim().contains("PAPUA - INDIA") || line.trim().contains("- INDIA")
 							|| line.trim().contains("- A.P.")
-
+							|| line.trim().contains("CONS CVMR") 
 							|| line.trim().contains("PREMIUM CARD") || line.trim().contains("EEAINT CNPCNDBPP")
 							|| line.trim().contains("EEAINT CN DBPP") || line.trim().contains("SPR PREMIUM ALT")
 							|| line.trim().contains("PREMIUM ALT") || line.trim().contains("NONPREMIUM ALT")
@@ -463,10 +477,10 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("ORIGINAL CREDIT") || line.trim().contains("TUR PREM DGD")
 							|| line.trim().contains("AP STD PLT") || line.trim().contains("BUS DGD")
 							|| line.trim().contains("AP STD") || line.trim().contains("TUR PREM CARD")
-							|| line.trim().contains("COMCL-BUS") || line.trim().startsWith("CREDIT ADJUSTMENT")
+							|| line.trim().contains("ATM AF JPN")|| line.trim().contains("COMCL-BUS") || line.trim().startsWith("CREDIT ADJUSTMENT")
 							|| line.trim().startsWith("TOTAL ORIGINAL SALE RVRSL")
 							|| line.trim().startsWith("AP ORIG CREDIT") || line.trim().startsWith("TUR NONPREM ALT")) {
-						if (DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
+						if (DESCRIPTION.contains("MANUAL CASH")||DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
 								|| DESCRIPTION.contains("QUASI-CASH") || DESCRIPTION.contains("MERCHANDISE CREDIT")
 								|| DESCRIPTION.contains("QUASI-CASH CREDIT") || DESCRIPTION.contains("ORIGINAL CREDIT")
 								|| DESCRIPTION.contains("ORIGINAL") || DESCRIPTION.contains("ORIGINAL SALE")
@@ -537,15 +551,16 @@ public class ReadVisaEPFiles {
 					if (line.trim().contains("ISSUER TRANSACTIONS") || line.trim().contains("ACQUIRER TRANSACTIONS")) {
 
 						TRANSACTIONS_TYPE = line.trim();
-					} else if (line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
+					} else if (line.trim().startsWith("MANUAL CASH") || line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
 							|| line.trim().startsWith("MERCHANDISE CREDIT")
 							|| line.trim().startsWith("QUASI-CASH CREDIT") || line.trim().startsWith("ATM CASH")) {
 						DESCRIPTION = line.trim();
 
-					} else if (line.trim().startsWith("ORIGINAL CREDIT") || line.trim().startsWith("ORIGINAL")
+					} else if (line.trim().startsWith("ORIGINAL ADVANCE") ||line.trim().startsWith("ORIGINAL CREDIT") || line.trim().startsWith("ORIGINAL")
 							|| line.trim().startsWith("ORIGINAL SALE")
 							|| line.trim().startsWith("ORIGINAL SALE          RVRSL")
 							|| line.trim().startsWith("ORIGINAL WITHDRAWAL    RVRSL")
+							|| line.trim().startsWith("ORIGINAL WITHDRAWAL")
 							|| line.trim().startsWith("DISPUTE FIN") || line.trim().startsWith("DISPUTE RESP FIN")
 							|| line.trim().startsWith("ATM BALANCE INQUIRY") || line.trim().startsWith("DISPUTE FIN")
 							|| line.trim().startsWith("DISPUTE RESP FIN       RVRSL")
@@ -555,7 +570,7 @@ public class ReadVisaEPFiles {
 						DESCRIPTION2 = line.substring(1, 33).trim();
 					}
 
-					if (line.trim().contains("NEPAL - INDIA") || line.trim().contains("AP CLS")
+					if (line.trim().contains("NEPAL - INDIA") || line.trim().contains("BHUTAN - INDIA")|| line.trim().contains("AP CLS")
 							|| line.trim().contains("AP GLD") || line.trim().contains("AP ALT")
 							|| line.trim().startsWith("TUR SPRPRM DGD") || line.trim().contains("AP SIG")
 							|| line.trim().contains("A.P. - E.U.") || line.trim().contains("A.P. - CANADA")
@@ -611,7 +626,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("MALDIVE - INDIA") || line.trim().contains("MONGOLIA - INDIA")
 							|| line.trim().contains("TAIWAN - INDIA") || line.trim().contains("CAMBODIA - INDIA")
 							|| line.trim().contains("PAPUA - INDIA") || line.trim().contains("- INDIA")
-							|| line.trim().contains("- A.P.")
+							|| line.trim().contains("- A.P.") || line.trim().contains("LAOS - INDIA")
 
 							|| line.trim().contains("PREMIUM CARD") || line.trim().contains("EEAINT CNPCNDBPP")
 							|| line.trim().contains("EEAINT CN DBPP") || line.trim().contains("SPR PREMIUM ALT")
@@ -638,7 +653,7 @@ public class ReadVisaEPFiles {
 							|| line.trim().startsWith("CREDIT ADJUSTMENT")
 							|| line.trim().startsWith("TOTAL ORIGINAL SALE RVRSL")
 							|| line.trim().startsWith("AP ORIG CREDIT") || line.trim().startsWith("TUR NONPREM ALT")) {
-						if (DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
+						if (DESCRIPTION.contains("MANUAL CASH") ||DESCRIPTION.contains("PURCHASE") || DESCRIPTION.contains("ATM CASH")
 								|| DESCRIPTION.contains("QUASI-CASH") || DESCRIPTION.contains("MERCHANDISE CREDIT")
 								|| DESCRIPTION.contains("QUASI-CASH CREDIT") || DESCRIPTION.contains("ORIGINAL CREDIT")
 								|| DESCRIPTION.contains("ORIGINAL") || DESCRIPTION.contains("ORIGINAL SALE")
@@ -716,12 +731,12 @@ public class ReadVisaEPFiles {
 					if (line.trim().contains("ISSUER TRANSACTIONS") || line.trim().contains("ACQUIRER TRANSACTIONS")) {
 
 						TRANSACTIONS_TYPE = line.trim();
-					} else if (line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
+					} else if (line.trim().startsWith("MANUAL CASH")||line.trim().startsWith("PURCHASE") || line.trim().startsWith("QUASI-CASH")
 							|| line.trim().startsWith("MERCHANDISE CREDIT")
 							|| line.trim().startsWith("QUASI-CASH CREDIT") || line.trim().startsWith("ATM CASH")) {
 						DESCRIPTION = line.trim();
 
-					} else if (line.trim().startsWith("ORIGINAL CREDIT") || line.trim().startsWith("ORIGINAL")
+					} else if (line.trim().startsWith("ORIGINAL ADVANCE")||line.trim().startsWith("ORIGINAL CREDIT") || line.trim().startsWith("ORIGINAL")
 							|| line.trim().startsWith("CREDIT ADJUSTMENT") || line.trim().startsWith("ORIGINAL SALE")
 							|| line.trim().startsWith("ORIGINAL SALE          RVRSL")
 							|| line.trim().startsWith("ORIGINAL WITHDRAWAL    RVRSL")
@@ -735,7 +750,7 @@ public class ReadVisaEPFiles {
 
 					if (line.trim().contains("VISA INTERNATIONAL")
 							|| line.trim().contains("TOTAL CURRENCY CONVERSION FEES")
-							|| line.trim().contains("TOTAL MERCHANDISE CREDIT") || line.trim().contains("U.S.A. - A.P.")
+							|| line.trim().contains("TOTAL MANUAL CASH") 	|| line.trim().contains("TOTAL MERCHANDISE CREDIT") || line.trim().contains("BHUTAN - INDIA")|| line.trim().contains("U.S.A. - A.P.")
 							|| line.trim().contains("AUST - INDIA") || line.trim().contains("HONGKONG - INDIA")
 							|| line.trim().contains("SNGPORE - INDIA") || line.trim().contains("TOTAL PURCHASE")
 							|| line.trim().contains("NET   PURCHASE") || line.trim().contains("JAPAN - INDIA")
@@ -743,7 +758,8 @@ public class ReadVisaEPFiles {
 							|| line.trim().contains("PHLIPPNE - INDIA") || line.trim().contains("THAILAND - INDIA")
 							|| line.trim().contains("TOTAL CURRENCY CONVERSION FEES")
 							|| line.trim().contains("NET   CURRENCY CONVERSION FEES")
-							|| line.trim().contains("BNGLDESH - INDIA") || line.trim().contains("L.A.C. - A.P.")
+							|| line.trim().contains("NET   MANUAL CASH")
+							|| line.trim().contains("BNGLDESH - INDIA") || line.trim().contains("L.A.C. - A.P.")||  line.trim().contains("C.E.M.E.A - A.P.")
 							|| line.trim().contains("INSURANCE DB") || line.trim().contains("SRILANKA - INDIA")
 							|| line.trim().contains("P.REP.CH - INDIA") || line.trim().contains("FIJI - INDIA")
 							|| line.trim().contains("INDNESIA - INDIA") || line.trim().contains("MACAU_CN - INDIA")

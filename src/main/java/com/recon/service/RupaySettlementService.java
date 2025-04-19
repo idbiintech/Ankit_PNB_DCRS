@@ -29,6 +29,7 @@ public interface RupaySettlementService {
   
   boolean processSettlement(RupayUploadBean paramRupayUploadBean);
   
+  boolean processSettlement2(RupayUploadBean paramRupayUploadBean);
   boolean processSettlementRRB(RupayUploadBean paramRupayUploadBean);
   
   HashMap<String, Object> processSettlementVisa(RupayUploadBean paramRupayUploadBean);
@@ -62,6 +63,7 @@ public interface RupaySettlementService {
   
   boolean validateSettlementProcess(RupayUploadBean paramRupayUploadBean);
   
+  boolean validateSettlementProcess2(RupayUploadBean paramRupayUploadBean);
   boolean validateSettlementProcessRRB(RupayUploadBean paramRupayUploadBean);
   
   boolean validateSettlementProcessVisa(RupayUploadBean paramRupayUploadBean);

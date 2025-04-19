@@ -365,8 +365,9 @@ public class SettlmentDaoImpl extends JdbcDaoSupport implements ISettelmentDao {
   }
   
   public Boolean checkfileprocessedCTC(SettlementBean settlementbeanObj) {
-	    String CHECK_IT = "SELECT COUNT(*) as count FROM settlement_nfs_iss_c2c_cbs  WHERE FILEDATE = DATE_FORMAT('" + settlementbeanObj.getDatepicker() + "','%Y/%m/%d')";
-    System.out.println(CHECK_IT);
+   String CHECK_IT = "select sum(count) from (SELECT COUNT(*) as count FROM settlement_nfs_iss_c2c_cbs whERE filedate = STR_to_date('"+settlementbeanObj.getDatepicker()+"','%Y/%m/%d')  union all SELECT COUNT(*) as count FROM settlement_nfs_iss_c2c_nfs WHERE filedate = STR_to_date('"+settlementbeanObj.getDatepicker()+"','%Y/%m/%d') ) a";
+
+	    System.out.println(CHECK_IT);
     int count = ((Integer)getJdbcTemplate().queryForObject(CHECK_IT, new Object[0], Integer.class)).intValue();
     if (count > 0)
       return Boolean.valueOf(true); 
