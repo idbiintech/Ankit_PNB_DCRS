@@ -770,8 +770,15 @@ public class NFSSettlementServiceImpl extends JdbcDaoSupport implements NFSSettl
         processCount = ((Integer)getJdbcTemplate().queryForObject(checkAdjProcess, 
             new Object[] { beanObj.getDatepicker() }, Integer.class)).intValue();
       } else {
-        checkAdjProcess = "SELECT COUNT(*) FROM  nfs_adj_report WHERE FILEDATE= str_to_date(?,'%Y/%m/%d')   and adjtype = ?";
-        processCount = ((Integer)getJdbcTemplate().queryForObject(checkAdjProcess, 
+    	  if(beanObj.getCategory().contains("ICCW")) {
+    		   checkAdjProcess = "SELECT COUNT(*) FROM  nfs_adj_report WHERE FILEDATE= str_to_date(?,'%Y/%m/%d')   and adjtype = ? and PAN_ENTRY_MODE='08'";
+    	        
+    	  }else {
+    		   checkAdjProcess = "SELECT COUNT(*) FROM  nfs_adj_report WHERE FILEDATE= str_to_date(?,'%Y/%m/%d')   and adjtype = ? ";
+    	        
+    		  
+    	  }
+     processCount = ((Integer)getJdbcTemplate().queryForObject(checkAdjProcess, 
             new Object[] { beanObj.getDatepicker(), beanObj.getAdjType() }, Integer.class)).intValue();
       } 
       if (processCount > 0) {

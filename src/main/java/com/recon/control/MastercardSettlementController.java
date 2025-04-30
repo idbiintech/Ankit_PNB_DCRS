@@ -253,6 +253,8 @@ public class MastercardSettlementController {
 					executed = this.rupayTTUMService.runTTUMProcessMC5(beanObj);
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("OFFLINE PRESENTMENT")) {
 					executed = this.rupayTTUMService.runTTUMProcessRUPAY6(beanObj);
+				}  else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")) {
+					executed = this.rupayTTUMService.runTTUMProcessRUPAY10(beanObj);
 				} else {
 					executed = this.rupayTTUMService.UnmatchedTTUMProcMC(beanObj);
 				}
@@ -383,6 +385,19 @@ public class MastercardSettlementController {
 					|| nfsSettlementBean.getTypeOfTTUM().equalsIgnoreCase("SURCHARGEC")) {
 				Column_list.add("BUSINESS_DATE");
 				Column_list.add("DR_CR");
+				Column_list.add("CARD_NO");
+				Column_list.add("TRACE_NO");
+				Column_list.add("AC_NO");
+				Column_list.add("TRAN_DATE");
+				Column_list.add("TRAN_TIME");
+				Column_list.add("CBS_AMOUNT");
+				Column_list.add("NPCI_AMOUNT");
+				Column_list.add("SUR");
+				Column_list.add("NARRATION");
+			}  else if (nfsSettlementBean.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")
+					) {
+				Column_list.add("BUSINESS_DATE");
+		
 				Column_list.add("CARD_NO");
 				Column_list.add("TRACE_NO");
 				Column_list.add("AC_NO");
@@ -528,7 +543,9 @@ public class MastercardSettlementController {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC4(beanObj);
 				} else if (typeOfTTUM.contains("LATE PRESENTMENT")) {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC6POS(beanObj);
-				} else {
+				}  else if (typeOfTTUM.contains("ATMSURCHARGE")) {
+					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMMC10POS(beanObj);
+				}else {
 					checkProcFlag = this.SETTLTTUMSERVICE.rollBackTTUMRUPAY7(beanObj);
 				}
 			} else if (typeOfTTUM.contains("DECLINE")) {

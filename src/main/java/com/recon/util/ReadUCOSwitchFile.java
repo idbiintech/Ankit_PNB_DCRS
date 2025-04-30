@@ -66,101 +66,111 @@ public class ReadUCOSwitchFile extends JdbcDaoSupport {
 			PreparedStatement updatps = con.prepareStatement(update_query);
 			BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 			while ((thisline = br.readLine()) != null) {
+				// System.out.println("Data "+ thisLine);
+				if (thisline.contains("FTTLF")) {
+					break;
+				}
+
 				if (count == 1 && thisline.trim().length() == 1045) {
 					String pat = "[^\\w ]";
 					thisline = thisline.trim().replaceAll(pat, " ");
 					thisline = thisline.trim().replaceAll(thisline.substring(3, 157), "");
 				}
+
 				if (thisline.trim().length() == 0 || thisline.trim().length() == 5 || thisline.trim().length() == 176
 						|| thisline.trim().length() == 91 || thisline.trim().length() == 92
-						|| thisline.trim().length() == 106)
+						|| thisline.trim().length() == 106) {
 					continue;
-				if (thisline.trim().length() == 891 || thisline.trim().length() == 1284
-						|| thisline.trim().length() == 896 || thisline.trim().length() == 1024
-						|| thisline.trim().length() == 904) {
-					ps.setString(1, thisline.substring(14, 33).trim());
-					ps.setString(2, thisline.substring(33, 35).trim());
-					ps.setString(3, thisline.substring(35, 39).trim());
-					ps.setString(4, thisline.substring(39, 43).trim());
-					ps.setString(5, thisline.substring(43, 47).trim());
-					ps.setString(6, thisline.substring(47, 63).trim());
-					ps.setString(7, thisline.substring(63, 67).trim());
-					ps.setString(8, thisline.substring(67, 71).trim());
-					ps.setString(9, thisline.substring(71, 90).trim());
-					ps.setString(10, thisline.substring(90, 93).trim());
-					ps.setString(11, thisline.substring(93, 97).trim());
-					ps.setString(12, thisline.substring(97, 101).trim());
-					ps.setString(13, thisline.substring(101, 103).trim());
-					ps.setString(14, thisline.substring(103, 105).trim());
-					ps.setString(15, thisline.substring(105, 109).trim());
-					ps.setString(16, thisline.substring(109, 111).trim());
-					ps.setString(17, thisline.substring(111, 112).trim());
-					ps.setString(18, thisline.substring(112, 113).trim());
-					ps.setString(19, thisline.substring(113, 132).trim());
-					ps.setString(20, thisline.substring(132, 151).trim());
-					ps.setString(21, thisline.substring(151, 170).trim());
-					ps.setString(22, thisline.substring(170, 176).trim());
-					ps.setString(23, thisline.substring(176, 184).trim());
-					ps.setString(24, thisline.substring(184, 190).trim());
-					ps.setString(25, thisline.substring(190, 196).trim());
-					ps.setString(26, thisline.substring(196, 202).trim());
-					ps.setString(27, thisline.substring(202, 214).trim());
-					ps.setString(28, thisline.substring(214, 216).trim());
-					ps.setString(29, thisline.substring(216, 221).trim());
-					ps.setString(30, thisline.substring(221, 232).trim());
-					ps.setString(31, thisline.substring(232, 243).trim());
-					ps.setString(32, thisline.substring(243, 249).trim());
-					ps.setString(33, thisline.substring(249, 268).trim());
-					ps.setString(34, thisline.substring(268, 269).trim());
-					ps.setString(35, thisline.substring(269, 288).trim());
-					ps.setString(36, thisline.substring(288, 289).trim());
-					ps.setString(37, thisline.substring(289, 308).trim());
-					ps.setString(38, thisline.substring(308, 327).trim());
-					ps.setString(39, thisline.substring(327, 346).trim());
-					ps.setString(40, thisline.substring(346, 356).trim());
-					ps.setString(41, thisline.substring(356, 357).trim());
-					ps.setString(42, thisline.substring(357, 360).trim());
-					ps.setString(43, thisline.substring(360, 385).trim());
-					ps.setString(44, thisline.substring(385, 407).trim());
-					ps.setString(45, thisline.substring(407, 420).trim());
-					ps.setString(46, thisline.substring(420, 423).trim());
-					ps.setString(47, thisline.substring(423, 425).trim());
-					ps.setString(48, thisline.substring(425, 437).trim());
-					ps.setString(49, thisline.substring(437, 441).trim());
-					ps.setString(50, thisline.substring(441, 449).trim());
-					ps.setString(51, thisline.substring(449, 453).trim());
-					ps.setString(52, thisline.substring(453, 456).trim());
-					ps.setString(53, thisline.substring(456, 459).trim());
-					ps.setString(54, thisline.substring(459, 467).trim());
-					ps.setString(55, thisline.substring(467, 470).trim());
-					ps.setString(56, thisline.substring(470, 478).trim());
-					ps.setString(57, thisline.substring(478, 497).trim());
-					ps.setString(58, thisline.substring(497, 499).trim());
-					ps.setString(59, thisline.substring(499, 515).trim());
-					ps.setString(60, thisline.substring(515, 516).trim());
-					ps.setString(61, thisline.substring(516, 517).trim());
-					ps.setString(62, thisline.substring(517, 523).trim());
-					ps.setString(63, thisline.substring(523, 524).trim());
-					ps.setString(64, thisline.substring(524, 526).trim());
-					ps.setString(65, thisline.substring(526, 528).trim());
-					ps.setString(66, thisline.substring(528, 530).trim());
-					ps.setString(67, thisline.substring(530, 531).trim());
-					ps.setString(68, thisline.substring(531, 532).trim());
-					ps.setString(69, thisline.substring(532, 533).trim());
-					ps.setString(70, thisline.substring(533, 534).trim());
-					ps.setString(71, thisline.substring(534, 538).trim());
-					ps.setString(72, thisline.substring(538, 554).trim());
-					ps.setString(73, thisline.substring(554, 565).trim());
-					ps.setString(74, thisline.substring(565, 576).trim());
-					ps.setString(75, thisline.substring(576, 587).trim());
-					ps.setString(76, thisline.substring(587, 588).trim());
-					ps.setString(77, "");
-					ps.setString(78, setupBean.getFileDate());
-					ps.setString(79, file.getOriginalFilename());
-					thisline = null;
-					beforCount++;
-					ps.addBatch();
-					continue;
+				} else {
+
+					if (thisline.trim().length() == 891 || thisline.trim().length() == 1284
+							|| thisline.trim().length() == 896 || thisline.trim().length() == 1024
+							|| thisline.trim().length() == 904) {
+
+						// Assuming `ps` is the PreparedStatement object
+						ps.setString(1, thisline.substring(14, 33).trim()); // DateTime
+						ps.setString(2, thisline.substring(33, 35).trim()); // RecType
+						ps.setString(3, thisline.substring(35, 39).trim()); // AuthPpd
+						ps.setString(4, thisline.substring(39, 43).trim()); // TermLn
+						ps.setString(5, thisline.substring(43, 47).trim()); // TermFiid
+						ps.setString(6, thisline.substring(47, 63).trim()); // TermTermId
+						ps.setString(7, thisline.substring(63, 67).trim()); // CrdLn
+						ps.setString(8, thisline.substring(67, 71).trim()); // CrdFiid
+						ps.setString(9, thisline.substring(71, 77).trim()); // CrdPan
+						ps.setString(10, thisline.substring(77, 82).trim()); // CrdMbrNum
+						ps.setString(11, thisline.substring(82, 92).trim()); // BrchId
+						ps.setString(12, thisline.substring(92, 102).trim());// RegnId
+						ps.setString(13, thisline.substring(102, 112).trim());// UserFld1x
+						ps.setString(14, thisline.substring(112, 118).trim());// TypCde
+						ps.setString(15, thisline.substring(118, 128).trim());// Typ
+						ps.setString(16, thisline.substring(128, 138).trim());// RteStat
+						ps.setString(17, thisline.substring(138, 148).trim());// Originator
+						ps.setString(18, thisline.substring(148, 158).trim());// Responder
+						ps.setString(19, thisline.substring(158, 168).trim());// EntryTime
+						ps.setString(20, thisline.substring(168, 178).trim());// ExitTime
+						ps.setString(21, thisline.substring(178, 188).trim());// ReEntryTime
+						ps.setString(22, thisline.substring(188, 198).trim());// TranDate
+						ps.setString(23, thisline.substring(198, 208).trim());// TranTim
+						ps.setString(24, thisline.substring(208, 218).trim());// PostDat
+						ps.setString(25, thisline.substring(218, 228).trim());// AcqIchgSetlDat
+						ps.setString(26, thisline.substring(228, 238).trim());// IssIchgSetlDat
+						ps.setString(27, thisline.substring(238, 248).trim());// TermTyp
+						ps.setString(28, thisline.substring(248, 258).trim());// TimOfst
+						ps.setString(29, thisline.substring(258, 268).trim());// AcqInstIdNum
+						ps.setString(30, thisline.substring(268, 278).trim());// RcvInstIdNum
+						ps.setString(31, thisline.substring(278, 288).trim());// TranCde
+						ps.setString(32, thisline.substring(288, 298).trim());// FromAcct
+						ps.setString(33, thisline.substring(298, 308).trim());// UserFld1
+						ps.setString(34, thisline.substring(308, 318).trim());// ToAcct
+						ps.setString(35, thisline.substring(318, 328).trim());// MultAcct
+						ps.setString(36, thisline.substring(328, 338).trim());// Amt1
+						ps.setString(37, thisline.substring(338, 348).trim());// Amt2
+						ps.setString(38, thisline.substring(348, 358).trim());// Amt3
+						ps.setString(39, thisline.substring(358, 368).trim());// DepBalCr
+						ps.setString(40, thisline.substring(368, 378).trim());// DepTyp
+						ps.setString(41, thisline.substring(378, 388).trim());// RespCde
+						ps.setString(42, thisline.substring(388, 398).trim());// TermNameLoc
+						ps.setString(43, thisline.substring(398, 408).trim());// TermOwnerName
+						ps.setString(44, thisline.substring(408, 418).trim());// TermCity
+						ps.setString(45, thisline.substring(418, 428).trim());// TermSt
+						ps.setString(46, thisline.substring(428, 438).trim());// TermCntry
+						ps.setString(47, thisline.substring(438, 448).trim());// OrigOseqNum
+						ps.setString(48, thisline.substring(448, 458).trim());// OrigOtranDat
+						ps.setString(49, thisline.substring(458, 468).trim());// OrigOtranTim
+						ps.setString(50, thisline.substring(468, 478).trim());// OrigB24Post
+						ps.setString(51, thisline.substring(478, 488).trim());// OrigCrncyCde
+						ps.setString(52, thisline.substring(488, 498).trim());// MultCrncyAuthCrncyCde
+						ps.setString(53, thisline.substring(498, 508).trim());// MultCrncyAuthConvRate
+						ps.setString(54, thisline.substring(508, 518).trim());// MultCrncySetlCrncyCde
+						ps.setString(55, thisline.substring(518, 528).trim());// MultCrncySetlConvRate
+						ps.setString(56, thisline.substring(528, 538).trim());// MultCrncyConvDatTim
+						ps.setString(57, thisline.substring(538, 548).trim());// RvslRsn
+						ps.setString(58, thisline.substring(548, 558).trim());// PinOfst
+						ps.setString(59, thisline.substring(558, 568).trim());// ShrgGrp
+						ps.setString(60, thisline.substring(568, 578).trim());// DestOrder
+						ps.setString(61, thisline.substring(578, 588).trim());// AuthIdResp
+						ps.setString(62, thisline.substring(588, 598).trim());// RefrImpInd
+						ps.setString(63, thisline.substring(598, 608).trim());// RefrAvailImp
+						ps.setString(64, thisline.substring(608, 618).trim());// RefrLedgImp
+						ps.setString(65, thisline.substring(618, 628).trim());// RefrHldAmtImp
+						ps.setString(66, thisline.substring(628, 638).trim());// RefrCafRefrInd
+						ps.setString(67, thisline.substring(638, 648).trim());// RefrUserFld3
+						ps.setString(68, thisline.substring(648, 658).trim());// DepSetlImpFlg
+						ps.setString(69, thisline.substring(658, 668).trim());// AdjSetlImpFlg
+						ps.setString(70, thisline.substring(668, 678).trim());// RefrInd
+						ps.setString(71, thisline.substring(678, 688).trim());// UserFld4
+						ps.setString(72, thisline.substring(688, 698).trim());// FrwdInstIdNum
+						ps.setString(73, thisline.substring(698, 708).trim());// CrdAccptIdNum
+						ps.setString(74, thisline.substring(708, 718).trim());// CrdIssIdNum
+						ps.setString(75, thisline.substring(718, 728).trim());// UserFld6
+						ps.setString(76, thisline.substring(728, 738).trim());// DcrsRemarks
+						ps.setString(77, setupBean.getFileDate()); // FileDate
+						ps.setString(78, file.getOriginalFilename()); // FileName
+						thisline = null;
+						count++;
+						ps.addBatch();
+						continue;
+					}
 				}
 				if (++batchcount % batchSize == 0) {
 					batchNumber++;
@@ -183,8 +193,8 @@ public class ReadUCOSwitchFile extends JdbcDaoSupport {
 			if (count > 0) {
 				updatps.setString(1, setupBean.getP_FILE_NAME());
 				updatps.setString(2, setupBean.getFileDate());
-				System.out.println("beforCount " + beforCount);
-				updatps.setString(3, String.valueOf(beforCount));
+				System.out.println("beforCount " + count);
+				updatps.setString(3, String.valueOf(count));
 				updatps.setString(4, "ATM");
 				updatps.execute();
 				con.commit();
@@ -192,7 +202,7 @@ public class ReadUCOSwitchFile extends JdbcDaoSupport {
 			}
 			this.logger.info("Executed Batch Completed");
 			output.put("result", Boolean.valueOf(true));
-			output.put("msg", "File Uploaded and Record count is " + countt);
+			output.put("msg", "File Uploaded and Record count is " + count);
 			this.logger.info("Completed " + countt);
 			con.close();
 			return output;
@@ -213,7 +223,13 @@ public class ReadUCOSwitchFile extends JdbcDaoSupport {
 		int lineNumber = 0, feesize = 1;
 		int count = 1, beforecount = 0;
 		int sr_no = 1, batchNumber = 0, batchSize = 40000;
-		String InsertQuery = "  INSERT INTO  switch_pos_rawdata (DATE_TIME,REC_TYP,CRD_LN,CRD_FIID,CRAD_NUM,CRD_MBR_NUM,RETL_KEY_IN,RDF_KEY,RDF_KEY_GRP,RDF_KEY_REGN,RDF_KEY_ID,TERM_ID,SHIFT_NUM,BATCH_NUM,TERM_IN,TERM_FIID,TERM_ID2,TERM_TIME,TERM_ID3,TKEY_RKEY_REC_FRMT,TKEY_RKEY_RETAILER_ID,TKEY_RKEY_CLERK_ID,DATA_FLAG,TYPE,  RTE_STAT,ORIGINATOR,RESPONDER,ISS_CDE,ENTRY_TIME,EXIT_TIME,RE_ENTRY_TIME,TRAN_DATE,TRAN_TIM,POST_DAT,ACQ_ICHG_SETL_DAT,ISS_ICHG_SETL_DAT,SEQ_NUM,TERM_NAME_LOC,TERM_OWNER_NAME,TERM_CITY,TERM_ST,TERM_CNTRY_CDE,BRCH_ID,USER_FID,TERM_TIM_OFST,ACQ_INST_ID_NUM,RCV_INST_ID_NUM,TERM_TYPE,CLERK_ID,CTR_AUTH,CTR_AUTH_GRP,CTR_AUTH_USER_ID,RETL_SIC_CDE,ORIG,DEST,TRAN_CDE,CRD_TYPE, ACCT,RESP_CDE,AMOUNT_1,AMOUNT_2,EXPIRY_DATE,TRACK2,PIN_OFST,PRE_AUTH_SEQ_NUM,INVOICE_NUM,ORIG_INVOICE_NUM,AUTHORIZER,AUTH_IND,SHIFT_NUM_2,BATCH_SEQ_NUM,APPRV_CODE,APPRV_CODE_LENGTH,ICHG_RESP,PSEUDO_TERM_ID,RFRL_PHONE,DUMMY_1,DFT_CAPTURE_FLAG,SELT_FLAG,RVRL_CODE,REA_FOR_CHRGBCK,NUM_OF_CHRGBCK,PT_SRV_COND_CODE,PT_SRV_ENTRY_MODE,AUTH_IND2,ORIG_CRNCY_CODE,MULTI_CRNY_AUTH_CRNCY_CODE,MULTY_CRNCY_AUTH_CONV_RATE,MULTI_CRNCY_SETL_CRNCY_CODE,MULTI_CRNCY_SETL_CONV_RATE,MULTI_CRNCY_CONV_DAT_TIME,REFR_IMP_IND,REFR_AVAIL_CR,REFR_CR_LMT,REFR_CR_BAL,REFR_TTL,REFR_CUR,ADJ_SETL_IMPACT_FLAG,REFR_IND,FRWD_INST_ID_NUM,CRD_ACCPT_ID_NUM,CRD_ISS_ID_NUM,ORIG_MSG_TYPE,ORIG_TRAN_TIM,ORIG_TRAN_DATE,ORIG_SEQ_NUM,ORIG_B24_POST_DATE,EXCP_RSN_CODE,OVRRDE_FLAG, ADDR,ZIP,ADDR_VERFY_STAT,PIN_IND,PIN_TRIES,PRE_AUTH_TS,PRE_AUTH_HLDS_STAT,USER_FID2,USER_DATA_D_LEN,USER_DATA_D_INFO,DCRS_REMARKS,FILEDATE,FILENAME) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String InsertQuery = "  INSERT INTO  switch_pos_rawdata (DATE_TIME,REC_TYP,CRD_LN,CRD_FIID,CRAD_NUM,CRD_MBR_NUM,RETL_KEY_IN,RDF_KEY,RDF_KEY_GRP,RDF_KEY_REGN,RDF_KEY_ID,TERM_ID,SHIFT_NUM,BATCH_NUM,"
+				+ "TERM_IN,TERM_FIID,TERM_ID2,TERM_TIME,TERM_ID3,TKEY_RKEY_REC_FRMT,TKEY_RKEY_RETAILER_ID,TKEY_RKEY_CLERK_ID,DATA_FLAG,TYPE, "
+				+ " RTE_STAT,ORIGINATOR,RESPONDER,ISS_CDE,ENTRY_TIME,EXIT_TIME,RE_ENTRY_TIME,TRAN_DATE,TRAN_TIM,POST_DAT,ACQ_ICHG_SETL_DAT,ISS_ICHG_SETL_DAT,SEQ_NUM,TERM_NAME_LOC,TERM_OWNER_NAME,TERM_CITY,"
+				+ "TERM_ST,TERM_CNTRY_CDE,BRCH_ID,USER_FID,TERM_TIM_OFST,ACQ_INST_ID_NUM,RCV_INST_ID_NUM,TERM_TYPE,CLERK_ID,CTR_AUTH,CTR_AUTH_GRP,CTR_AUTH_USER_ID,RETL_SIC_CDE,ORIG,DEST,TRAN_CDE,CRD_TYPE,"
+				+ " ACCT,RESP_CDE,AMOUNT_1,AMOUNT_2,EXPIRY_DATE,TRACK2,PIN_OFST,PRE_AUTH_SEQ_NUM,INVOICE_NUM,ORIG_INVOICE_NUM,AUTHORIZER,AUTH_IND,SHIFT_NUM_2,BATCH_SEQ_NUM,APPRV_CODE,APPRV_CODE_LENGTH,ICHG_RESP,PSEUDO_TERM_ID,RFRL_PHONE,DUMMY_1,"
+				+ "DFT_CAPTURE_FLAG,SELT_FLAG,RVRL_CODE,REA_FOR_CHRGBCK,NUM_OF_CHRGBCK,PT_SRV_COND_CODE,PT_SRV_ENTRY_MODE,AUTH_IND2,ORIG_CRNCY_CODE,MULTI_CRNY_AUTH_CRNCY_CODE,MULTY_CRNCY_AUTH_CONV_RATE,MULTI_CRNCY_SETL_CRNCY_CODE,MULTI_CRNCY_SETL_CONV_RATE,MULTI_CRNCY_CONV_DAT_TIME,REFR_IMP_IND,REFR_AVAIL_CR,REFR_CR_LMT,REFR_CR_BAL,REFR_TTL,REFR_CUR,ADJ_SETL_IMPACT_FLAG,"
+				+ "REFR_IND,FRWD_INST_ID_NUM,CRD_ACCPT_ID_NUM,CRD_ISS_ID_NUM,ORIG_MSG_TYPE,ORIG_TRAN_TIM,ORIG_TRAN_DATE,ORIG_SEQ_NUM,ORIG_B24_POST_DATE,EXCP_RSN_CODE,OVRRDE_FLAG, ADDR,ZIP,ADDR_VERFY_STAT,PIN_IND,PIN_TRIES,PRE_AUTH_TS,PRE_AUTH_HLDS_STAT,USER_FID2,USER_DATA_D_LEN,USER_DATA_D_INFO,DCRS_REMARKS,FILEDATE,FILENAME) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		String update_query = "INSERT INTO  switch_data_validation(FILENAME,FILEDATE,COUNT,FILETYPE) VALUES(?,?,?,?)";
 		String DATE_TIME = "", REC_TYP = "", CRD_LN = "", CRD_FIID = "", CRAD_NUM = "", CRD_MBR_NUM = "";
 		String RETL_KEY_IN = "", RDF_KEY = "", RDF_KEY_GRP = "", RDF_KEY_REGN = "", RDF_KEY_ID = "", TERM_ID = "";
@@ -819,6 +835,8 @@ public class ReadUCOSwitchFile extends JdbcDaoSupport {
 			this.logger.info("Executed Batch SuccessFully");
 			ps.executeBatch();
 			con.commit();
+			
+			
 			if (count > 0) {
 				updatps.setString(1, FILENAME);
 				updatps.setString(2, FILEDATE);

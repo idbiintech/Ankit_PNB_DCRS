@@ -119,6 +119,7 @@ button:hover {
 							
 									<option value="SURCHARGED">SURCHARGE DEBIT</option>
 									<option value="SURCHARGEC">SURCHARGE CREDIT</option> 
+										<option value="ATMSURCHARGE">ATM SURCHARGE</option> 
 								</form:select>
 							</div>
 

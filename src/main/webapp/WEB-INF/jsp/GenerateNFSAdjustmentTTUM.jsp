@@ -32,8 +32,6 @@ response.setHeader("X-Frame-Options", "deny");
 		window.history.forward();
 	}
 
-
-
 	function DownloadAdjTTUM() {
 
 		var frm = $('#reportform');
@@ -85,7 +83,7 @@ response.setHeader("X-Frame-Options", "deny");
 
 				data : {
 					datepicker : datepicker,
-				
+
 					fileName : filename,
 					adjType : adjType,
 					adjCategory : adjCategory
@@ -93,10 +91,11 @@ response.setHeader("X-Frame-Options", "deny");
 				success : function(response) {
 
 					if (response == "success") {
-						
+
 						$("#success_msg").empty();
 
-						$("#success_msg").append("Reports are getting downloaded. Please Wait");
+						$("#success_msg").append(
+								"Reports are getting downloaded. Please Wait");
 
 						//	document.getElementById("breadcrumb").style.display = 'none';
 
@@ -109,10 +108,10 @@ response.setHeader("X-Frame-Options", "deny");
 							//document.getElementById("breadcrumb").style.display = '';
 
 						}, 2500);
-	
+
 						document.getElementById("reportform").submit();
 						/*window.location.reload(true);	*/} else {
-							$("#error_msg").empty();
+						$("#error_msg").empty();
 
 						$("#error_msg").append(response);
 
@@ -150,7 +149,6 @@ response.setHeader("X-Frame-Options", "deny");
 
 					}, 2500);
 
-
 				},
 				complete : function(data) {
 
@@ -172,7 +170,7 @@ response.setHeader("X-Frame-Options", "deny");
 
 		var filename = document.getElementById("fileName").value;
 		var category = document.getElementById("rectyp").value;
-	//	var stSubCategory = document.getElementById("stSubCategory").value;
+		//	var stSubCategory = document.getElementById("stSubCategory").value;
 		var adjType = document.getElementById("adjType").value;
 		var adjCategory = document.getElementById("adjCategory").value;
 		/*var userfile = document.getElementById("dataFile1");
@@ -216,17 +214,17 @@ response.setHeader("X-Frame-Options", "deny");
 
 				data : {
 					datepicker : datepicker,
-				
+
 					fileName : filename,
 					category : category,
 					adjType : adjType,
 					adjCategory : adjCategory
 				},
 				success : function(response) {
-			
-				/* 	if(response == "PROCESSED SUCCESS" || response == "ALLREDY PROCESSED!"  ){
-						
-					} */
+
+					/* 	if(response == "PROCESSED SUCCESS" || response == "ALLREDY PROCESSED!"  ){
+							
+						} */
 					$("#success_msg").empty();
 
 					$("#success_msg").append(response);
@@ -243,7 +241,7 @@ response.setHeader("X-Frame-Options", "deny");
 						//document.getElementById("breadcrumb").style.display = '';
 
 					}, 2500);
-				
+
 				},
 				error : function() {
 					$("#error_msg").empty();
@@ -262,7 +260,7 @@ response.setHeader("X-Frame-Options", "deny");
 						//document.getElementById("breadcrumb").style.display = '';
 
 					}, 2500);
-					
+
 				},
 				complete : function(data) {
 
@@ -287,7 +285,7 @@ response.setHeader("X-Frame-Options", "deny");
 
 	function ValidateData() {
 		var category = document.getElementById("rectyp").value;
-	//	var subCategory = document.getElementById("stSubCategory").value;
+		//	var subCategory = document.getElementById("stSubCategory").value;
 		//var subcategory = document.getElementById("stSubCategory").value;
 		var fileSelected = document.getElementById("fileName").value;
 
@@ -312,7 +310,7 @@ response.setHeader("X-Frame-Options", "deny");
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select category ");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
@@ -328,25 +326,25 @@ response.setHeader("X-Frame-Options", "deny");
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select file");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
 			setTimeout(function() {
-	
+
 				$("#alert_msg").modal('hide');
 				$("#alert_msg").empty();
 				//document.getElementById("breadcrumb").style.display = '';
-				
+
 			}, 2500);
-		
+
 			return false;
 		}
 		if (fileDate == "") {
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select date for processing");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
@@ -355,14 +353,14 @@ response.setHeader("X-Frame-Options", "deny");
 				$("#alert_msg").modal('hide');
 				$("#alert_msg").empty();
 			}, 2500);
-	
+
 			return false;
 		}
 		if (adjType == "") {
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select Adjustment Type");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
@@ -378,14 +376,14 @@ response.setHeader("X-Frame-Options", "deny");
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select adjCategory");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
 			setTimeout(function() {
 
 				$("#alert_msg").modal('hide');
-				
+
 				//document.getElementById("breadcrumb").style.display = '';
 				$("#alert_msg").empty();
 			}, 2500);
@@ -433,16 +431,15 @@ response.setHeader("X-Frame-Options", "deny");
 					$("#success_msg").modal('show');
 
 					setTimeout(function() {
-						
+
 						$("#success_msg").modal('hide');
-		
+
 						$("#success_msg").empty();
 						//document.getElementById("breadcrumb").style.display = '';
 
 					}, 2500);
-					
-				
-									},
+
+				},
 				error : function() {
 					$("#error_msg").empty();
 					$("#error_msg").append("Error Occured");
@@ -459,7 +456,7 @@ response.setHeader("X-Frame-Options", "deny");
 						//document.getElementById("breadcrumb").style.display = '';
 
 					}, 2500);
-					
+
 				},
 			});
 		}
@@ -470,7 +467,7 @@ response.setHeader("X-Frame-Options", "deny");
 			$("#alert_msg").empty();
 			$("#alert_msg").append("Please select date");
 
-		//	document.getElementById("breadcrumb").style.display = 'none';
+			//	document.getElementById("breadcrumb").style.display = 'none';
 
 			$("#alert_msg").modal('show');
 
@@ -486,33 +483,37 @@ response.setHeader("X-Frame-Options", "deny");
 	}
 </script>
 <style>
-button{
-background: linear-gradient(45deg, pink, blue);
-border: none;
-color: white;
-padding: 10px 26px;
-font-size: 16px;
-border-radius: 20px;
+button {
+	background: linear-gradient(45deg, pink, blue);
+	border: none;
+	color: white;
+	padding: 10px 26px;
+	font-size: 16px;
+	border-radius: 20px;
+	cursor: pointer;
+	text-transform: uppercase;
+	transaction: background 0.3s ease;
+}
 
-cursor: pointer;
-text-transform: uppercase;
-transaction: background 0.3s ease;
+button:hover {
+	background: linear-gradient(30deg, #c2eaba, blue);
 }
-button:hover{
-background:linear-gradient(30deg, #c2eaba, blue);
-}
-label{
-color: purple;  font-weight: bold;font-size: 16px;display:block;
+
+label {
+	color: purple;
+	font-weight: bold;
+	font-size: 16px;
+	display: block;
 }
 </style>
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-						<h1 style="color: purple; text-align: center; font-weight: bold;">
+		<h1 style="color: purple; text-align: center; font-weight: bold;">
 			ADJUSTMENT TTUM
 			<!-- <small>Version 2.0</small> -->
 		</h1>
-	<!-- 	<ol class="breadcrumb">
+		<!-- 	<ol class="breadcrumb">
 			<li><a href="#"> Home</a></li>
 			<li class="active">Adjustment TTUM</li>
 		</ol> -->
@@ -554,7 +555,7 @@ color: purple;  font-weight: bold;font-size: 16px;display:block;
 							</div>
 
 
-		
+
 
 							<div class="form-group">
 								<label for="exampleInputEmail1">Adjustment Type</label> <select
@@ -562,11 +563,14 @@ color: purple;  font-weight: bold;font-size: 16px;display:block;
 									<option value="-">--Select --</option>
 									<option value="CHARGEBACK ACCEPTANCE">CHARGEBACK
 										ACCEPTANCE</option>
-										<option value="CHARGEBACK ACCEPTANCE ICCW ATM">CHARGEBACK ACCEPTANCE ICCW ATM</option>
-													<option value="CREDIT ADJUSTMENT ICCW ATM">CREDIT ADJUSTMENT ICCW ATM</option>
+									<option value="CHARGEBACK ACCEPTANCE ICCW ATM">CHARGEBACK
+										ACCEPTANCE ICCW ATM</option>
+									<option value="CREDIT ADJUSTMENT ICCW ATM">CREDIT
+										ADJUSTMENT ICCW ATM</option>
 									<option value="GOODFAITH CHARGEBACK ACCEPTANCE">GOODFAITH
 										CHARGEBACK ACCEPTANCE</option>
-                              <option value="GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE">GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE</option>
+									<option value="GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE">GOOD
+										FAITH CHARGEBACK DEEMED ACCEPTANCE</option>
 									<option value="NRP DECISION LOGGING ISS">NRP DECISION
 										LOGGING ISS</option>
 
@@ -581,15 +585,17 @@ color: purple;  font-weight: bold;font-size: 16px;display:block;
 
 									<option value="DEEMED CHARGEBACK ACCEPTANCE">CHARGEBACK
 										DEEMED ACCEPTANCE</option>
-							<!-- 		<option value="DEBIT CHARGEBACK DEEMED">DEBIT
+									<!-- 		<option value="DEBIT CHARGEBACK DEEMED">DEBIT
 										CHARGEBACK DEEMED</option>
 									<option value="DEBIT CHARGEBACK DEEMED">DEBIT
 										CHARGEBACK DEEMED</option> -->
-					<option value="ACUIRER PENALTY">ACUIRER PENALTY</option>
+									<option value="ACUIRER PENALTY">ACUIRER PENALTY</option>
 									<option value="PENALTY">PENALTY</option>
 
-									<option value="RE-PRESENTMENT RAISE">PARTIAL CHARGEBACK ACCEPTANCE</option>
-									<option value="PRE-ARBITRATION DECLINED">PARTIAL PRE ARBITRATION ACCEPTANCE</option>
+									<option value="RE-PRESENTMENT RAISE">PARTIAL
+										CHARGEBACK ACCEPTANCE</option>
+									<option value="PRE-ARBITRATION DECLINED">PARTIAL PRE
+										ARBITRATION ACCEPTANCE</option>
 
 
 
@@ -653,13 +659,10 @@ color: purple;  font-weight: bold;font-size: 16px;display:block;
 
 
 						<div class="box-footer" style="text-align: center">
-							<button type="button" 
-								onclick="processAdjTTUM();">Process</button>
-							<button type="button"
-								onclick="DownloadAdjTTUM();">Dowload</button>
+							<button type="button" onclick="processAdjTTUM();">Process</button>
+							<button type="button" onclick="DownloadAdjTTUM();">Dowload</button>
 
-							<button type="button" onclick="ReportRollback();"
-								>Rollback</button>
+							<button type="button" onclick="ReportRollback();">Rollback</button>
 							<!-- 	<button type="button" id ="Skip" class="btn btn-danger" onclick="skipSettlement();">Skip Settlement</button> -->
 							<!-- 	<a onclick="processSettlement();" class="btn btn-primary">Process</a>
 						<a onclick="skipSettlement();" class="btn btn-primary">Skip Settlement</a> -->
@@ -679,32 +682,33 @@ color: purple;  font-weight: bold;font-size: 16px;display:block;
 		<!-- /.row -->
 		<!-- /.content-wrapper -->
 	</section>
-	       <div
-			style="font-size: 14px; font-weight: bold; border-radius: 3px;color: white; text-align: center; background: yellowgreen; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="success_msg" class="success_msg">
-			<i class="fa fa-check" style="color: white;"></i>
-				
-			
-		</div>
-		
-		
-			<div
-			style="font-size: 14px; font-weight: bold; color: white;border-radius: 3px; text-align: center; background: red; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="error_msg" class="error_msg">
-			<i class="fa fa-close" style="color: white;"></i>
-		</div>
-		<div
-			style="font-size: 14px; font-weight: bold; color: black;border-radius: 3px; text-align: center; background:#FFFF9E; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="alert_msg" class="alert_msg">
-			<i class="fa fa-warning" style="color: black;"></i><span
-				style="color: white; font-weight: bold; text-align: center;">     </span>
-		</div>
+	<div
+		style="font-size: 14px; font-weight: bold; border-radius: 3px; color: white; text-align: center; background: yellowgreen; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="success_msg" class="success_msg">
+		<i class="fa fa-check" style="color: white;"></i>
+
+
+	</div>
+
+
+	<div
+		style="font-size: 14px; font-weight: bold; color: white; border-radius: 3px; text-align: center; background: red; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="error_msg" class="error_msg">
+		<i class="fa fa-close" style="color: white;"></i>
+	</div>
+	<div
+		style="font-size: 14px; font-weight: bold; color: black; border-radius: 3px; text-align: center; background: #FFFF9E; margin-top: -480px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="alert_msg" class="alert_msg">
+		<i class="fa fa-warning" style="color: black;"></i><span
+			style="color: white; font-weight: bold; text-align: center;">
+		</span>
+	</div>
 </div>
 <div align="center" id="Loader"
 	style="background-color: #ffffff; position: absolute; opacity: 0.9; z-index: 0; height: 100%; width: 100%; left: 0px; top: 0px; display: none">
 
-<img style="margin-left: 100px; margin-top: -60px;"
-		src="images/g4.gif" alt="loader">
+	<img style="margin-left: 100px; margin-top: -60px;" src="images/g4.gif"
+		alt="loader">
 
 
 </div>

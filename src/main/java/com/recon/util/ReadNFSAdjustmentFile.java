@@ -93,7 +93,7 @@ public class ReadNFSAdjustmentFile {
                   DateCol.add(14);
                   DateCol.add(33);
                  // FormulaEvaluator formulaEvaluate = wb.getCreationHelper().createFormulaEvaluator();
-    OUTER:   for (Row r : sheet) {
+         OUTER:   for (Row r : sheet) {
                       
                       //  logger.info("r.getRowNum() "+r.getRowNum());
                         if (r.getRowNum() > 0 ) {
@@ -125,11 +125,7 @@ public class ReadNFSAdjustmentFile {
                                     	  {
                                     		 // logger.info("Its Date");
                                 			  String digit = c.getNumericCellValue() +"";
-                                 			 // Date javaDate= DateUtil.getJavaDate(Double.parseDouble(digit));
-                                 			//  System.out.println(javaDate);
-                                 			 // System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(javaDate));
-                                 		//	  digit = new SimpleDateFormat("dd/MM/yyyy").format(javaDate)+"";
-                                 			 // System.out.println("digit is"+digit);
+                                 		
                                  			  ps.setString(cellCount, digit);
                                  			  //checking whether adjSettlementDate is same as selected filedate
                                  			 /* if(cellCount == 33)

@@ -177,7 +177,7 @@ input {
 		width="150px">
 	<form:form action="Login.do" method="post" commandName="login"
 		id="login">
-		<img class="imge" src="./dist/img/pnbl_ogo.png" height="90px">
+		<img class="imge" src="./dist/img/pnb_logo.png" height="90px">
 		<label for="username">USER ID</label>
 		<form:input  autocomplete="off" path="user_id" id="user_id" maxlength="15"
 			placeholder="User ID" />

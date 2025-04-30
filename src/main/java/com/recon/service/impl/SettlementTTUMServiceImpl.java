@@ -388,6 +388,61 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		}
 
 	}
+	public HashMap<String, Object> ANKITTREPORTSnewICCW(NFSSettlementBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		Map<String, Object> outParams2 = new HashMap<>();
+		try {
+			logger.info("runAdjTTUM EXCEL");
+			System.out.println("date " + beanObj.getDatepicker() + " V_ADJTYPE " + beanObj.getAdjType());
+			ANKITTREPORTSnewICCW exe = new ANKITTREPORTSnewICCW( getJdbcTemplate());
+			inParams.put(" V_FILEDT", beanObj.getDatepicker());
+			inParams.put("USER_ID", beanObj.getCreatedBy());
+			inParams.put("V_ADJTYPE", beanObj.getAdjType());
+			outParams2 = exe.execute(inParams);
+			String value = outParams2.toString();
+			logger.info("NFS_ADJ_REPORT settl " + outParams2.toString() + "value " + value);
+			if (value.contains("NOT")) {
+				output.put("result", Boolean.valueOf(false));
+				output.put("msg", "FILE NOT PROCESSED! ");
+			} else if (value.contains("ALL")) {
+				output.put("result", Boolean.valueOf(false));
+				output.put("msg", "ALLREDY PROCESSED!");
+			} else if (value.contains("SUCCESS")) {
+				output.put("result", Boolean.valueOf(false));
+				output.put("msg", "PROCESSED SUCCESS");
+			} else {
+				output.put("result", Boolean.valueOf(true));
+				output.put("msg", outParams2.get("o_error_message"));
+			}
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", "Exception  ");
+			return output;
+		}
+		return output;
+	}
+
+
+	private class ANKITTREPORTSnewICCW extends StoredProcedure {
+		private static final String insert_proc = "NFS_ADJ_ICCW_REPORT_PNB";
+
+		public ANKITTREPORTSnewICCW(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_FILEDT", Types.VARCHAR));
+			declareParameter(new SqlParameter("USER_ID", Types.VARCHAR));
+			// declareParameter(new
+			// SqlParameter("ENTERED_CYCLE", Types.INTEGER));
+			declareParameter(new SqlParameter("V_ADJTYPE", Types.VARCHAR));
+			// declareParameter(new SqlParameter("SUBCATE",
+			//  Types.VARCHAR));
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE, Types.VARCHAR));
+			compile();
+		}
+
+	}
 	public HashMap<String, Object> ANKITACQPRNALTITTUM(NFSSettlementBean beanObj) {
 		Map<String, Object> inParams = new HashMap<>();
 		HashMap<String, Object> output = new HashMap<>();
@@ -2027,6 +2082,27 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 				return DailyData;
 			}
+			if (beanObj.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")) {
+				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,CONCAT('INR',516500),'  ',DR_CR\r\n  ,LPAD(REPLACE(FORMAT(CASE WHEN DR_CR='C' THEN SUR ELSE SUR END, 2),',',''),17,'0')\r\n,RPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(REMARKS,417,' ')\r\n)  AS TTUM FROM mc_iss_atm_surcharge WHERE FILEDATE=STR_TO_DATE('"
+						+
+
+						beanObj.getLocalDate() + "','%Y/%m/%d')";
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] {},
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+
+								while (rs.next()) {
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("TTUM", rs.getString("TTUM"));
+									beanList.add(table_Data);
+								}
+								return beanList;
+							}
+						});
+
+				return DailyData;
+			}
 			if (beanObj.getTypeOfTTUM().equalsIgnoreCase("SURCHARGEC")) {
 				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,CONCAT('INR',516500),'  ',DR_CR\r\n  ,LPAD(REPLACE(FORMAT(CASE WHEN DR_CR='C' THEN SUR ELSE SUR END, 2),',',''),17,'0')\r\n,RPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(REMARKS,417,' ')\r\n)  AS TTUM FROM mc_dom_iss_cr_surch WHERE FILEDATE=STR_TO_DATE('"
 						+
@@ -2220,9 +2296,11 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		try {
 			String getData = null;
 			if (beanObj.getAdjType().equalsIgnoreCase("PENALTY")) {
-				getData = "SELECT TTUM FROM nfs_adjustment_ttum WHERE  FILEDATE=STR_TO_DATE(?,'%Y/%m/%d')  AND ADJTYPE like '%"
+				getData = "SELECT TTUM FROM nfs_adj_report WHERE  FILEDATE=STR_TO_DATE('"+ beanObj.getDatepicker()+"','%Y/%m/%d')  AND ADJTYPE like '%"
 						+ beanObj.getAdjType() + "%'";
-				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getDatepicker() },
+				System.out.println("Data " + getData);
+				
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { },
 						new ResultSetExtractor<List<Object>>() {
 							public List<Object> extractData(ResultSet rs) throws SQLException {
 								List<Object> beanList = new ArrayList<Object>();
@@ -2240,6 +2318,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 			}
 			if (beanObj.getAdjType().equalsIgnoreCase("ACUIRER PENALTY")) {
 				getData = "SELECT AC_NO AS\"GL_ACCOUNT\",'INR',SUBSTR(AC_NO,1,6) AS\"SIX_DIGIT_AC_NO\",DR_CR, CONCAT(LPAD(FLOOR(amount), 14, '0'),'.', LPAD(SUBSTRING_INDEX(amount, '.', -1), 2, '0')) AS AMOUNT\r\n  ,NARRATION,CONCAT(date_format(date_format(FILEDATE,'%Y/%m/%d'),'%d-%m-%Y'),'/','I',IFNULL(CYCLE,0),'/','NFSF')'REMARKS' ,UUID_SHORT()AS UID FROM   nfs_adj_report WHERE FILEDATE=date_format(?,'%Y/%m/%d')  AND ADJTYPE=?";
+				System.out.println("Data " + getData);
 				List<Object> DailyData = getJdbcTemplate().query(getData,
 						new Object[] { beanObj.getDatepicker(), beanObj.getAdjType() },
 						new ResultSetExtractor<List<Object>>() {
@@ -2257,7 +2336,10 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 
 				return DailyData;
 			} else {
+				
 				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR',SUBSTR(AC_NO,1,6),'  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,40,' '),REMARKS,LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(CONCAT('ADJ',UID) ,417,' ')) AS TTUM\r\nFROM  nfs_adj_report WHERE FILEDATE=STR_TO_DATE(?,'%Y/%m/%d') AND ADJTYPE=?";
+				System.out.println("Data " + getData);
+				
 				List<Object> DailyData = getJdbcTemplate().query(getData,
 						new Object[] { beanObj.getDatepicker(), beanObj.getAdjType() },
 						new ResultSetExtractor<List<Object>>() {
@@ -2432,7 +2514,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 				}
 				logger.info("query " + getData);
 				List<Object> DailyData = getJdbcTemplate().query(getData,
-						new Object[] { beanObj.getLocalDate(), beanObj.getTypeOfTTUM() },
+						new Object[] {  },
 						new ResultSetExtractor<List<Object>>() {
 							public List<Object> extractData(ResultSet rs) throws SQLException {
 								List<Object> beanList = new ArrayList<Object>();
@@ -4015,7 +4097,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 						beanObj.getLocalDate() + "','DD-MM-YY') AND TTUM_TYPE = '" + beanObj.getTypeOfTTUM()
 						+ "' AND AMOUNT <> 0";
 				System.out.println("getData " + getData);
-				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate() },
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { },
 						new ResultSetExtractor<List<Object>>() {
 							public List<Object> extractData(ResultSet rs) throws SQLException {
 								List<Object> beanList = new ArrayList<Object>();
@@ -4032,7 +4114,8 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 				return DailyData;
 			}else {
 				getData = "SELECT CONCAT(RPAD(AC_NO,16,' ') ,'INR','516500','  ',DR_CR,LPAD(REPLACE(FORMAT(AMOUNT, 2),',',''),17,'0'),\r\nRPAD(NARRATION,30,' '),LPAD(DATE_FORMAT(FILEDATE, '%d-%m-%Y'),113,' '),LPAD(UID,418,' ')) AS TTUM\r\nFROM c2c_iss_recon_ttums WHERE FILEDATE=STR_TO_DATE(?,'%Y-%m-%d') AND TTUM_TYPE = ?";
-				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getFileDate().replaceAll("/","-") , beanObj.getTypeOfTTUM() },
+				System.out.println("getData " + getData);
+				List<Object> DailyData = getJdbcTemplate().query(getData, new Object[] { beanObj.getLocalDate().replaceAll("/","-") , beanObj.getTypeOfTTUM() },
 						new ResultSetExtractor<List<Object>>() {
 							public List<Object> extractData(ResultSet rs) throws SQLException {
 								List<Object> beanList = new ArrayList<Object>();
@@ -5053,6 +5136,39 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 		}
 
 	}
+	public boolean rollBackNFSADJICCW(NFSSettlementBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackNFSADJICCW rollBackexe = new rollBackNFSADJICCW( getJdbcTemplate());
+			inParams.put("filedt", beanObj.getDatepicker());
+			inParams.put("V_ADJTYPE", beanObj.getAdjCategory());
+			outParams = rollBackexe.execute(inParams);
+			logger.info("OUT PARAM IS" + outParams.get("msg"));
+			String data = outParams.get("msg").toString();
+			if (data.equalsIgnoreCase("SUCCESS"))
+				return true;
+			return false;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+	
+	private class rollBackNFSADJICCW extends StoredProcedure {
+		private static final String insert_proc = "NFS_ADJ_ICCW_REPORT_PNB_ROLLBACK";
+
+		public rollBackNFSADJICCW(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("filedt",  Types.VARCHAR));
+			declareParameter(new SqlParameter("V_ADJTYPE",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
+			compile();
+		}
+
+	}
 
 
 	public String rollBackRupayADJVISA(String filedate, String subCate, String adjType)
@@ -5291,8 +5407,189 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 								}
 							});
 				} else {
+					
 					getData1 = "SELECT * FROM  nfs_adj_report WHERE FILEDATE=  str_to_date('" + beanObj.getDatepicker()
 							+ "','%Y/%m/%d')   AND ADJTYPE='" + beanObj.getAdjType() + "' ";
+					logger.info("data get sql " + getData1);
+					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
+							new ResultSetExtractor<List<Object>>() {
+								public List<Object> extractData(ResultSet rs) throws SQLException {
+									List<Object> beanList = new ArrayList<Object>();
+									int count = 1, dataCount = 0, datasum = 0;
+
+									while (rs.next()) {
+										// logger.info("Inside rset");
+
+										Map<String, String> table_Data = new HashMap<String, String>();
+
+										// logger.info("count " + count);
+
+										table_Data.put("SR_NO", String.valueOf(count));
+
+										table_Data.put("DR/CR", rs.getString("DR_CR"));
+
+										table_Data.put("ACQ_BANK", rs.getString("BANK_NAME"));
+										table_Data.put("TXNDATE", rs.getString("TXN_DATE"));
+										table_Data.put("TXNTIME", rs.getString("TXN_TIME"));
+										table_Data.put("RRN", rs.getString("RRN"));
+										table_Data.put("CARD_NO", rs.getString("CARDNO"));
+										table_Data.put("ADJAMOUNT", rs.getString("AMOUNT"));
+										table_Data.put("ACCOUNTNO", rs.getString("AC_NO"));
+
+										table_Data.put("NARRATION", rs.getString("NARRATION"));
+
+										count++;
+
+										beanList.add(table_Data);
+
+									}
+
+									return beanList;
+								}
+							});
+				}
+			data.add(DailyData);
+			return data;
+		} catch (Exception e) {
+			System.out.println("Exception in getInterchangeData " + e);
+			return null;
+		}
+	}
+	public List<Object> getAdjTTUMICCW(NFSSettlementBean beanObj) {
+		List<Object> data = new ArrayList();
+		try {
+			String getData1 = null;
+			List<Object> DailyData = new ArrayList();
+			if (beanObj.getFileName().contains("NFS"))
+				if (beanObj.getAdjType().equalsIgnoreCase("PENALTY")) {
+					
+					getData1 = "SELECT * FROM  nfs_adj_report WHERE FILEDATE=  str_to_date('" + beanObj.getDatepicker()
+							+ "','%Y/%m/%d')  AND ADJTYPE like'%" + beanObj.getAdjType() +  " ICCW ATM"+"%' ";
+					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
+							new ResultSetExtractor<List<Object>>() {
+								public List<Object> extractData(ResultSet rs) throws SQLException {
+									List<Object> beanList = new ArrayList<Object>();
+									int count = 1, dataCount = 0, datasum = 0;
+
+									while (rs.next()) {
+										// logger.info("Inside rset");
+
+										Map<String, String> table_Data = new HashMap<String, String>();
+
+										// logger.info("count " + count);
+
+										table_Data.put("SR_NO", String.valueOf(count));
+
+										table_Data.put("DR/CR", rs.getString("DR_CR"));
+
+										table_Data.put("ACQ_BANK", rs.getString("BANK_NAME"));
+										table_Data.put("TXNDATE", rs.getString("TXN_DATE"));
+										table_Data.put("TXNTIME", rs.getString("TXN_TIME"));
+										table_Data.put("RRN", rs.getString("RRN"));
+										table_Data.put("CARD_NO", rs.getString("CARDNO"));
+										table_Data.put("ADJAMOUNT", rs.getString("AMOUNT"));
+										table_Data.put("ACCOUNTNO", rs.getString("AC_NO"));
+
+										table_Data.put("NARRATION", rs.getString("NARRATION"));
+
+										count++;
+
+										beanList.add(table_Data);
+
+									}
+
+									return beanList;
+								}
+							});
+				} else if (beanObj.getAdjType().equalsIgnoreCase("ACUIRER PENALTY")) {
+					getData1 = "SELECT TXNUID, U_ID, ADJDATE, ADJTYPE, ACQ, ISR, RESPONSE, TXNDATE, TXNTIME, RRN, ATMID, CARDNO, CHBDATE, CHBREF, TXNAMOUNT, ADJAMOUNT, ACQFEE, ISSFEE,ISSFEESW, NPCIFEE, ACQFEETAX, ISSFEETAX, NPCITAX, ADJREF, BANKADJREF, REASONDESC, PINCODE, ATMLOCATION, FCQM, ADJSETTLEMENTDATE, CUSTOMERPENALTY, ADJTIME, CYCLE, TAT_EXPIRY_DATE, ACQSTLAMOUNT, ACQCC, PAN_ENTRY_MODE, SERVICE_CODE, CARD_DAT_INPUT_CAPABILITY, MCC_CODE, CREATEDDATE, CREATEDBY, FILEDATE, TXNTYPE, FILENAME, ACCOUNT_NO, ATM_ID, ATM_CRM, MSP_FINAL, CASH_VENDOR, TYP, DR_CR ,NARRATION  FROM  nfs_acq_penality_ttum WHERE FILEDATE=  str_to_date('"
+							+ beanObj.getDatepicker()
+							+ "','%Y/%m/%d')  and  TXNAMOUNT >0 AND TXNAMOUNT IS NOT NULL AND  DR_CR = 'DEBIT'  UNION ALL SELECT TXNUID, U_ID, ADJDATE, ADJTYPE, ACQ, ISR, RESPONSE, TXNDATE, TXNTIME, RRN, ATMID, CARDNO, CHBDATE, CHBREF, TXNAMOUNT, ADJAMOUNT, ACQFEE, ISSFEE, ISSFEESW, NPCIFEE, ACQFEETAX, ISSFEETAX, NPCITAX, ADJREF, BANKADJREF, REASONDESC, PINCODE, ATMLOCATION, FCQM, ADJSETTLEMENTDATE, CUSTOMERPENALTY, ADJTIME, CYCLE, TAT_EXPIRY_DATE, ACQSTLAMOUNT, ACQCC, PAN_ENTRY_MODE, SERVICE_CODE, CARD_DAT_INPUT_CAPABILITY, MCC_CODE, CREATEDDATE, CREATEDBY, FILEDATE, TXNTYPE, FILENAME, ACCOUNT_NO, ATM_ID, ATM_CRM, MSP_FINAL, CASH_VENDOR, TYP, DR_CR ,NARRATION  FROM  nfs_acq_penality WHERE FILEDATE=  str_to_date('"
+							+ beanObj.getDatepicker()
+							+ "','%Y/%m/%d')  and  TXNAMOUNT >0 AND TXNAMOUNT IS NOT NULL AND  DR_CR = 'CREDIT' ";
+					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
+							new ResultSetExtractor<List<Object>>() {
+								public List<Object> extractData(ResultSet rs) throws SQLException {
+									List<Object> beanList = new ArrayList<Object>();
+									int count = 1, dataCount = 0, datasum = 0;
+
+									while (rs.next()) {
+										// logger.info("Inside rset");
+
+										Map<String, String> table_Data = new HashMap<String, String>();
+
+										// logger.info("count " + count);
+
+										table_Data.put("SR_NO", String.valueOf(count));
+										table_Data.put("TXNUID", rs.getString("TXNUID"));
+										table_Data.put("U_ID", rs.getString("U_ID"));
+										table_Data.put("ADJDATE", rs.getString("ADJDATE"));
+										table_Data.put("ADJTYPE", rs.getString("ADJTYPE"));
+										table_Data.put("ACQ", rs.getString("ACQ"));
+										table_Data.put("ISR", rs.getString("ISR"));
+										table_Data.put("RESPONSE", rs.getString("RESPONSE"));
+										table_Data.put("TXNDATE", rs.getString("TXNDATE"));
+
+										table_Data.put("TXNTIME", rs.getString("TXNTIME"));
+										table_Data.put("RRN", rs.getString("RRN"));
+										table_Data.put("ATMID", rs.getString("ATMID"));
+										table_Data.put("CARDNO", rs.getString("CARDNO"));
+										table_Data.put("CHBDATE", rs.getString("CHBDATE"));
+										table_Data.put("CHBREF", rs.getString("CHBREF"));
+										table_Data.put("TXNAMOUNT", rs.getString("TXNAMOUNT"));
+										table_Data.put("ACQFEE", rs.getString("ACQFEE"));
+										table_Data.put("ISSFEE", rs.getString("ISSFEE"));
+										table_Data.put("ISSFEESW", rs.getString("ISSFEESW"));
+										table_Data.put("NPCIFEE", rs.getString("NPCIFEE"));
+										table_Data.put("ACQFEETAX", rs.getString("ACQFEETAX"));
+										table_Data.put("ISSFEETAX", rs.getString("ISSFEETAX"));
+										table_Data.put("NPCITAX", rs.getString("NPCITAX"));
+										table_Data.put("ADJREF", rs.getString("ADJREF"));
+										table_Data.put("BANKADJREF", rs.getString("BANKADJREF"));
+
+										table_Data.put("REASONDESC", rs.getString("REASONDESC"));
+										table_Data.put("PINCODE", rs.getString("PINCODE"));
+										table_Data.put("ATMLOCATION", rs.getString("ATMLOCATION"));
+										table_Data.put("FCQM", rs.getString("FCQM"));
+										table_Data.put("ADJSETTLEMENTDATE", rs.getString("ADJSETTLEMENTDATE"));
+										table_Data.put("CUSTOMERPENALTY", rs.getString("CUSTOMERPENALTY"));
+										table_Data.put("ADJTIME", rs.getString("ADJTIME"));
+										table_Data.put("CYCLE", rs.getString("CYCLE"));
+										table_Data.put("TAT_EXPIRY_DATE", rs.getString("TAT_EXPIRY_DATE"));
+										table_Data.put("ACQSTLAMOUNT", rs.getString("ACQSTLAMOUNT"));
+										table_Data.put("ACQCC", rs.getString("ACQCC"));
+										table_Data.put("PAN_ENTRY_MODE", rs.getString("PAN_ENTRY_MODE"));
+										table_Data.put("SERVICE_CODE", rs.getString("SERVICE_CODE"));
+										table_Data.put("CARD_DAT_INPUT_CAPABILITY",
+												rs.getString("CARD_DAT_INPUT_CAPABILITY"));
+										table_Data.put("MCC_CODE", rs.getString("MCC_CODE"));
+										table_Data.put("CREATEDDATE", rs.getString("CREATEDDATE"));
+
+										table_Data.put("FILEDATE", rs.getString("FILEDATE"));
+										table_Data.put("TXNTYPE", rs.getString("TXNTYPE"));
+										table_Data.put("FILENAME", rs.getString("FILENAME"));
+										table_Data.put("ACCOUNT_NO", rs.getString("ACCOUNT_NO"));
+										table_Data.put("ATM_ID", rs.getString("ATM_ID"));
+										table_Data.put("ATM_CRM", rs.getString("ATM_CRM"));
+										table_Data.put("MSP_FINAL", rs.getString("MSP_FINAL"));
+										table_Data.put("CASH_VENDOR", rs.getString("CASH_VENDOR"));
+										table_Data.put("TYP", rs.getString("TYP"));
+										table_Data.put("DR_CR", rs.getString("DR_CR"));
+										table_Data.put("NARRATION", rs.getString("NARRATION"));
+
+										count++;
+
+										beanList.add(table_Data);
+
+									}
+
+									return beanList;
+								}
+							});
+				} else {
+			
+					getData1 = "SELECT * FROM  nfs_adj_report WHERE FILEDATE=  str_to_date('" + beanObj.getDatepicker()
+							+ "','%Y/%m/%d')   AND ADJTYPE='" + beanObj.getAdjType() + "+ ICCW ATM' ";
 					logger.info("data get sql " + getData1);
 					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
 							new ResultSetExtractor<List<Object>>() {
@@ -5740,7 +6037,7 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 								}
 							});
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("PROACTIVE")) {
-					getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, TRACE_NO, NARRATION from  rupay_proactive_int_ttum where FILEDATE=STR_TO_DATE('"
+					getData1 = "select DR_CR, DISPUTE_DATE, BANK_NAME, CARD_NO, AC_NO, DATE_OF_TXN, AMOUNT, TRACE_NO, NARRATION from  rupay_proactiv_int_ttum where FILEDATE=STR_TO_DATE('"
 							+ beanObj.getLocalDate() + "','%Y/%m/%d') ";
 					logger.info("data get sql " + getData1);
 					DailyData = getJdbcTemplate().query(getData1, new Object[] {},
@@ -6361,6 +6658,43 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 									table_Data.put("BUSINESS_DATE", rs.getString("BUSINESS_DATE"));
 
 									table_Data.put("DR_CR", rs.getString("DR_CR"));
+									table_Data.put("CARD_NO", rs.getString("CARD_NO"));
+									table_Data.put("TRACE_NO", rs.getString("TRACE_NO"));
+									table_Data.put("AC_NO", rs.getString("AC_NO"));
+									table_Data.put("TRAN_DATE", rs.getString("TRAN_DATE"));
+									table_Data.put("TRAN_TIME", rs.getString("TRAN_TIME"));
+									table_Data.put("CBS_AMOUNT", rs.getString("CBS_AMOUNT"));
+
+									table_Data.put("NPCI_AMOUNT", rs.getString("NPCI_AMOUNT"));
+									table_Data.put("SUR", rs.getString("SUR"));
+
+									table_Data.put("NARRATION", rs.getString("NARRATION"));
+									count++;
+
+									beanList.add(table_Data);
+
+								}
+
+								return beanList;
+							}
+						});
+			} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")) {
+				getData1 = "select BUSINESS_DATE, CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, TRAN_TIME, CBS_AMOUNT, NPCI_AMOUNT, SUR, NARRATION  from  mc_iss_atm_surcharge where filedate= str_to_date('"
+						+ beanObj.getLocalDate() + "','%Y/%m/%d')";
+				logger.info("data get sql " + getData1);
+				DailyData = getJdbcTemplate().query(getData1, new Object[] {},
+						new ResultSetExtractor<List<Object>>() {
+							public List<Object> extractData(ResultSet rs) throws SQLException {
+								List<Object> beanList = new ArrayList<Object>();
+								int count = 1, dataCount = 0, datasum = 0;
+
+								while (rs.next()) {
+									// logger.info("Inside rset");
+
+									Map<String, String> table_Data = new HashMap<String, String>();
+									table_Data.put("BUSINESS_DATE", rs.getString("BUSINESS_DATE"));
+
+							
 									table_Data.put("CARD_NO", rs.getString("CARD_NO"));
 									table_Data.put("TRACE_NO", rs.getString("TRACE_NO"));
 									table_Data.put("AC_NO", rs.getString("AC_NO"));
@@ -12251,6 +12585,36 @@ public class SettlementTTUMServiceImpl extends JdbcDaoSupport implements Settlem
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("v_filedate",  Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public boolean rollBackTTUMMC10POS(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		try {
+			rollBackTTUMMC10POS rollBackexe = new rollBackTTUMMC10POS( getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getFileDate());
+			outParams = rollBackexe.execute(inParams);
+			if (outParams != null && outParams.get("msg") != null) {
+				logger.info("OUT PARAM IS " + outParams.get("msg"));
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.info("Exception is " + e);
+			return false;
+		}
+	}
+	private class rollBackTTUMMC10POS extends StoredProcedure {
+		private static final String insert_proc = "MASTERCARD_ISS_ATM_SURCH_ROLLBACK";
+
+		public rollBackTTUMMC10POS(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE",  Types.VARCHAR));
 
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE,  Types.VARCHAR));
 			compile();

@@ -982,7 +982,7 @@ public class RupayAdjustntFileUpServiceImpl extends JdbcDaoSupport implements Ru
   }
   
   private class AdjTTUMProc extends StoredProcedure {
-		private static final String insert_proc = "RUPAY_ADJ_TTUM";
+		private static final String insert_proc = "RUPAY_QSPARC_ADJ_TTUM_PNB";
 
 		public AdjTTUMProc(JdbcTemplate jdbcTemplate) {
 			super(jdbcTemplate, insert_proc);

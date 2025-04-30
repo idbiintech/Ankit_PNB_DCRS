@@ -38,6 +38,7 @@ public interface NFSSettlementService {
 	public boolean checkSettVoucherProcess(NFSSettlementBean beanObj);
 
 	HashMap<String,Object> ValidateForAdjTTUM(NFSSettlementBean beanObj);
+	
 	HashMap<String,Object> ValidateForAdjPENALTYTTUM(NFSSettlementBean beanObj);
 	HashMap<String,Object> ValidateForAdjTTUMICD(NFSSettlementBean beanObj);
 	

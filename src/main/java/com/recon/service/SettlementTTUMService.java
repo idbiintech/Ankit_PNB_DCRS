@@ -30,7 +30,9 @@ public interface SettlementTTUMService {
   List<Object> getSettlementVoucher(NFSSettlementBean paramNFSSettlementBean);
   
   List<Object> getAdjTTUM(NFSSettlementBean paramNFSSettlementBean);
-  
+
+  List<Object> getAdjTTUMICCW(NFSSettlementBean paramNFSSettlementBean);
+
   List<Object> getAdjTTUMICD(NFSSettlementBean paramNFSSettlementBean);
   
   List<Object> getTTUMRUPAY(UnMatchedTTUMBean paramUnMatchedTTUMBean);
@@ -158,6 +160,7 @@ public interface SettlementTTUMService {
   boolean rollBackRupayRefund(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   
   boolean rollBackNFSADJ(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
+  boolean rollBackNFSADJICCW(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   
   String rollBackRupayADJVISA(String paramString1, String paramString2, String paramString3) throws ParseException, Exception;
   
@@ -204,7 +207,7 @@ public interface SettlementTTUMService {
   boolean runAdjTTUMnew(NFSSettlementBean paramNFSSettlementBean);
   
   HashMap<String, Object> ANKITTREPORTSnew(NFSSettlementBean paramNFSSettlementBean);
-  
+  HashMap<String, Object> ANKITTREPORTSnewICCW(NFSSettlementBean paramNFSSettlementBean);
   HashMap<String, Object> ANKITACQPRNALTITTUM(NFSSettlementBean paramNFSSettlementBean);
   
   HashMap<String, Object> ANKITREPORSnewICD(NFSSettlementBean paramNFSSettlementBean);
@@ -395,6 +398,8 @@ public interface SettlementTTUMService {
   boolean rollBackTTUMMC3POS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackTTUMMC6POS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  boolean rollBackTTUMMC10POS(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean rollBackQSPARC(NFSSettlementBean paramNFSSettlementBean);
   

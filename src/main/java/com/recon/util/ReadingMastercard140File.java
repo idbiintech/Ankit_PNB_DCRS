@@ -190,6 +190,7 @@ public class ReadingMastercard140File {
     HashMap<Integer, String> function = new HashMap<>();
     String INSERT_DATA = "INSERT INTO mastercard_settlement_rawdata (SETTLEMENT_DATE, FILE_ID, FILE_TYPE, FUNCTIONS, PROC_CODE, COUNTS, RECON_AMT, TRANS_FEE, SERVICE_ID, AMT_PART_TRAN_TYPE, FEE_PART_TRAN_TYPE, CREATEDBY, FILE_NAME,cycle,FILEDATE,BUSSINESS_SERVICE_ID,CURRENCY_CODE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     try {
+    	boolean firstpres= false, secondpres=false;
       PreparedStatement pst = conn.prepareStatement(INSERT_DATA);
       BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
       while ((line = br.readLine()) != null) {
@@ -229,9 +230,17 @@ public class ReadingMastercard140File {
                 file_id = values[1].trim().replace("/", "");
                 sett_date = file_id.substring(3, 9);
               }  
-          } else if (line.trim().startsWith("FIRST PRES.") || line.trim().startsWith("SEC. PRES.-F") || line.trim().contains("ORIG") || line.trim().contains("PURCHASE   ORIG") || line.trim().contains("CREDIT     ORIG") || line.trim().contains("FIRST C/B -F") || line.trim().contains("FEE COLL-CSG")) {
+          } else if (line.trim().startsWith("FIRST PRES.") || line.trim().startsWith("SEC. PRES.-F") || line.trim().contains("ORIG") || line.trim().contains("CREDIT     RVSL")|| line.trim().contains("PURCHASE   ORIG") || line.trim().contains("CREDIT     ORIG") || line.trim().contains("FIRST C/B -F") || line.trim().contains("FEE COLL-CSG")) {
             System.out.println("codefff " + line.trim());
-            if (line.trim().startsWith("FIRST PRES.") || line.trim().startsWith("SEC. PRES.-F")) {
+            if(line.trim().startsWith("FIRST PRES.") ) {
+            	
+            	firstpres= true;
+            	
+            }else {
+            	secondpres= true;
+            }
+            
+            if (line.trim().startsWith("FIRST PRES.") || line.trim().startsWith("SEC. PRES.-F") || line.trim().startsWith("CREDIT     RVSL") ) {
               if (line.substring(70, 73).equalsIgnoreCase("356")) {
                 file_type = "INR";
               } else {
@@ -241,8 +250,14 @@ public class ReadingMastercard140File {
               pst.setString(1, sett_date);
               pst.setString(2, file_id);
               pst.setString(3, line.substring(74, 77).trim());
-              pst.setString(4, line.substring(0, 13).trim());
-              pst.setString(5, line.substring(0, 23).trim());
+              if(firstpres) {
+                  pst.setString(4,"FIRST PRES.");  
+            	  
+              }else {
+                  pst.setString(4, line.substring(0, 13).trim());
+              }
+ 
+              pst.setString(5, line.substring(0, 29).trim());
               pst.setString(6, line.substring(37, 43).trim());
               pst.setString(7, line.substring(53, 67).trim());
               pst.setString(8, line.substring(85, 99).trim());
@@ -260,6 +275,8 @@ public class ReadingMastercard140File {
               pst.execute();
             } 
             tableStarts = true;
+            
+          
           } 
           if (tableStarts) {
            // System.out.println("ORIG " + line.trim());
@@ -283,7 +300,7 @@ public class ReadingMastercard140File {
                 proc_code.put(Integer.valueOf(counter), values[0].trim());
                 chargeback_table = false;
               } else if (values[0].contains("C/B -F")) {
-                function.put(Integer.valueOf(counter), "CHARGEBACK");
+                  function.put(Integer.valueOf(counter), "CHARGEBACK");
                 proc_code.put(Integer.valueOf(counter), values[0].trim());
                 chargeback_table = true;
               } else if (chargeback_table) {

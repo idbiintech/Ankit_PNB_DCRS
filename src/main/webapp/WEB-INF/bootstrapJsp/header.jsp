@@ -290,7 +290,7 @@ background-color:#f1f1f1;
 
 		<!-- Logo -->
 
-		<a href="#" class="logo"><img class="imgg" src="dist/img/pnbl_ogo.png"
+		<a href="#" class="logo"><img class="imgg" src="dist/img/pnb_logo.png"
 			height="58px " width="274px"></a>
 		<div class="card_body">
 			<span class="hidden-xs"><i class="fa fa-calendar"

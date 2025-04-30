@@ -2817,6 +2817,32 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 		}
 	}
 
+	public boolean runTTUMProcessRUPAY10(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			UnmatchedTTUMProcRupay10 rollBackexe = new UnmatchedTTUMProcRupay10(getJdbcTemplate());
+			inParams.put("I_FILEDATE", beanObj.getFileDate());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			if (outParams != null && outParams.get("msg") == "FAILED") {
+				logger.info("OUT PARAM IS " + outParams.get("msg"));
+				return false;
+			}
+			if (outParams.get("msg") == "TTUM ALREADY PROCESSED") {
+				logger.info("OUT PARAM IS " + outParams.get("msg"));
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			return false;
+		}
+	}
+
 	public boolean runTTUMProcessRUPAY6INT(UnMatchedTTUMBean beanObj) {
 		Map<String, Object> inParams = new HashMap<>();
 		Map<String, Object> outParams = new HashMap<>();
@@ -2850,6 +2876,20 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 			super(jdbcTemplate, insert_proc);
 			setFunction(false);
 			declareParameter(new SqlParameter("v_filedate", Types.VARCHAR));
+
+			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE, Types.VARCHAR));
+			compile();
+		}
+
+	}
+
+	private class UnmatchedTTUMProcRupay10 extends StoredProcedure {
+		private static final String insert_proc = "MASTERCARD_ISS_ATM_SURCH_TTUM";
+
+		public UnmatchedTTUMProcRupay10(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("I_FILEDATE", Types.VARCHAR));
 
 			declareParameter(new SqlOutParameter(O_ERROR_MESSAGE, Types.VARCHAR));
 			compile();
@@ -4006,6 +4046,9 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 							+ beanObj.getFileDate() + "','%Y/%m/%d')";
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("SURCHARGED")) {
 					query = "SELECT count(*) FROM mc_dom_iss_dr_surch    WHERE filedate= str_to_date('"
+							+ beanObj.getFileDate() + "','%Y/%m/%d')";
+				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")) {
+					query = "SELECT count(*) FROM mc_iss_atm_surcharge    WHERE filedate= str_to_date('"
 							+ beanObj.getFileDate() + "','%Y/%m/%d')";
 				} else {
 					query = "SELECT count(*) FROM mc_dom_iss_cr_surch    WHERE filedate= str_to_date('"
