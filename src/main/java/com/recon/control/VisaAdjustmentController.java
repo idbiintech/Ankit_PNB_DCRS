@@ -113,7 +113,7 @@ public class VisaAdjustmentController {
         System.out.println("filename in nfs ttum is " + fileName);
         fileName = "VISA_" + beanObj.getAcqtypeOfTTUM() + "_TTUMS_" + beanObj.getFileDate() + "_.xls";
         zipName = "VISA_" + beanObj.getAcqtypeOfTTUM() + "_TTUM_" + beanObj.getFileDate() + "_VAL.zip";
-        obj.generateExcelTTUM(stPath, fileName, Excel_data, "VISA TTUM_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
+        obj.generateExcelTTUM(stPath, fileName, Excel_data, "VISA"+ beanObj.getAcqtypeOfTTUM()+"TTUM_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
         logger.info("File is created");
         File file = new File(String.valueOf(stPath) + File.separator + fileName);
         logger.info("path of zip file " + stPath + File.separator + fileName);

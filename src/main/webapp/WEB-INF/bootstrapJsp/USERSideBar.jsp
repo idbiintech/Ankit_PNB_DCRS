@@ -159,10 +159,11 @@ sidebar-menu {
 									class="fa fa-line-chart"></i> <span
 									style="font-size: 15px; font-weight: bold;">Increase
 										File</span><i class="fa fa-angle-left pull-right"></i></a></li>
-											<li><a href="GenerateNTSLMATICHING.do?category=VISA"><i
-						class="fa fa-skyatlas"></i> <span
-						style="font-size: 15px; font-weight: bold;">NTSL RAW MATCHING</span></a></li>
-	
+							<li><a href="GenerateNTSLMATICHING.do?category=VISA"><i
+									class="fa fa-skyatlas"></i> <span
+									style="font-size: 15px; font-weight: bold;">NTSL RAW
+										MATCHING</span></a></li>
+
 						</ul></li>
 					<li class="treeview"><a href="#"><i class="fa fa-wifi"></i>
 							<span style="font-size: 15px; font-weight: bold;">Networks</span>
@@ -323,6 +324,10 @@ sidebar-menu {
 											class="fa fa-angle-right"></i> <span
 											style="font-size: 15px; font-weight: bold;">Adjustment
 												Upload</span></a></li>
+												<li><a href="VisaAdjustmentTTUMnew.do?category=VISA"><i
+											class="fa fa-angle-right"></i> <span
+											style="font-size: 15px; font-weight: bold;">Adjustment
+												Process</span></a></li>
 
 								</ul></li>
 
@@ -468,8 +473,6 @@ sidebar-menu {
 									style="font-size: 15px; font-weight: bold;"> ICCW</span> <i
 									class="fa fa-angle-left pull-right"></i></a>
 
-
-
 								<ul class="treeview-menu">
 									<li><a href="ReconProcess.do?category=ICCW"><i
 											class="fa fa-angle-right"></i> <span
@@ -582,6 +585,8 @@ sidebar-menu {
 									class="fa fa-angle-right"></i> <span
 									style="font-size: 15px; font-weight: bold;">Invoice File
 										Upload</span></a></li>
+
+
 							<!-- 	<li><a
 										href="MastercardPDFINVOICEUpload.do?category=MASTERCARD"><i
 											class="fa fa-angle-right"></i> <span
@@ -627,6 +632,9 @@ sidebar-menu {
 									class="fa fa-angle-right"></i> <span
 									style="font-size: 15px; font-weight: bold;">Settlement
 										Download</span></a></li>
+
+
+
 						</ul></li></li>
 		</ul>
 		</li>
@@ -644,36 +652,29 @@ sidebar-menu {
 			<ul class="treeview-menu">
 
 
-				<li><a href="SuspectFileUpload.do?category=NFS"><i
-						class="fa fa-upload"></i><span
-						style="font-size: 15px; font-weight: bold;">Suspect Upload
-					</span></a></li>
+				<li><a href="EODFileUpload.do?category=MASTERCARD"><i
+						class="fa fa-angle-right"></i> <span
+						style="font-size: 15px; font-weight: bold;">EOD File Upload</span></a></li>
 
 
 
-				<li><a href="AcceptLTSUpload.do?category=NFS"><i
-						class="fa fa-upload"></i><span
-						style="font-size: 15px; font-weight: bold;">Accept & Reject
-							File Upload </span></a></li>
+
+
+
+				<li class="treeview"><a href="viewEODExcel.do"> <i
+						class="fa fa-eye"></i> <span
+						style="font-size: 15px; font-weight: bold;">View EOD EXCEL
+					</span>
+				</a></li>
+				<li><a href="GenerateEODExcel.do?category=MASTERCARD"><i
+						class="fa fa-angle-right"></i> <span
+						style="font-size: 15px; font-weight: bold;"> Process EOD</span></a></li>
+				
 				<!-- 				<li><a href="ATMMASTERUpload.do?category=MASTERCARD"><i
 						class="fa fa-upload"></i> <span
 						style="font-size: 15px; font-weight: bold;">ATM Master Upload</span></a></li> -->
 
 
-				<li><a href="GenerateFinacleTTUM.do?category=NFS"><i
-						class="fa fa-gg"></i> <span
-						style="font-size: 15px; font-weight: bold;">Finacle TTM
-							Process</span></a></li>
-
-				<li><a href="GenerateVENDERACCEPTTTUM.do?category=VISA"><i
-						class="fa fa-skyatlas"></i> <span
-						style="font-size: 15px; font-weight: bold;">Vendor Accept
-							TTUM</span></a></li>
-
-				<li><a href="GenerateVENDERREJECTTTUM.do?category=VISA"><i
-						class="fa fa-skyatlas"></i> <span
-						style="font-size: 15px; font-weight: bold;">Branch Reject
-							TTUM</span></a></li>
 
 				<!-- 			<a
 					href="webapp/WEB-INF/PGPEncryptionTool/PGPEncryption.exe" download> -->
@@ -792,9 +793,9 @@ sidebar-menu {
 						class="fa fa-skyatlas"></i> <span
 						style="font-size: 15px; font-weight: bold;">Nepal & Bhutan
 							TTUM</span></a></li>
-							
-							
-			<!-- 	<li><a href="GETNTSLRAWMATCHING.do?category=VISA"><i
+
+
+				<!-- 	<li><a href="GETNTSLRAWMATCHING.do?category=VISA"><i
 						class="fa fa-skyatlas"></i> <span
 						style="font-size: 15px; font-weight: bold;">NTSL RAW MATCHING</span></a></li>
  -->

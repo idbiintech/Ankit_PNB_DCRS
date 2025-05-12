@@ -563,10 +563,8 @@ label {
 									<option value="-">--Select --</option>
 									<option value="CHARGEBACK ACCEPTANCE">CHARGEBACK
 										ACCEPTANCE</option>
-									<option value="CHARGEBACK ACCEPTANCE ICCW ATM">CHARGEBACK
-										ACCEPTANCE ICCW ATM</option>
-									<option value="CREDIT ADJUSTMENT ICCW ATM">CREDIT
-										ADJUSTMENT ICCW ATM</option>
+								
+							
 									<option value="GOODFAITH CHARGEBACK ACCEPTANCE">GOODFAITH
 										CHARGEBACK ACCEPTANCE</option>
 									<option value="GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE">GOOD

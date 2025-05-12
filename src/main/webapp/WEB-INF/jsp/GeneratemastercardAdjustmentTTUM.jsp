@@ -269,7 +269,7 @@ response.setHeader("X-Frame-Options", "deny");
 
 	function ReportRollback() {
 		debugger;
-		var subcategory = document.getElementById("cate").value;
+		var subcategory = document.getElementById("stSubCategory").value;
 		var fileDate = document.getElementById("dailypicker").value;
 		var ADJTYPE = document.getElementById("adjType").value;
 

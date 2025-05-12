@@ -559,7 +559,326 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 		}
 
 	}
+	public HashMap<String, Object> processEODGLVISARefund(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			processEODGLVISARefund rollBackexe = new processEODGLVISARefund(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
 
+	private class processEODGLVISARefund extends StoredProcedure {
+		private static final String insert_proc = "visa_refund_gl";
+
+		public processEODGLVISARefund(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISAACQCHARGEBACKDOMGL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			proccessVISAACQCHARGEBACKDOMGL rollBackexe = new proccessVISAACQCHARGEBACKDOMGL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class proccessVISAACQCHARGEBACKDOMGL extends StoredProcedure {
+		private static final String insert_proc = "visa_acq_dom_chbk_gl";
+
+		public proccessVISAACQCHARGEBACKDOMGL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISA_ACQ_INT_POOL_GL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			VISA_ACQ_INT_POOL_GL rollBackexe = new VISA_ACQ_INT_POOL_GL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class VISA_ACQ_INT_POOL_GL extends StoredProcedure {
+		private static final String insert_proc = "visa_acq_int_pool_gl";
+
+		public VISA_ACQ_INT_POOL_GL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISA_ACQ_DOM_POOL_GL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			VISA_ACQ_DOM_POOL_GL rollBackexe = new VISA_ACQ_DOM_POOL_GL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class VISA_ACQ_DOM_POOL_GL extends StoredProcedure {
+		private static final String insert_proc = "visa_acq_int_pool_gl";
+
+		public VISA_ACQ_DOM_POOL_GL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISA_INT_BENE_CHARGEBACK_GL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			VISA_INT_BENE_CHARGEBACK_GL rollBackexe = new VISA_INT_BENE_CHARGEBACK_GL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class VISA_INT_BENE_CHARGEBACK_GL extends StoredProcedure {
+		private static final String insert_proc = "visa_bene_int_chbk_gl";
+
+		public VISA_INT_BENE_CHARGEBACK_GL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISA_ISS_POOL_GL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			VISA_ISS_POOL_GL rollBackexe = new VISA_ISS_POOL_GL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class VISA_ISS_POOL_GL extends StoredProcedure {
+		private static final String insert_proc = "visa_iss_pool_gl";
+
+		public VISA_ISS_POOL_GL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessVISA_REME_CHARGEBACK_DOM_GL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			VISA_REME_CHARGEBACK_DOM_GL rollBackexe = new VISA_REME_CHARGEBACK_DOM_GL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class VISA_REME_CHARGEBACK_DOM_GL extends StoredProcedure {
+		private static final String insert_proc = "visa_reme_dom_chbk_gl";
+
+		public VISA_REME_CHARGEBACK_DOM_GL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
+	public HashMap<String, Object> proccessNFSISSGL(UnMatchedTTUMBean beanObj) {
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<>();
+		HashMap<String, Object> output = new HashMap<>();
+		System.out.println("filedate is" + beanObj.getTypeOfTTUM());
+		System.out.println("localdt is " + beanObj.getLocalDate());
+		try {
+			System.out.println("date is " + beanObj.getLocalDate());
+			proccessNFSISSGL rollBackexe = new proccessNFSISSGL(getJdbcTemplate());
+			inParams.put("V_GLDATE", beanObj.getLocalDate());
+			inParams.put("V_EODBAL", beanObj.getOpeningBalance());
+			
+			inParams.put("V_FEODBAL", beanObj.getClosingBalance());
+			outParams = rollBackexe.execute(inParams);
+			System.out.println("outParams " + outParams.toString());
+			output.put("result", Boolean.valueOf(true));
+			output.put("msg", outParams.get("o_error_message"));
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			output.put("result", Boolean.valueOf(false));
+			output.put("msg", e.toString());
+			return output;
+		}
+		return output;
+	}
+
+	private class proccessNFSISSGL extends StoredProcedure {
+		private static final String insert_proc = "nfs_issuer_gl";
+
+		public proccessNFSISSGL(JdbcTemplate jdbcTemplate) {
+			super(jdbcTemplate, insert_proc);
+			setFunction(false);
+			declareParameter(new SqlParameter("V_GLDATE", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_EODBAL", Types.VARCHAR));
+			declareParameter(new SqlParameter("V_FEODBAL", Types.VARCHAR));
+			declareParameter(new SqlOutParameter("msg", Types.VARCHAR));
+			compile();
+		}
+
+	}
 	public HashMap<String, Object> runTTUMProcess4(UnMatchedTTUMBean beanObj) {
 		Map<String, Object> inParams = new HashMap<>();
 		Map<String, Object> outParams = new HashMap<>();
@@ -3602,7 +3921,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("PROACTIVE")) {
 					query = "SELECT COUNT(*) FROM visa_iss_proactive_ttum_data WHERE FILEDATE=STR_TO_DATE('"
 							+ beanObj.getLocalDate() + "','%Y/%m/%d')";
-				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("DEBIT SURCHARGE")) {
+				} else if (beanObj.getTypeOfTTUM().contains("DEBIT SURCHARGE")) {
 					query = "SELECT COUNT(*) FROM visa_iss_dr_surch_ttum_data WHERE FILEDATE=STR_TO_DATE('"
 							+ beanObj.getLocalDate() + "','%Y/%m/%d')";
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("CREDIT SURCHARGE")) {
@@ -4044,7 +4363,7 @@ public class RupayTTUMServiceImpl extends JdbcDaoSupport implements RupayTTUMSer
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("OFFLINE PRESENTMENT")) {
 					query = "SELECT count(*) FROM  dom_offline_pres_ttum  WHERE  filedate= str_to_date('"
 							+ beanObj.getFileDate() + "','%Y/%m/%d')";
-				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("SURCHARGED")) {
+				} else if (beanObj.getTypeOfTTUM().contains("SURCHARGED")) {
 					query = "SELECT count(*) FROM mc_dom_iss_dr_surch    WHERE filedate= str_to_date('"
 							+ beanObj.getFileDate() + "','%Y/%m/%d')";
 				} else if (beanObj.getTypeOfTTUM().equalsIgnoreCase("ATMSURCHARGE")) {

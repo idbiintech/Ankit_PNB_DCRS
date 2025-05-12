@@ -5,6 +5,46 @@ public class ViewFiles {
 	private String filecount;
 	private String filename;
 	private String remark;
+	
+	
+	private String balance;
+	
+	private String debit_count;
+	private String debit_Amount;
+	private String credit_count;
+	private String credit_amount;
+	
+	
+	public String getBalance() {
+		return balance;
+	}
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+	public String getDebit_count() {
+		return debit_count;
+	}
+	public void setDebit_count(String debit_count) {
+		this.debit_count = debit_count;
+	}
+	public String getDebit_Amount() {
+		return debit_Amount;
+	}
+	public void setDebit_Amount(String debit_Amount) {
+		this.debit_Amount = debit_Amount;
+	}
+	public String getCredit_count() {
+		return credit_count;
+	}
+	public void setCredit_count(String credit_count) {
+		this.credit_count = credit_count;
+	}
+	public String getCredit_amount() {
+		return credit_amount;
+	}
+	public void setCredit_amount(String credit_amount) {
+		this.credit_amount = credit_amount;
+	}
 	public String getRemark() {
 		return remark;
 	}

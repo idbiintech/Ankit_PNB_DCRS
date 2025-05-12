@@ -32,6 +32,7 @@ public interface SettlementTTUMService {
   List<Object> getAdjTTUM(NFSSettlementBean paramNFSSettlementBean);
 
   List<Object> getAdjTTUMICCW(NFSSettlementBean paramNFSSettlementBean);
+  List<Object> getAdjTTUMVISA(NFSSettlementBean paramNFSSettlementBean);
 
   List<Object> getAdjTTUMICD(NFSSettlementBean paramNFSSettlementBean);
   
@@ -75,6 +76,7 @@ public interface SettlementTTUMService {
   List<Object> getTTUMMASTERCARD(MastercardUploadBean paramMastercardUploadBean);
   
   List<Object> getTTUMCTC(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  List<Object> getEODGLEXCELDATA(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   boolean runAdjTTUM(NFSSettlementBean paramNFSSettlementBean);
   
@@ -101,6 +103,7 @@ public interface SettlementTTUMService {
   boolean adjTTUMProc(NFSSettlementBean paramNFSSettlementBean);
   
   List<Object> getDailyNFSTTUMData(NFSSettlementBean paramNFSSettlementBean);
+  List<Object> getDailyVISATTUMData(NFSSettlementBean paramNFSSettlementBean);
   
   List<Object> getDailyNFSTTUMDataICD(NFSSettlementBean paramNFSSettlementBean);
   
@@ -161,6 +164,7 @@ public interface SettlementTTUMService {
   
   boolean rollBackNFSADJ(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   boolean rollBackNFSADJICCW(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
+  boolean rollBackNFSADJVISA(NFSSettlementBean paramNFSSettlementBean) throws ParseException, Exception;
   
   String rollBackRupayADJVISA(String paramString1, String paramString2, String paramString3) throws ParseException, Exception;
   
@@ -208,6 +212,7 @@ public interface SettlementTTUMService {
   
   HashMap<String, Object> ANKITTREPORTSnew(NFSSettlementBean paramNFSSettlementBean);
   HashMap<String, Object> ANKITTREPORTSnewICCW(NFSSettlementBean paramNFSSettlementBean);
+  HashMap<String, Object> ANKITTREPORTSnewVISA(NFSSettlementBean paramNFSSettlementBean);
   HashMap<String, Object> ANKITACQPRNALTITTUM(NFSSettlementBean paramNFSSettlementBean);
   
   HashMap<String, Object> ANKITREPORSnewICD(NFSSettlementBean paramNFSSettlementBean);

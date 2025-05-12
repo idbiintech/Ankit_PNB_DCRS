@@ -43,6 +43,8 @@ public class ReadVisa745EPFiles {
 			PreparedStatement ps745 = conn.prepareStatement(Insert745);
 			boolean Flag255 = false;
 			while ((line = br.readLine()) != null) {
+
+				System.out.println("data " + line);
 				if (!line.trim().equalsIgnoreCase("")) {
 					if (line.trim().contains("REPORT ID"))
 						REPORT_ID = line.trim().substring(12, 19);
@@ -62,21 +64,24 @@ public class ReadVisa745EPFiles {
 						continue;
 					}
 					if ((DESPUT_TYPE.contains("ACQUIRER TRANSACTION") && line.trim().startsWith("255"))
+							|| line.trim().startsWith("265") || line.trim().startsWith("05")
+							|| line.trim().startsWith("09") || line.trim().startsWith("39")
 							|| line.trim().startsWith("38") || line.trim().startsWith("47")
 							|| line.trim().startsWith("04") || line.trim().startsWith("12")
 							|| line.trim().startsWith("07") || line.trim().startsWith("08")
 							|| line.trim().startsWith("10") || line.trim().startsWith("18")
 							|| line.trim().startsWith("06") || line.trim().startsWith("02")
 							|| line.trim().startsWith("21") || line.trim().startsWith("16")
-							|| line.trim().startsWith("15") || line.trim().startsWith("38")
-							|| line.trim().startsWith("14") || line.trim().startsWith("13")
-							|| line.trim().startsWith("11") || line.trim().startsWith("17")
-							|| line.trim().startsWith("18")) {
+							|| line.trim().startsWith("15") || line.trim().startsWith("14")
+							|| line.trim().startsWith("13") || line.trim().startsWith("11")
+							|| line.trim().startsWith("17")) {
 						Code = line.trim().substring(0, 3);
 
 						if (line.trim().length() != 117 && line.trim().length() != 92)
 							if (line.trim().length() != 86) {
 								if (line.trim().startsWith("18") || line.trim().startsWith("38")
+										|| line.trim().startsWith("265") || line.trim().startsWith("05")
+										|| line.trim().startsWith("09") || line.trim().startsWith("39")
 										|| line.trim().startsWith("21") || line.trim().startsWith("47")
 										|| line.trim().startsWith("15") || line.trim().startsWith("16")
 										|| line.trim().startsWith("14") || line.trim().startsWith("11")
@@ -154,7 +159,9 @@ public class ReadVisa745EPFiles {
 					if (Flag255) {
 						count++;
 						System.out.println("dd  " + line.trim().length());
-						if (line.trim().length() == 77 || line.trim().length() == 78 || line.trim().length() == 36)
+						if (line.trim().length() == 77 || line.trim().length() == 78 || line.trim().length() == 36
+								|| line.trim().length() == 5 || line.trim().startsWith("ATC:")
+								|| line.trim().startsWith("CI:") || line.trim().startsWith("CD SQ:"))
 							continue;
 						if (count == 2) {
 							System.out.println("d  " + line.trim().length());

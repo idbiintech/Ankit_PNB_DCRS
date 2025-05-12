@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.recon.util;
 
 import java.io.FileInputStream;
@@ -60,14 +57,7 @@ public class OracleConn implements java.io.Serializable {
         System.out.println("Connection to conv Closed");
     }
 
-	/*
-	 * public void ConManagerOrcl(String server, String port, String database,
-	 * String login, String password) throws ClassNotFoundException, SQLException {
-	 * //setDefaultDriver(); this.server = url; this.port = port; this.database =
-	 * database; this.login = login; this.password = password; createConnection();
-	 * 
-	 * }
-	 */
+
     public Properties loadPropertiesFile() throws Exception
     {
     	//TAKING DB CONNECTION USING JDBC PROPERTY FILE
@@ -84,43 +74,17 @@ public class OracleConn implements java.io.Serializable {
     	
         /*live server */
             database = "DCRS";
-            //CUB UAT db
-//            url="jdbc:oracle:thin:@192.168.137.37:1522:irecondb";                       
-//            login = "debitcard_recon";
-//            password = "debitcardrecon"; 
-            
-            
-            //production local jdbc:oracle:thin:@192.168.137.10:1522:irecondb
-            //  url="jdbc:oracle:thin:@172.17.7.208:1522:irecondb"; 
-            //url="jdbc:oracle:thin:@172.17.6.13:1522:irecondb"; 
-            
-            //production main  
-      //   url="@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=CARDSRECNPR-scan.unionbankofindia.co.in)(PORT=1621))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=DEBITCRD)))"; 
-      
+
+
  //  url="jdbc:mysql://10.161.79.12:3511/debitcard_recon_pnb"; 
-   url="jdbc:mysql://103.108.12.208:3511/debitcard_recon_pnb";
- //  url="jdbc:mysql://10.161.76.21:3511/debitcard_recon_pnb"; 
+//url="jdbc:mysql://103.108.12.208:3511/debitcard_recon_pnb";
+ url="jdbc:mysql://10.161.76.21:3511/debitcard_recon_pnb"; 
              
      login = "reconuser";	
-  password = "r1e2c3o4n5";
+  //password = "r1e2c3o4n5";
      //password = "Un1ted@PNB#!";
- // password = "Recon@123";
-//            
-            //uco uat db
-            /*url="jdbc:oracle:thin:@172.19.143.60:1621:DCRS";
-            login = "DEBITCARD_RECON"; 
-            password = "DEBITCARD_RECON";*/
-            
-            //uco prod db
-//           url="jdbc:oracle:thin:@172.19.247.162:1621:DCRS";
-//          //url="jdbc:oracle:thin:@172.19.118.29:1621:DCRS";   // DR DB DETAILS
-//             login = "DEBITCARD_RECON";
-//            password = "debitcard_recon";
-            
-           /* url="jdbc:oracle:thin:@172.19.247.162:1621:orcl";
-            login = "DEBITCARD_RECON";
-            password = "debitcard_recon";*/
-            
+  password = "Recon@123";
+
           
         createConnection();
 
@@ -180,7 +144,7 @@ public class OracleConn implements java.io.Serializable {
             OracleConn conn = new OracleConn();
             conn.createConnection();
             //conn.resetAutoCommit();
-            System.out.println(" Connection is made on conv");
+            System.out.println("Connection is made on conv");
 
         } catch (Exception ex) {
             System.out.println("Exception in Main--> " + ex.getMessage());
@@ -189,7 +153,7 @@ public class OracleConn implements java.io.Serializable {
     }
 
     public OracleConn(String db_nm) throws ClassNotFoundException, SQLException {
-        /*live server */
+      
         database = "tomhawk";
         login = "conv";
         password = "testconv";

@@ -163,7 +163,13 @@ label {
 									<option value="LATE PRESENTMENT CHARGES">LATE
 										PRESENTMENT CHARGES</option>
 									<option value="PROACTIVE">PROACTIVE</option>
-									<option value="DEBIT SURCHARGE">DEBIT SURCHARGE</option>
+										<option value="DEBIT SURCHARGE">DEBIT SURCHARGE FORIEGN EXCHANGE</option>
+								<option value="DEBIT SURCHARGE FE">DEBIT SURCHARGE FORIEGN EXCHANGE</option>
+										<option value="DEBIT SURCHARGE P">DEBIT SURCHARGE PETROL</option>
+										<option value="DEBIT SURCHARGE R">DEBIT SURCHARGE RAILWAY</option>
+										<option value="DEBIT SURCHARGE H">DEBIT SURCHARGE HOTEL</option>
+									<option value="DEBIT SURCHARGE O">DEBIT SURCHARGE OTHER</option>
+									
 									<option value="CREDIT SURCHARGE">CREDIT SURCHARGE</option>
 							
 									<option value="ORIGINAL WITHDRAWL REVERSAL">ORIGINAL

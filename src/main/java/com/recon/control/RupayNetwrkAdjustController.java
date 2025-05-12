@@ -175,7 +175,10 @@ public class RupayNetwrkAdjustController {
       } else {
         logger.info("adjType" + adjType);
         executed = this.rupayAdjustntFileUpService.runAdjTTUM(fileDate, adjType, Createdby, cate);
+        
+        
       } 
+      
       if (executed)
         return "Processing Completed \nPlease download TTUM"; 
       return "Issue while Processing";
@@ -443,14 +446,21 @@ public class RupayNetwrkAdjustController {
           Column_list.add("DR_CR");
           Column_list.add("AMOUNT");
           Column_list.add("NARRATION");
-        } 
+        } else {
+            Column_list.add("ACCOUNT_NO");
+            Column_list.add("TRANSACTION_DATE");
+            Column_list.add("RRN");
+            Column_list.add("DR_CR");
+            Column_list.add("AMOUNT");
+            Column_list.add("NARRATION");
+          }
         Excel_data.add(Column_list);
         Excel_data.add(TTUMData);
         System.out.println("filename in nfs ttum is " + fileName);
         fileName = "RUPAY_" + beanObj.getAcqtypeOfTTUM() + "_TTUMS_" + beanObj.getFileDate().replaceAll("/", "") + "_.xls";
         zipName = "RUPAY_" + beanObj.getAcqtypeOfTTUM() + "_TTUM_" + beanObj.getFileDate().replaceAll("/", "") + 
           "_VAL.zip";
-        obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY TTUM_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
+        obj.generateExcelTTUM(stPath, fileName, Excel_data, "RUPAY"+ beanObj.getAcqtypeOfTTUM()+"_"+  beanObj.getFileDate().replaceAll("/", "-"), zipName);
         logger.info("File is created");
         File file = new File(String.valueOf(stPath) + File.separator + fileName);
         logger.info("path of zip file " + stPath + File.separator + fileName);

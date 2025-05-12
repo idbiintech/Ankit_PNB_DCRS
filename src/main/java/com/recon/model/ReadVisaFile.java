@@ -34,10 +34,10 @@ public class ReadVisaFile {
 		logger.info("***** ReadVisaFile.readData Start ****");
 		InputStream fis = null;
 		String check_TCR = "";
-		String ACC_NO = "";
+
 		String SOURCE_AMT = "NA";
 		String DATE = "";
-		String AUTH_CODE = "", REQ_MSGTYPE = "";
+		String REQ_MSGTYPE = "";
 		String TRACE = "NA";
 		String RESPONSE_CODE = "NA";
 		String REFERENCE_NUMBER = "NA";
@@ -87,36 +87,18 @@ public class ReadVisaFile {
 			String newPath = OUTPUT_FOLDER + File.separator + fileNameWithoutExt;
 
 			System.out.println("File to be write at path: " + newPath);
-			// PgpHelper helper = new PgpHelper();
 
-			// InputStream keyIn = resource.getInputStream();
-			// FileOutputStream out = new FileOutputStream(newPath);
-
-			// helper.decryptFile(file.getInputStream(), out, keyIn,
-			// "Atmcell@#12345".toCharArray());
-			// InputStream in = helper.decryptFileWithInputStram(file.getInputStream(), out,
-			// keyIn, "Atmcell@#12345".toCharArray());
 			File outFile = new File(newPath);
 
 			System.out.println("File reading from Path: " + newPath);
 			System.out.println("File reading : " + outFile);
-			// PreparedStatement delpst = con.prepareStatement(delQuery);
-			// delpst.execute();
-
-			// BufferedReader br = new BufferedReader(new
-			// InputStreamReader(file.getInputStream()));
-			// br = new BufferedReader(new FileReader(outFile));
 
 			br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 
 			logger.info("Reading data " + new Date().toString());
-			// CHECK WHETHER TABLE IS ALREADY PRESENT
+
 			String CHECK_TABLE = "", update_TABLE = "";
-			/*
-			 * if(setupBean.getStSubCategory().equals("-") &&
-			 * setupBean.getCategory().equals("WCC")){ CHECK_TABLE =
-			 * "SELECT count (*) FROM tab WHERE tname  = 'WCC_INPUT_FILE'"; }else{
-			 */
+
 			CHECK_TABLE = "SELECT count(*) FROM tab WHERE tname  = 'VISA_INPUT_FILE'";
 
 			logger.info("CHECK_TABLE==" + CHECK_TABLE);
@@ -129,43 +111,23 @@ public class ReadVisaFile {
 			int isPresent = 0;
 
 			if (rset1.next()) {
-				// logger.info("table is present ? "+rset1.getInt(1));
+
 				isPresent = rset1.getInt(1);
 			}
 
 			if (isPresent == 0) {
 
-				// IF NOT THEN CREATE IT
-				// CREATE VISA INPUT TABLE
 				String CREATE_QUERY = "CREATE TABLE  visa_input_file (TC VARCHAR2(100 BYTE), TCR_CODE VARCHAR2(100 BYTE), STRING varchar(1000), DCRS_SEQ_NO varchar(100), FILEDATE DATE)";
 
 				logger.info("CREATE_QUERY==" + CREATE_QUERY);
 				PreparedStatement pstmt = conn.prepareStatement(CREATE_QUERY);
-				// pstmt.executeQuery();
 
 			}
 
-			// CREATE RAW TABLE FOR VISA
-			// GET TABLE NAME FROM MAIN FILESOURCES
-			/*
-			 * String GET_RAW_TABLE = ""; if(setupBean.getStSubCategory().equals("-") &&
-			 * setupBean.getCategory().equals("WCC")){ GET_RAW_TABLE =
-			 * "SELECT TABLENAME FROM MAIN_FILESOURCE WHERE FILENAME = 'VISA' AND FILE_CATEGORY = 'VISA' AND FILE_SUBCATEGORY = 'ISS DOM POS'"
-			 * ; }else{ GET_RAW_TABLE =
-			 * "SELECT TABLENAME FROM MAIN_FILESOURCE WHERE FILENAME = 'VISA' AND FILE_CATEGORY = 'VISA' AND FILE_SUBCATEGORY = 'ISS DOM POS'"
-			 * ; } logger.info("GET_RAW_TABLE=="+GET_RAW_TABLE); pstmt1 =
-			 * conn.prepareStatement(GET_RAW_TABLE); rset1 = pstmt1.executeQuery();
-			 * 
-			 * if(rset1.next()) {
-			 * //logger.info("TABLE NAME IS "+rset1.getString("TABLENAME")); stTable_Name =
-			 * rset1.getString("TABLENAME"); }
-			 */
 			String stline = br.readLine();
 
 			String DATA_INSERT_05 = "INSERT INTO visa_visa_rawdata (TC,TCR_CODE,DCRS_SEQ_NO,FILEDATE,PART_ID,CARD_NUMBER,Floor_Limit_indi,ARN,Acquirer_Busi_ID,Purchase_Date,Destination_Amount,Destination_Curr_Code,SOURCE_AMOUNT,Source_Curr_Code,Merchant_Name,Merchant_City,Merchant_Country_Code,Merchant_Category_Code,Merchant_ZIP_Code,Usage_Code,Reason_Code,Settlement_Flag,Auth_Chara_Ind,AUTHORIZATION_CODE,POS_Terminal_Capability,Cardholder_ID_Method,Collection_Only_Flag,POS_Entry_Mode,Central_Process_Date,Reimbursement_Attr,FPAN,TRAN_ID,FILENAME)  VALUES(?,?,?,str_to_date(?,'%Y/%m/%d'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			String DATA_INSERT_10 = "INSERT INTO  visa_visa_rawdata (TC,TCR_CODE,DCRS_SEQ_NO,FILEDATE,PART_ID,Destination_BIN,Source_BIN,Reason_Code,Country_Code,Event_Date,CARD_NUMBER,Destination_Amount,Destination_Curr_Code,SOURCE_AMOUNT,Source_Curr_Code,Message_Text,Settlement_Flag,Transac_Identifier,Central_Process_Date,Reimbursement_Attr,FPAN,FILENAME)  VALUES(?,?,?,str_to_date(?,'%Y/%m/%d'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-			// logger.info("DATA_INSERT_10=="+DATA_INSERT_10);
 
 			PreparedStatement read_stmt_05 = conn.prepareStatement(DATA_INSERT_05);
 
@@ -173,7 +135,6 @@ public class ReadVisaFile {
 
 			String INSERT_33 = "INSERT INTO  visa_acq_rawdata (TC,TCR_CODE,CARD_NUMBER,SOURCE_AMOUNT,TRACE,REFERENCE_NUMBER,RESPONSE_CODE,DCRS_SEQ_NO,FILEDATE,PART_ID,FPAN,SOURCE_CURR_CODE,DESTINATION_CURR_CODE,DESTINATION_AMOUNT,TRANSAC_IDENTIFIER,MERCHANT_COUNTRY_CODE,MERCHANT_NAME,MERCHANT_CATEGORY_CODE,PURCHASE_DATE,MESSAGE_TEXT,FILENAME, REQ_MSGTYPE, POS_ENTRY_MODE,ARN) VALUES(?,?,?,?,?,?,?,?,str_to_date(?,'%Y/%m/%d'),?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)";
 
-			// logger.info("INSERT_33=="+INSERT_33);
 			PreparedStatement pstmt33 = conn.prepareStatement(INSERT_33);
 
 			int count = 0, count1 = 0;
@@ -181,51 +142,33 @@ public class ReadVisaFile {
 			float amt = 0.00f;
 			Integer updatedseqcheckInteger = null;
 			String INSERT_QUERY = "";
-			/*
-			 * if(setupBean.getStSubCategory().equals("-")){ INSERT_QUERY =
-			 * "INSERT INTO WCC_INPUT_FILE (TC, TCR_CODE, STRING,DCRS_SEQ_NO,FILEDATE) VALUES(?,?,?,?,TO_DATE(?,'DD/MM/YYYY'))"
-			 * ; }else{
-			 */
+
 			INSERT_QUERY = "INSERT INTO  visa_input_file (TC, TCR_CODE, STRING,DCRS_SEQ_NO,FILEDATE) VALUES(?,?,?,?,str_to_date(?,'%Y/%m/%d'))";
 
 			logger.info("INSERT_QUERY==" + INSERT_QUERY);
 			pstmt1 = conn.prepareStatement(INSERT_QUERY);
 
-			/*
-			 * String Seq_num = "select 'VISA'||visa_seq.nextval AS SEQ from dual";
-			 * PreparedStatement pstmt2 = conn.prepareStatement(Seq_num); String seq = "";
-			 */
-
-			// GETTING ALL CHARACTER , DIGIT AND SIGN FROM TABLE
 			String seq = "";
 			List<String> stRawData = new ArrayList<String>();
 			while (stline != null) {
 				count1++;
-				//System.out.println("data "+ stline);
+
 				if (count1 == 6) {
 
 					location = stline.substring(75, 114);
 				}
 				stRawData.clear();
 				boolean containsVISATable = false;
-				// logger.info("count is "+count);
-
-				// String TRAN_AMOUNT = "";
 
 				List<String> Data_Elements = new ArrayList<String>();
 				String TC = stline.substring(0, 2);
 				String TCR_Code = stline.substring(2, 4);
-				// logger.info("TCR_Code "+ TCR_Code);
-
-				// generating SEQ number
-
-				// INSERT THE DATA IN INPUT TABLE
 
 				if (TC.equals("05") || TC.equals("06") || TC.equals("07") || TC.equals("25") || TC.equals("27")) {
 					if (TCR_Code.equals("00") || TCR_Code.equals("20")) {
 						Data_Elements = tcrFileObj.TCR050Format();
 					}
-					// Added by int8624 on 28 May
+
 					else if (TCR_Code.equalsIgnoreCase("05")) {
 						Data_Elements = tcrFileObj.TCR0505Format();
 					}
@@ -256,8 +199,6 @@ public class ReadVisaFile {
 					}
 				}
 				if (!containsVISATable) {
-					// READ CARD NUMBER , AMOUNT , AND AUTH CODE FROM INPUT STRING AND INSERT IT IN
-					// NEW RAW TABLE
 
 					for (int i = 0; i < Data_Elements.size(); i++) {
 						if (TC.equals("05") || TC.equals("06") || TC.equals("07") || TC.equals("25")
@@ -271,20 +212,19 @@ public class ReadVisaFile {
 									int stEnd_pos = Integer.parseInt(DE[2].trim());
 
 									if (DE[0].equalsIgnoreCase("ACCOUNT NUMBER")) {
-										// logger.info(DE[0]);
+
 										stData = stline.substring((ststart_Pos - 1), stEnd_pos).replaceAll("^0*", "")
 												.trim();
 										stRawData.add(stData);
 									} else if (DE[0].equalsIgnoreCase("SOURCE AMOUNT")
 											|| DE[0].equalsIgnoreCase("DESTINATION AMOUNT")) {
-										// logger.info(DE[0]);
+
 										SOURCE_AMT = stline.substring((ststart_Pos - 1), stEnd_pos)
 												.replaceAll("^0*", "").trim();
 										stData = String.valueOf((Float.parseFloat(SOURCE_AMT) / 100));
 										stRawData.add(stData);
-										// logger.info("AMT IS "+SOURCE_AMT+" check this "+amt);
-									} else // if(DE[0].equalsIgnoreCase("AUTHORIZATION CODE"))
-									if (DE[0].equalsIgnoreCase("Floor Limit Indicator")
+
+									} else if (DE[0].equalsIgnoreCase("Floor Limit Indicator")
 											|| DE[0].equalsIgnoreCase("Acquirer Reference Number")
 											|| DE[0].equalsIgnoreCase("Acquirer's Business ID")
 											|| DE[0].equalsIgnoreCase("Purchase Date") ||
@@ -310,27 +250,25 @@ public class ReadVisaFile {
 											|| DE[0].equalsIgnoreCase("AUTHORIZATION CODE"))
 
 									{
-										// logger.info(DE[0]);
-										// AUTH_CODE = stline.substring((ststart_Pos-1),
-										// stEnd_pos).replaceAll("^0*","").trim();
+
 										stData = stline.substring((ststart_Pos - 1), stEnd_pos).trim();
 										stRawData.add(stData);
 										if (DE[0].equalsIgnoreCase("Collection-Only Flag")) {
-											// logger.info("Collection-Only Flag "+stData);
+
 										}
 									}
 
 								} else if (DE.length == 2) {
 									int ststart_pos = Integer.parseInt(DE[1].trim());
 									if (DE[0].equalsIgnoreCase("ACCOUNT NUMBER")) {
-										// logger.info(DE[0]);
+
 										stData = stline.substring((ststart_pos - 1), (ststart_pos))
 												.replaceAll("^0*", "").trim();
 										stRawData.add(stData);
 									} else if (DE[0].equalsIgnoreCase("SOURCE AMOUNT")
 											|| DE[0].equalsIgnoreCase("DESTINATION AMOUNT")) {
 										try {
-											// logger.info(DE[0]);
+
 											SOURCE_AMT = stline.substring((ststart_pos - 1), (ststart_pos))
 													.replaceAll("^0*", "").trim();
 											stData = String.valueOf((Float.parseFloat(SOURCE_AMT) / 100));
@@ -338,12 +276,11 @@ public class ReadVisaFile {
 										} catch (Exception e) {
 											logger.info("Exception in visa issuer on line " + stline);
 										}
-									} else // if(DE[0].equalsIgnoreCase("AUTHORIZATION CODE"))
-									if (DE[0].equalsIgnoreCase("Floor Limit Indicator")
+									} else if (DE[0].equalsIgnoreCase("Floor Limit Indicator")
 											|| DE[0].equalsIgnoreCase("Acquirer Reference Number")
 											|| DE[0].equalsIgnoreCase("Acquirer's Business ID")
 											|| DE[0].equalsIgnoreCase("Purchase Date") ||
-											// DE[0].equalsIgnoreCase("Destination Amount") ||
+
 											DE[0].equalsIgnoreCase("Destination Currency Code")
 											|| DE[0].equalsIgnoreCase("Source Currency Code")
 											|| DE[0].equalsIgnoreCase("Merchant Name")
@@ -365,28 +302,23 @@ public class ReadVisaFile {
 											|| DE[0].equalsIgnoreCase("AUTHORIZATION CODE"))
 
 									{
-										// logger.info(DE[0]);
-										// AUTH_CODE = stline.substring((ststart_pos-1),
-										// (ststart_pos)).replaceAll("^0*","").trim();
+
 										stData = stline.substring((ststart_pos - 1), (ststart_pos)).trim();
 										stRawData.add(stData);
 										if (DE[0].equalsIgnoreCase("Collection-Only Flag")) {
-											// logger.info("Collection-Only Flag "+stData);
+
 										}
 									}
 
 								}
-								// }
-								/*
-								 * if(!stData.equals("")) stRawData.add(stData);
-								 */
+
 							}
-							// ADD TRAN ID ON 28 MAY BY INT 8624
+
 							else if (TCR_Code.equalsIgnoreCase("05")) {
 								String[] DE = Data_Elements.get(i).split("\\|");
-								// TRAN_ID = stline.substring(4, 19);
+
 								TRAN_ID = stline.substring(Integer.parseInt(DE[1]), Integer.parseInt(DE[2]));
-								// logger.info("Tran_id "+TRAN_ID);
+
 							}
 						} else if (TC.equals("10") || TC.equals("20")) {
 
@@ -395,16 +327,6 @@ public class ReadVisaFile {
 								String[] DE = Data_Elements.get(i).split("\\|");
 								String stData = "";
 
-								// if(((DE[0].trim()).equals("Account Number")) ||
-								// ((DE[0].trim()).equals("Source Amount"))||
-								// ((DE[0].trim()).equals("Authorization Code")));
-								/*
-								 * if(DE[0].trim().equalsIgnoreCase("ACCOUNT NUMBER") ||
-								 * DE[0].trim().equalsIgnoreCase("SOURCE AMOUNT") ||
-								 * DE[0].trim().equalsIgnoreCase("Authorization Code")) {
-								 */
-								// logger.info("DE[0] "+DE[0]);
-								// logger.info("DE LENGTH IS "+DE.length);
 								if (DE.length == 3) {
 									int ststart_Pos = Integer.parseInt(DE[1].trim());
 									int stEnd_pos = Integer.parseInt(DE[2].trim());
@@ -493,10 +415,7 @@ public class ReadVisaFile {
 									}
 
 								}
-								// }
-								/*
-								 * if(!stData.equals("")) stRawData.add(stData);
-								 */
+
 							}
 
 						} else if (TC.equals("33")) {
@@ -518,12 +437,6 @@ public class ReadVisaFile {
 									if (DE.length == 3) {
 										int ststart_Pos = Integer.parseInt(DE[1].trim());
 										int stEnd_pos = Integer.parseInt(DE[2].trim());
-										/*
-										 * logger.info("start positon "+ststart_Pos);
-										 * logger.info("End Position "+stEnd_pos);
-										 * logger.info("stHeader : "+DE[0]+" Value : "+stline.substring((
-										 * ststart_Pos-1), stEnd_pos).replaceAll("^0*",""));
-										 */
 
 										if (DE[0].equalsIgnoreCase("Trace Number")) {
 											TRACE = stLine.substring((ststart_Pos - 1), stEnd_pos).replaceAll("^0*", "")
@@ -658,26 +571,10 @@ public class ReadVisaFile {
 								String sign = "";
 								String last_Digit = "";
 								String[] DE = Data_Elements.get(i).split("\\|");
-								// System.out.println("data "+ DE[0]);
-								/*
-								 * if(DE[0].equalsIgnoreCase("Trace Number")||
-								 * DE[0].equalsIgnoreCase("Response Code") ||
-								 * DE[0].equalsIgnoreCase("Retrieval Reference Number")||
-								 * DE[0].equalsIgnoreCase("Card Number")||
-								 * DE[0].equalsIgnoreCase("Transaction Amount")||
-								 * DE[0].equalsIgnoreCase("Request Message Type") ||
-								 * DE[0].equalsIgnoreCase("Currency Code")||
-								 * DE[0].equalsIgnoreCase("Transaction Identifier")) {
-								 */
+
 								if (DE.length == 3) {
 									int ststart_Pos = Integer.parseInt(DE[1].trim());
 									int stEnd_pos = Integer.parseInt(DE[2].trim());
-									/*
-									 * logger.info("start positon "+ststart_Pos);
-									 * logger.info("End Position "+stEnd_pos);
-									 * logger.info("stHeader : "+DE[0]+" Value : "+stline.substring((
-									 * ststart_Pos-1), stEnd_pos).replaceAll("^0*",""));
-									 */
 
 									if (DE[0].equalsIgnoreCase("purchase Date")) {
 										;
@@ -754,26 +651,10 @@ public class ReadVisaFile {
 								String sign = "";
 								String last_Digit = "";
 								String[] DE = Data_Elements.get(i).split("\\|");
-								// System.out.println("data "+ DE[0]);
-								/*
-								 * if(DE[0].equalsIgnoreCase("Trace Number")||
-								 * DE[0].equalsIgnoreCase("Response Code") ||
-								 * DE[0].equalsIgnoreCase("Retrieval Reference Number")||
-								 * DE[0].equalsIgnoreCase("Card Number")||
-								 * DE[0].equalsIgnoreCase("Transaction Amount")||
-								 * DE[0].equalsIgnoreCase("Request Message Type") ||
-								 * DE[0].equalsIgnoreCase("Currency Code")||
-								 * DE[0].equalsIgnoreCase("Transaction Identifier")) {
-								 */
+
 								if (DE.length == 3) {
 									int ststart_Pos = Integer.parseInt(DE[1].trim());
 									int stEnd_pos = Integer.parseInt(DE[2].trim());
-									/*
-									 * logger.info("start positon "+ststart_Pos);
-									 * logger.info("End Position "+stEnd_pos);
-									 * logger.info("stHeader : "+DE[0]+" Value : "+stline.substring((
-									 * ststart_Pos-1), stEnd_pos).replaceAll("^0*",""));
-									 */
 
 									if (DE[0].equalsIgnoreCase("Forwarding Institution Country Code")) {
 										;
@@ -864,11 +745,6 @@ public class ReadVisaFile {
 				if (TC.equals("05") || TC.equals("06") || TC.equals("07") || TC.equals("25") || TC.equals("27")) {
 					count++;
 					if (TCR_Code.equals("00") || TCR_Code.equals("20")) {
-//								ResultSet rset2 =pstmt2.executeQuery();
-//								if(rset2.next())
-//								{
-//									seq = rset2.getString("SEQ");
-//								}
 						seq = "VISA" + lineNumber;
 					}
 
@@ -877,7 +753,7 @@ public class ReadVisaFile {
 					pstmt1.setString(2, TCR_Code);
 					pstmt1.setString(3, stline);
 					pstmt1.setString(4, seq + "");
-					/* pstmt1.setString(5, "28/09/2017"); */
+
 					pstmt1.setString(5, setupBean.getFileDate());
 
 					pstmt1.addBatch();
@@ -885,10 +761,7 @@ public class ReadVisaFile {
 					if (TCR_Code.equals("00") || TCR_Code.equals("20")) {
 						read_stmt_05.setString(1, TC);
 						read_stmt_05.setString(2, TCR_Code);
-						/*
-						 * read_stmt.setString(3, ACC_NO); read_stmt.setString(4, amt+"");
-						 * read_stmt.setString(5, AUTH_CODE);
-						 */
+
 						read_stmt_05.setString(3, seq + "");
 						/* read_stmt.setString(7, "28/09/2017"); */
 						read_stmt_05.setString(4, setupBean.getFileDate());
@@ -1002,28 +875,15 @@ public class ReadVisaFile {
 						read_stmt_10.addBatch();
 					}
 
-					/*
-					 * if(count == 10000) { count = 1; read_stmt_10.executeBatch();
-					 * pstmt1.executeBatch(); logger.info("Exceuted batch "+batch); batch++;
-					 * 
-					 * }
-					 */
-
 				} else if (TC.equals("33")) {
 					count++;
 					// if(check_TCR.equals("200"))
 					if (check_TCR.equals("200") || containsVISATable) {
-						/*
-						 * ResultSet rset2 =pstmt2.executeQuery(); if(rset2.next()) { seq =
-						 * rset2.getString("SEQ"); }
-						 */
+
 						seq = "VISA" + lineNumber;
 					}
 					if (check_TCR.equals("220") || containsVISATable) {
-						/*
-						 * ResultSet rset2 =pstmt2.executeQuery(); if(rset2.next()) { seq =
-						 * rset2.getString("SEQ"); }
-						 */
+
 						seq = "VISA" + lineNumber;
 					}
 
@@ -1095,22 +955,21 @@ public class ReadVisaFile {
 							dummyrrn = REFERENCE_NUMBER;
 						}
 
-					} else if (!containsVISATable && check_TCR.equals("220")) {}
+					} else if (!containsVISATable && check_TCR.equals("220")) {
+					}
 
 				}
 				if (count == 100000) {
 					count = 1;
-					// INSERTING ISSUER DATA
-					// System.out.println("pstmt1.executeBatch()");
+
 					pstmt1.executeBatch();
-					// System.out.println("read_stmt_05.executeBatch()");
+
 					read_stmt_05.executeBatch();
-					// System.out.println("read_stmt_10.executeBatch()");
+
 					read_stmt_10.executeBatch();
-					// INSERTIN TC 33 DATA
-					// System.out.println("pstmt1.executeBatch();");
+
 					pstmt1.executeBatch();
-					// System.out.println("pstmt33.executeBatch();;");
+
 					pstmt33.executeBatch();
 					logger.info("EXECUTED BATCH " + batch);
 					batch++;
@@ -1120,40 +979,15 @@ public class ReadVisaFile {
 				stline = br.readLine();
 			}
 
-			// System.out.println("**********read_stmt_05.executeBatch");
 			read_stmt_05.executeBatch();
-			// System.out.println("********read_stmt_10.executeBatch");
+
 			read_stmt_10.executeBatch();
-			// System.out.println("pstmt1.executeBatch()");
 			pstmt1.executeBatch();
-			// System.out.println("pstmt33.executeBatch()");
+
 			pstmt33.executeBatch();
 
 			logger.info("Completed Reading");
 
-			/****** ENCRYPTING FPAN *****/
-			/*
-			 * try { String checkUploadCount =
-			 * "select NVL(file_count,0) as FILECOUNT from MAIN_FILE_UPLOAD_DTLS WHERE FILEID IN (select fileid from main_filesource where filename = 'VISA' AND FILE_CATEGORY = 'VISA' "
-			 * + "AND FILE_SUBCATEGORY = 'ISSUER') and filedate = TO_DATE(?,'DD/MM/YYYY')";
-			 * PreparedStatement encryptps = conn.prepareStatement(checkUploadCount);
-			 * encryptps.setString(1, setupBean.getFileDate()); ResultSet rs =
-			 * encryptps.executeQuery(); int uploadCount = 0; while(rs.next()) { uploadCount
-			 * = rs.getInt("FILECOUNT"); } logger.info("Upload Count is "+uploadCount);
-			 * rs.close(); encryptps.close();
-			 * 
-			 * if(uploadCount == 1) { logger.info("Inside Updation "); String encryptPan =
-			 * "update visa_visa_rawdata OS1 set FPAN = (select ibkl_encrypt_decrypt.ibkl_set_encrypt_val(FPAN) enc from VISA_VISA_RAWDATA OS2 "
-			 * + "WHERE OS1.DCRS_SEQ_NO = OS2.DCRS_SEQ_NO) WHERE FILEDATE = ?"; String
-			 * encryptPan =
-			 * "update visa_visa_rawdata set fpan = ibkl_encrypt_decrypt.ibkl_set_encrypt_val(FPAN) "
-			 * + "where filedate = TO_DATE(?,'DD/MM/YYYY')";
-			 * logger.info("Excryption query id "+encryptPan); encryptps =
-			 * conn.prepareStatement(encryptPan); encryptps.setString(1,
-			 * setupBean.getFileDate()); logger.info("Updation "+encryptps.execute()); }
-			 * 
-			 * } catch(Exception e) { logger.info("Exception while updating rawdata "+e); }
-			 */
 			conn.close();
 			logger.info("***** ReadVisaFile.readData End ****");
 

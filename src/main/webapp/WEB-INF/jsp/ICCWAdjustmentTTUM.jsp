@@ -561,38 +561,38 @@ label {
 								<label for="exampleInputEmail1">Adjustment Type</label> <select
 									class="form-control" name="adjType" id="adjType">
 									<option value="-">--Select --</option>
-									<option value="CHARGEBACK ACCEPTANCE">CHARGEBACK
+									<option value="CHARGEBACK ACCEPTANCE ICCW ATM">CHARGEBACK
 										ACCEPTANCE</option>
 
 
-									<option value="GOODFAITH CHARGEBACK ACCEPTANCE">GOODFAITH
+									<option value="GOODFAITH CHARGEBACK ACCEPTANCE ICCW ATM">GOODFAITH
 										CHARGEBACK ACCEPTANCE</option>
-									<option value="GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE">GOOD
+									<option value="GOOD FAITH CHARGEBACK DEEMED ACCEPTANCE ICCW ATM">GOOD
 										FAITH CHARGEBACK DEEMED ACCEPTANCE</option>
-									<option value="NRP DECISION LOGGING ISS">NRP DECISION
+									<option value="NRP DECISION LOGGING ISS ICCW ATM">NRP DECISION
 										LOGGING ISS</option>
 
-									<option value="CREDIT ADJUSTMENT">CREDIT ADJUSTMENT</option>
-									<option value="ARBITRATION ACCEPTANCE">ARBITRATION
+									<option value="CREDIT ADJUSTMENT ICCW ATM">CREDIT ADJUSTMENT</option>
+									<option value="ARBITRATION ACCEPTANCE ICCW ATM">ARBITRATION
 										ACCEPTANCE</option>
-									<option value="PRE-ARBITRATION ACCEPTANCE">PRE
+									<option value="PRE-ARBITRATION ACCEPTANCE ICCW ATM">PRE
 										ARBITRATION ACCEPTANCE</option>
 
-									<option value="PRE-ARBITRATION DEEMED ACCEPT">PRE
+									<option value="PRE-ARBITRATION DEEMED ACCEPT ICCW ATM">PRE
 										ARBITRATION DEEMED ACCEPT</option>
 
-									<option value="DEEMED CHARGEBACK ACCEPTANCE">CHARGEBACK
+									<option value="DEEMED CHARGEBACK ACCEPTANCE ICCW ATM">CHARGEBACK
 										DEEMED ACCEPTANCE</option>
 									<!-- 		<option value="DEBIT CHARGEBACK DEEMED">DEBIT
 										CHARGEBACK DEEMED</option>
 									<option value="DEBIT CHARGEBACK DEEMED">DEBIT
 										CHARGEBACK DEEMED</option> -->
-									<option value="ACUIRER PENALTY">ACUIRER PENALTY</option>
-									<option value="PENALTY">PENALTY</option>
+									<option value="ACUIRER PENALTY ICCW ATM">ACUIRER PENALTY</option>
+									<option value="PENALTY ICCW ATM">PENALTY</option>
 
-									<option value="RE-PRESENTMENT RAISE">PARTIAL
+									<option value="RE-PRESENTMENT RAISE ICCW ATM">PARTIAL
 										CHARGEBACK ACCEPTANCE</option>
-									<option value="PRE-ARBITRATION DECLINED">PARTIAL PRE
+									<option value="PRE-ARBITRATION DECLINED ICCW ATM">PARTIAL PRE
 										ARBITRATION ACCEPTANCE</option>
 
 

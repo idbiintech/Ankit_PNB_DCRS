@@ -83,7 +83,19 @@ public class MastercardSettlementController {
 		logger.info("***** MastercardSettlementController.MastercardFileUpload GET End ****");
 		return modelAndView;
 	}
-
+	@RequestMapping(value = { "EODFileUpload" }, method = { RequestMethod.GET })
+	public ModelAndView EODFileUpload(ModelAndView modelAndView, HttpServletRequest request)
+			throws Exception {
+		logger.info("***** EODFileUpload.Get Start ****");
+		logger.info("EODFileUpload GET");
+		MastercardUploadBean beanObj = new MastercardUploadBean();
+		String csrf = CSRFToken.getTokenForSession(request.getSession());
+		modelAndView.addObject("CSRFToken", csrf);
+		modelAndView.setViewName("EODFileUpload");
+		modelAndView.addObject("mastercardUploadBean", beanObj);
+		logger.info("***** MastercardSettlementController.MastercardFileUpload GET End ****");
+		return modelAndView;
+	}
 	@RequestMapping(value = { "MastercardPDFINVOICEUpload" }, method = { RequestMethod.GET })
 	public ModelAndView MastercardPDFINVOICEUpload(ModelAndView modelAndView, HttpServletRequest request)
 			throws Exception {
@@ -157,6 +169,7 @@ public class MastercardSettlementController {
 					|| beanObj.getFileName().equalsIgnoreCase("INVOICEPDF")
 					|| beanObj.getFileName().equalsIgnoreCase("INVOICE")
 					|| beanObj.getFileName().equalsIgnoreCase("INVOICETXT")
+					|| beanObj.getFileName().equalsIgnoreCase("EODTXT")
 					|| beanObj.getFileName().equalsIgnoreCase("ATMMASTER")) {
 				validations = this.mastercardService.checkFileUpload(beanObj, file.getOriginalFilename());
 			} else {
@@ -381,7 +394,7 @@ public class MastercardSettlementController {
 					Column_list.add("TRACE_NO");
 					Column_list.add("NARRATION");
 				}
-			} else if (nfsSettlementBean.getTypeOfTTUM().equalsIgnoreCase("SURCHARGED")
+			} else if (nfsSettlementBean.getTypeOfTTUM().contains("SURCHARGED")
 					|| nfsSettlementBean.getTypeOfTTUM().equalsIgnoreCase("SURCHARGEC")) {
 				Column_list.add("BUSINESS_DATE");
 				Column_list.add("DR_CR");
@@ -429,12 +442,12 @@ public class MastercardSettlementController {
 					+ nfsSettlementBean.getLocalDate().replaceAll("/", "") + ".zip";
 			if (nfsSettlementBean.getCategory().contains("RUPAY"))
 				obj.generateExcelTTUM(stPath, fileName, Excel_data,
-						"RUPAY TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
+						"RUPAY"+nfsSettlementBean.getTypeOfTTUM() +" TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			if (nfsSettlementBean.getCategory().contains("MASTERCARD")) {
 				obj.generateExcelTTUM(stPath, fileName, Excel_data,
-						"MASTERCARD TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
+						"MASTERCARD"+nfsSettlementBean.getTypeOfTTUM() +" TTUM_" + nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			} else {
-				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getCategory() + " TTUM_"
+				obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getCategory() +nfsSettlementBean.getTypeOfTTUM() + " TTUM_"
 						+ nfsSettlementBean.getLocalDate().replaceAll("/", "-"), zipName);
 			}
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
@@ -678,8 +691,8 @@ public class MastercardSettlementController {
 				fileName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".xls";
 				zipName = "MASTERCARDINTTTUM" + beanObj.getFileDate().replaceAll("/", "") + ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data,
-					"Mastercard TTUN_" + beanObj.getFileDate().replaceAll("/", "-"), zipName);
+			obj.generateExcelTTUMSettlement(stPath, fileName, Excel_data,
+					"Mastercard_" + beanObj.getFileDate().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);

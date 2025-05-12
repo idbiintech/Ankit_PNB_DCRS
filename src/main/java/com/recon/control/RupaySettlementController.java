@@ -709,6 +709,34 @@ public class RupaySettlementController {
 			return "SUCCESSFULLY ROLLBACK";
 		return "ALREADY ROLLBACK";
 	}
+	@RequestMapping(value = { "rollbackMASTERCARDADJ" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String rollbackMASTERCARDADJ(@RequestParam("fileDate") String fileDate,
+			@RequestParam("subcategory") String subcategory, @RequestParam("ADJTYPE") String ADJTYPE)
+			throws ParseException, Exception {
+		NFSSettlementBean beanData = new NFSSettlementBean();
+		beanData.setAdjCategory(ADJTYPE);
+		beanData.setStSubCategory(subcategory);
+		beanData.setDatepicker(fileDate);
+		boolean result = false;
+		logger.info("rollbackRUPAYSETTL " + fileDate + " " + subcategory + " " + ADJTYPE);
+		if (ADJTYPE.equalsIgnoreCase("REFUND")) {
+			result = this.SETTLTTUMSERVICE.rollBackRupayRefund(beanData);
+			if (result)
+				return "SUCCESSFULLY ROLLBACK";
+			return "ALREADY ROLLBACK";
+		}
+		if (subcategory.contains("RUPAY")) {
+			result = this.SETTLTTUMSERVICE.rollBackRupayADJ(beanData);
+			if (result)
+				return "SUCCESSFULLY ROLLBACK";
+			return "ALREADY ROLLBACK";
+		}
+		result = this.SETTLTTUMSERVICE.rollBackRupayADJ(beanData);
+		if (result)
+			return "SUCCESSFULLY ROLLBACK";
+		return "ALREADY ROLLBACK";
+	}
 
 	@RequestMapping(value = { "QsparcSettlementProcess" }, method = { RequestMethod.GET })
 	public ModelAndView QsparcSettlementProcessGet(ModelAndView modelAndView, @RequestParam("category") String category,

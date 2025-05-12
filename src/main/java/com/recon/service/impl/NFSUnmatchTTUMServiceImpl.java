@@ -218,6 +218,87 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 
 	}
 
+	public List<ViewFiles> searchEODExcelFile(String type, String fromDate) throws Exception, SQLException {
+
+		final List<ViewFiles> bean = new ArrayList<>();
+		Map<String, Object> inParams = new HashMap<>();
+		Map<String, Object> outParams = new HashMap<String, Object>();
+		try {
+			String getData1="";
+			if(type.equalsIgnoreCase("VISA_REFUND_GL")) {
+				
+				
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_refund";
+
+			}
+			if (type.equalsIgnoreCase("VISA_REFUND_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_refund";
+				
+			} else if (type.equalsIgnoreCase("VISA_ACQ_CHARGEBACK_DOM_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_acq_dom_chbk";
+				
+			}  else if (type.equalsIgnoreCase("VISA_REME_CHARGEBACK_DOM_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_reme_dom_chbk";
+				
+			}  else if (type.equalsIgnoreCase("VISA_ISS_POOL_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_iss_pool";
+				
+			}  else if (type.equalsIgnoreCase("VISA_INT_BENE_CHARGEBACK_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_bane_int_chbk";
+				
+				
+			}  else if (type.equalsIgnoreCase("VISA_ACQ_INT_POOL_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_acq_int_pool";
+				
+			} else if (type.equalsIgnoreCase("VISA_ACQ_DOM_POOL_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_acq_dom_pool";
+				
+			} else if (type.equalsIgnoreCase("NFS_ISS_GL")) {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM ";
+				
+			}else {
+				getData1 = "    SELECT REMARKS, BALANCE, DEBIT_Count, Debit_Amount,CREDIT_Count, CREDIT_AMOUNT  FROM gl_visa_refund";
+				
+			}
+		
+			System.out.println("getData " + getData1);
+			List<ViewFiles> DailyData = getJdbcTemplate().query(getData1, new Object[] {},
+					new ResultSetExtractor<List<ViewFiles>>() {
+						public List<ViewFiles> extractData(ResultSet rs) throws SQLException {
+							List<ViewFiles> beanList = new ArrayList<>();
+							ViewFiles e = new ViewFiles();
+
+							while (rs.next()) {
+
+								System.out.println("remaark " + rs.getString("REMARKS"));
+						
+								e.setRemark(rs.getString("REMARKS"));
+								
+								e.setCredit_amount(rs.getString("CREDIT_AMOUNT"));
+								e.setCredit_count(rs.getString("CREDIT_Count"));
+								e.setDebit_Amount(rs.getString("Debit_Amount"));
+								e.setDebit_count(rs.getString("DEBIT_Count"));
+								e.setBalance(rs.getString("BALANCE"));
+								
+
+								bean.add(e);
+							}
+
+							// System.out.println("beanList "+beanList.toString());
+							return bean;
+
+						}
+					});
+
+			return bean;
+
+		} catch (Exception e) {
+			logger.info("Exception in runTTUMProcess " + e);
+			return bean;
+		}
+
+	}
+
 	@Override
 	public List<ViewFiles> searchRowDataViewFile1(String type, String fromDate) throws Exception, SQLException {
 		List<Object> data = new ArrayList<Object>();
@@ -5008,6 +5089,7 @@ public class NFSUnmatchTTUMServiceImpl extends JdbcDaoSupport implements NFSUnma
 	public List<Object> downloadDhanaReport(SettlementBean settlementBean) {
 		List<Object> data = new ArrayList<Object>();
 		try {
+			
 			String getInterchange1 = "SELECT CARD_NO, TRACE_NO, AC_NO, TRAN_DATE, ATM_ID, TYPE, AMOUNT, BR_CODE, ISS_SOL_ID, REMARKS, NETWORK, DCRS_REMARKS, FILEDATE, FILENAME, CREATEDDATE\r\nFROM settlement_nfs_acq_cbs WHERE FILEDATE = DATE_FORMAT('"
 					+ settlementBean.getDatepicker() + "','%Y/%m/%d') AND DCRS_REMARKS LIKE 'NFS-ACQ-CBS-MATCHED-2%'";
 			System.out.println("downloadDhanaReport  acq getInterchange1  " + getInterchange1);

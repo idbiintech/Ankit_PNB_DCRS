@@ -352,6 +352,7 @@ color: purple; text-align: left; font-weight: bold;font-size: 16px;text-transfor
 									<!-- <option value="TAD">TAD</option> -->
 									<option value="INVOICE">INVOICE</option>	<option value="INVOICETXT">INVOICE TXT</option>
 										<option value="INVOICEPDF">INVOICE PDF</option>
+										<option value="EODTXT">EOD FILE</option>
 									<!-- <option value="461">461</option> -->
 							</form:select>
 						</div>

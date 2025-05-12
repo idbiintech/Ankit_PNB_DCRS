@@ -14,6 +14,7 @@ public interface NFSUnmatchTTUMService {
   List<ViewFiles> searchSwitchViewFile1(String paramString1, String paramString2) throws Exception, SQLException;
   
   List<ViewFiles> searchCBSViewFile1(String paramString1, String paramString2) throws Exception, SQLException;
+  List<ViewFiles> searchEODExcelFile(String paramString1, String paramString2) throws Exception, SQLException;
   
   List<ViewFiles> searchRowDataViewFile1(String paramString1, String paramString2) throws Exception, SQLException;
   

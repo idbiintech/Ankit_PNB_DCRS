@@ -4,7 +4,8 @@ package com.recon.model;
 
 public class UnMatchedTTUMBean {
   private String fileName;
-  
+  private String ClosingBalance;
+  private String OpeningBalance;
   private String typeOfTTUM;
   
   private String typeOfTTUMACQ;
@@ -55,7 +56,24 @@ public class UnMatchedTTUMBean {
     return this.acqtypeOfTTUM;
   }
   
-  public void setAcqtypeOfTTUM(String acqtypeOfTTUM) {
+  
+  public String getClosingBalance() {
+	return ClosingBalance;
+}
+
+public void setClosingBalance(String closingBalance) {
+	ClosingBalance = closingBalance;
+}
+
+public String getOpeningBalance() {
+	return OpeningBalance;
+}
+
+public void setOpeningBalance(String openingBalance) {
+	OpeningBalance = openingBalance;
+}
+
+public void setAcqtypeOfTTUM(String acqtypeOfTTUM) {
     this.acqtypeOfTTUM = acqtypeOfTTUM;
   }
   

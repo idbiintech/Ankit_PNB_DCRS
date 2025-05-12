@@ -385,11 +385,11 @@ public class SettlementController {
     } else if (settlementBean.getStsubCategory().equalsIgnoreCase("ACQ DOM ATM") && 
       settlementBean.getCategory().equalsIgnoreCase("VISA_ACQ")) {
       Excel_dataMAin = this.nfsTTUMService.downloadVISAACUIRERATMReport(settlementBean);
-      model.addAttribute("ReportName", "VISAACQUIRERATM_Recon_Reports_" + settlementBean.getDatepicker());
+      model.addAttribute("ReportName", "VISADOMACQUIRERATM_Recon_Reports_" + settlementBean.getDatepicker());
     } else if (settlementBean.getStsubCategory().equalsIgnoreCase("ACQ INT ATM") && 
       settlementBean.getCategory().equalsIgnoreCase("VISA_ACQ")) {
       Excel_dataMAin = this.nfsTTUMService.downloadVISAACUIRERATMINTReport(settlementBean);
-      model.addAttribute("ReportName", "VISAACQUIRERATM_Recon_Reports_" + settlementBean.getDatepicker());
+      model.addAttribute("ReportName", "VISAINTACQUIRERATM_Recon_Reports_" + settlementBean.getDatepicker());
     } else if (settlementBean.getStsubCategory().equalsIgnoreCase("ACQUIRER") && 
       settlementBean.getCategory().equalsIgnoreCase("DFS")) {
       Excel_dataMAin = this.nfsTTUMService.downloadDFSACQReport(settlementBean);
@@ -956,7 +956,7 @@ public class SettlementController {
       System.out.println("filename in nfs ttum is " + fileName);
       fileName = "CTCSETTLEMENTREPORT" + beanObj.getLocalDate() + ".xls";
       zipName = "CTCSETTLEMENTREPORT" + beanObj.getLocalDate() + ".zip";
-      obj.generateExcelTTUM(stPath, fileName, Excel_data,"CTC Settlement_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
+      obj.generateExcelTTUMSettlement(stPath, fileName, Excel_data,"CTC_"+  beanObj.getLocalDate().replaceAll("/", "-"), zipName);
       logger.info("File is created");
       File file = new File(String.valueOf(stPath) + File.separator + fileName);
       logger.info("path of zip file " + stPath + File.separator + fileName);

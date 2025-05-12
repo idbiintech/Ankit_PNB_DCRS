@@ -18,6 +18,20 @@ public interface RupayTTUMService {
   
   HashMap<String, Object> runTTUMProcess3(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
+  HashMap<String, Object> processEODGLVISARefund(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> proccessVISAACQCHARGEBACKDOMGL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  
+  HashMap<String, Object> proccessVISA_ACQ_INT_POOL_GL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> proccessVISA_ACQ_DOM_POOL_GL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  HashMap<String, Object> proccessVISA_INT_BENE_CHARGEBACK_GL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  HashMap<String, Object> proccessVISA_ISS_POOL_GL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
+  HashMap<String, Object> proccessVISA_REME_CHARGEBACK_DOM_GL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  HashMap<String, Object> proccessNFSISSGL(UnMatchedTTUMBean paramUnMatchedTTUMBean);
+  
   HashMap<String, Object> runTTUMProcess4(UnMatchedTTUMBean paramUnMatchedTTUMBean);
   
   HashMap<String, Object> runTTUMProcesICD(UnMatchedTTUMBean paramUnMatchedTTUMBean);

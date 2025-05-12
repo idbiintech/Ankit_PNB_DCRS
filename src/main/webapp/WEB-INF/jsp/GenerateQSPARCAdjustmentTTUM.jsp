@@ -31,16 +31,16 @@ response.setHeader("X-Frame-Options", "deny");
 	function noBack() {
 		window.history.forward();
 	}
-	
+
 	function seerule(e) {
 
 		document.getElementById("fileValue").value = e;
 
 		window
-			.open(
-				"../DebitCard_Recon/SeeRule.do",
-				'SeeRule',
-				'width=1000,height=500,location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=no');
+				.open(
+						"../DebitCard_Recon/SeeRule.do",
+						'SeeRule',
+						'width=1000,height=500,location=no,toolbar=no,menubar=no,scrollbars=yes,resizable=no');
 	}
 
 	function showLoader(location) {
@@ -96,17 +96,15 @@ response.setHeader("X-Frame-Options", "deny");
 
 	}
 
-
-
 	function DownloadAdjTTUM() {
-	debugger;
+		debugger;
 		var frm = $('#reportform');
 
 		var adjType = document.getElementById("adjType").value;
 		var fileDate = document.getElementById("dailypicker").value;
 		var subcate = document.getElementById("stSubCategory").value;
 		var cate = document.getElementById("cate").value;
-			var TTUM_TYPE = document.getElementById("TTUM_TYPE").value;
+		var TTUM_TYPE = document.getElementById("TTUM_TYPE").value;
 
 		var oMyForm = new FormData();
 
@@ -114,30 +112,31 @@ response.setHeader("X-Frame-Options", "deny");
 		oMyForm.append('adjType', adjType);
 		oMyForm.append('subcate', subcate);
 		oMyForm.append('cate', cate);
-	oMyForm.append('TTUM_TYPE', TTUM_TYPE);
+		oMyForm.append('TTUM_TYPE', TTUM_TYPE);
 		if (ValidateData()) {
 			$.ajax({
 
-				type: 'POST',
-				url: 'ValidateDownloadRupayAdjTTUM.do',
-				async: true,
-				beforeSend: function() {
+				type : 'POST',
+				url : 'ValidateDownloadRupayAdjTTUM.do',
+				async : true,
+				beforeSend : function() {
 					showLoader();
 				},
 
-				data: {
-					fileDate: fileDate,
-					adjType: adjType,
-					subcate: subcate,
-					cate: cate,
-					TTUM_TYPE: TTUM_TYPE
+				data : {
+					fileDate : fileDate,
+					adjType : adjType,
+					subcate : subcate,
+					cate : cate,
+					TTUM_TYPE : TTUM_TYPE
 				},
-				success: function(response) {
+				success : function(response) {
 
 					// response = "success";
 					if (response == "success") {
 						$("#success_msg").empty();
-						$("#success_msg").append("Reports are getting downloaded. Please Wait");
+						$("#success_msg").append(
+								"Reports are getting downloaded. Please Wait");
 
 						//	document.getElementById("breadcrumb").style.display = 'none';
 
@@ -153,7 +152,7 @@ response.setHeader("X-Frame-Options", "deny");
 						}, 2500);
 						document.getElementById("reportform").submit();
 					} else {
-					
+
 						$("#success_msg").empty();
 						$("#success_msg").append(response);
 
@@ -172,7 +171,7 @@ response.setHeader("X-Frame-Options", "deny");
 					}
 
 				},
-				error: function() {
+				error : function() {
 					$("#error_msg").empty();
 					$("#error_msg").append("Unable To Download!!");
 
@@ -190,7 +189,7 @@ response.setHeader("X-Frame-Options", "deny");
 					}, 2500);
 
 				},
-				complete: function(data) {
+				complete : function(data) {
 
 					hideLoader();
 
@@ -217,26 +216,24 @@ response.setHeader("X-Frame-Options", "deny");
 		oMyForm.append('subcate', subcate);
 		oMyForm.append('cate', cate);
 
-
-
 		if (ValidateData()) {
 			$.ajax({
 
-				type: 'POST',
-				url: 'RupayAdjustmentProcess.do',
-				async: true,
-				beforeSend: function() {
+				type : 'POST',
+				url : 'RupayAdjustmentProcess.do',
+				async : true,
+				beforeSend : function() {
 					showLoader();
 				},
 
-				data: {
-					fileDate: fileDate,
-					adjType: adjType,
-					subcate: subcate,
-					cate: cate
-	
+				data : {
+					fileDate : fileDate,
+					adjType : adjType,
+					subcate : subcate,
+					cate : cate
+
 				},
-				success: function(response) {
+				success : function(response) {
 					$("#success_msg").empty();
 					$("#success_msg").append(response);
 
@@ -254,7 +251,7 @@ response.setHeader("X-Frame-Options", "deny");
 					}, 2500);
 
 				},
-				error: function() {
+				error : function() {
 					$("#error_msg").empty();
 					$("#error_msg").append("Unable To Upload!!");
 
@@ -272,7 +269,7 @@ response.setHeader("X-Frame-Options", "deny");
 					}, 2500);
 
 				},
-				complete: function(data) {
+				complete : function(data) {
 
 					hideLoader();
 
@@ -282,15 +279,13 @@ response.setHeader("X-Frame-Options", "deny");
 		}
 
 	}
-	
-
 
 	function ReportRollback() {
 		debugger;
 		var subcategory = document.getElementById("cate").value;
 		var fileDate = document.getElementById("dailypicker").value;
 		var ADJTYPE = document.getElementById("adjType").value;
-		
+
 		//var form = document.getElementById("microAtmReport");
 		//var oMyForm = new FormData();
 		//oMyForm.append('datepicker', datepicker);
@@ -306,11 +301,11 @@ response.setHeader("X-Frame-Options", "deny");
 					hideLoader();
 				},
 				data : {
-					
+
 					fileDate : fileDate,
 					subcategory : subcategory,
 					ADJTYPE : ADJTYPE
-					
+
 				},
 				success : function(response) {
 					$("#success_msg").empty();
@@ -349,7 +344,7 @@ response.setHeader("X-Frame-Options", "deny");
 			});
 		}
 	}
-	
+
 	function Validation() {
 		var datepicker = document.getElementById("dailypicker").value;
 		if (datepicker == "") {
@@ -411,21 +406,21 @@ response.setHeader("X-Frame-Options", "deny");
 		if (ValidateNTSLData()) {
 			$.ajax({
 
-				type: 'POST',
-				url: 'SkipSettlement.do',
-				async: true,
-				beforeSend: function() {
+				type : 'POST',
+				url : 'SkipSettlement.do',
+				async : true,
+				beforeSend : function() {
 					showLoader();
 				},
 
-				data: {
-					fileDate: datepicker,
-					stSubCategory: stSubCategory,
-					timePeriod: timePeriod,
-					cycle: cycle,
-					filename: filename
+				data : {
+					fileDate : datepicker,
+					stSubCategory : stSubCategory,
+					timePeriod : timePeriod,
+					cycle : cycle,
+					filename : filename
 				},
-				success: function(response) {
+				success : function(response) {
 					debugger;
 					hideLoader();
 
@@ -446,11 +441,11 @@ response.setHeader("X-Frame-Options", "deny");
 					document.getElementById("Date").style.display = 'none';
 
 				},
-				error: function() {
+				error : function() {
 					alert("Error Occured");
 
 				},
-				complete: function(data) {
+				complete : function(data) {
 
 					hideLoader();
 
@@ -529,32 +524,35 @@ response.setHeader("X-Frame-Options", "deny");
 	}
 </script>
 <style>
-button{
-background: linear-gradient(45deg, pink, blue);
-border: none;
-color: white;
-padding: 10px 26px;
-font-size: 16px;
-border-radius: 20px;
-
-cursor: pointer;
-text-transform: uppercase;
-transaction: background 0.3s ease;
+button {
+	background: linear-gradient(45deg, pink, blue);
+	border: none;
+	color: white;
+	padding: 10px 26px;
+	font-size: 16px;
+	border-radius: 20px;
+	cursor: pointer;
+	text-transform: uppercase;
+	transaction: background 0.3s ease;
 }
-button:hover{
 
-
-background:linear-gradient(30deg, #c2eaba, blue);
+button:hover {
+	background: linear-gradient(30deg, #c2eaba, blue);
 }
-label{
-color: purple;  font-weight: bold;font-size: 16px;text-transform: uppercase;display:block;
+
+label {
+	color: purple;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform: uppercase;
+	display: block;
 }
 </style>
 
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-					<h1 style="color: purple; text-align: center; font-weight: bold;">
+		<h1 style="color: purple; text-align: center; font-weight: bold;">
 			QSPARC ADJUSTMENT PROCESS
 			<!-- <small>Version 2.0</small> -->
 		</h1>
@@ -596,30 +594,48 @@ color: purple;  font-weight: bold;font-size: 16px;text-transform: uppercase;disp
 							<div class="form-group">
 								<label for="exampleInputEmail1">Category</label> <select
 									class="form-control" name="cate" id="cate">
-									<option value="-">--SELECT--</optio>
+									<option value="-">--SELECT--
+										</optio>
 									<option value="QSPARC">QSPARC</option>
-									
+
 								</select>
 							</div>
-									<div class="form-group">
+							<div class="form-group">
 								<label for="exampleInputEmail1">TTUM TYPE</label> <select
 									class="form-control" name="TTUM_TYPE" id="TTUM_TYPE">
-									<option value="-">--SELECT-</optio>
+									<option value="-">--SELECT-
+										</optio>
 									<option value="EXCEL">REPORT</option>
 									<option value="TEXT">TTUM</option>
 								</select>
 							</div>
-				
+
 							<div class="form-group">
 								<label for="exampleInputEmail1">Adjustment Type</label> <select
 									class="form-control" name="adjType" id="adjType">
 									<option value="-">--SELECT--</option>
 									<option value="Refund">REFUND</option>
-								<!-- 	<option value="CHBK">Chargeback Raise</option> -->
-									<option value="Chargeback Deemed Acceptance">CHARGEBACK DEEMED ACCEPTANCE</option>
-									<option value="Partial Chargeback Acceptance">PARTIAL CHARGEBACK ACCEPTANCE</option>
-									<option value="Chargeback Acceptance">CHARGEBACK ACCEPTANCE</option>
-		<!-- 			<option value="PREARBACC">PreArbitration Acceptance</option>
+									<!-- 	<option value="CHBK">Chargeback Raise</option> -->
+									<option value="Chargeback Deemed Acceptance">CHARGEBACK
+										DEEMED ACCEPTANCE</option>
+									<option value="Partial Chargeback Acceptance">PARTIAL
+										CHARGEBACK ACCEPTANCE</option>
+									<option value="Chargeback Acceptance">CHARGEBACK
+										ACCEPTANCE</option>
+									<option value="Good Faith Acceptance">GOOD FAITH
+										ACCEPTANCE</option>
+									<option value="Good Faith Deemed Acceptance">GOOD
+										FAITH DEEMED ACCEPTANCE</option>
+					
+									<option value="Pre-Arbitration Deemed Acceptance">Pre-Arbitration
+										Deemed Acceptance</option>
+
+									<option value="Pre-Arbitration Acceptance">Pre-Arbitration
+										Acceptance</option>
+										
+
+
+									<!-- 			<option value="PREARBACC">PreArbitration Acceptance</option>
 									<option value="VOID">Void</option> -->
 									<!-- ABC  FEES CHANGE TO CHBK CHBKPRESENT
 									<option value="RPR">RePresentment Raise</option>
@@ -663,14 +679,13 @@ color: purple;  font-weight: bold;font-size: 16px;text-transform: uppercase;disp
 
 
 						<div class="box-footer" style="text-align: center">
-							<button type="button" 
-								onclick="processAdjTTUM();">Process</button>
-							<button type="button"
-								onclick="DownloadAdjTTUM();">Dowload Report</button>
-								<button type="button"
-								onclick="ReportRollback();">Roll Back</button>
-								
-								
+							<button type="button" onclick="processAdjTTUM();">Process</button>
+							<button type="button" onclick="DownloadAdjTTUM();">Dowload
+								Report</button>
+							<button type="button" onclick="ReportRollback();">Roll
+								Back</button>
+
+
 							<!-- 	<button type="button" id ="Skip" class="btn btn-danger" onclick="skipSettlement();">Skip Settlement</button> -->
 							<!-- 	<a onclick="processSettlement();" class="btn btn-primary">Process</a>
 						<a onclick="skipSettlement();" class="btn btn-primary">Skip Settlement</a> -->
@@ -690,33 +705,34 @@ color: purple;  font-weight: bold;font-size: 16px;text-transform: uppercase;disp
 		<!-- /.row -->
 		<!-- /.content-wrapper -->
 	</section>
-	
-	    <div
-			style="font-size: 14px; font-weight: bold; border-radius: 3px;color: white; text-align: center; background: yellowgreen; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="success_msg" class="success_msg">
-			<i class="fa fa-check" style="color: white;"></i>
-				
-			
-		</div>
-		
-		
-			<div
-			style="font-size: 14px; font-weight: bold; color: white;border-radius: 3px; text-align: center; background: red; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="error_msg" class="error_msg">
-			<i class="fa fa-close" style="color: white;"></i>
-		</div>
-		<div
-			style="font-size: 14px; font-weight: bold; color: black;border-radius: 3px; text-align: center; background:#FFFF9E; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
-			id="alert_msg" class="alert_msg">
-			<i class="fa fa-warning" style="color: black;"></i><span
-				style="color: white; font-weight: bold; text-align: center;">     </span>
-		</div>
+
+	<div
+		style="font-size: 14px; font-weight: bold; border-radius: 3px; color: white; text-align: center; background: yellowgreen; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="success_msg" class="success_msg">
+		<i class="fa fa-check" style="color: white;"></i>
+
+
+	</div>
+
+
+	<div
+		style="font-size: 14px; font-weight: bold; color: white; border-radius: 3px; text-align: center; background: red; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="error_msg" class="error_msg">
+		<i class="fa fa-close" style="color: white;"></i>
+	</div>
+	<div
+		style="font-size: 14px; font-weight: bold; color: black; border-radius: 3px; text-align: center; background: #FFFF9E; margin-top: -570px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
+		id="alert_msg" class="alert_msg">
+		<i class="fa fa-warning" style="color: black;"></i><span
+			style="color: white; font-weight: bold; text-align: center;">
+		</span>
+	</div>
 </div>
 <div align="center" id="Loader"
 	style="background-color: #ffffff; position: absolute; opacity: 0.9; z-index: 0; height: 100%; width: 100%; left: 0px; top: 0px; display: none">
 
-<img style="margin-left: 100px; margin-top: -60px;"
-		src="images/g4.gif" alt="loader">
+	<img style="margin-left: 100px; margin-top: -60px;" src="images/g4.gif"
+		alt="loader">
 
 
 </div>

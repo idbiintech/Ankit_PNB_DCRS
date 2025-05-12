@@ -111,6 +111,12 @@ public class CompareConfigController {
     modelAndView.setViewName("viewCBSDashboard");
     return modelAndView;
   }
+  @RequestMapping(value = {"viewEODExcel"}, method = {RequestMethod.GET})
+  public ModelAndView viewEODExcel(ModelAndView modelAndView, HttpServletRequest request, SettlementBean settlementBean) throws Exception {
+    modelAndView.addObject("SettlementBean", settlementBean);
+    modelAndView.setViewName("viewEODExcel");
+    return modelAndView;
+  }
   
   @RequestMapping(value = {"viewRowDataDashboard"}, method = {RequestMethod.GET})
   public ModelAndView viewRowDataDashboard(ModelAndView modelAndView, HttpServletRequest request, SettlementBean settlementBean) throws Exception {
@@ -139,6 +145,13 @@ public class CompareConfigController {
     return this.nfsTTUMService.searchCBSViewFile1(txntype, fromDate);
   }
   
+  
+  
+  @RequestMapping(value = {"searchEODExcelFile"}, method = {RequestMethod.POST})
+  @ResponseBody
+  public List<ViewFiles> searchEODExcelFile(@RequestParam String txntype, @RequestParam String fromDate) throws SQLException, Exception {
+    return this.nfsTTUMService.searchEODExcelFile(txntype, fromDate);
+  }
   @RequestMapping(value = {"searchRowDataViewFile"}, method = {RequestMethod.POST})
   @ResponseBody
   public List<ViewFiles> searchRowDataViewFile(@RequestParam String txntype, @RequestParam String fromDate) throws SQLException, Exception {

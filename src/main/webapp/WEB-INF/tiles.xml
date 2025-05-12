@@ -202,6 +202,17 @@
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/AcceptLTSUpload.jsp" />
 	</definition>
+		<definition name="EODFileUpload" extends="baseLayout">
+		<put-attribute name="title" value="EODFileUpload" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/EODFileUpload.jsp" />
+	</definition>
+	
+	<definition name="viewEODExcel" extends="baseLayout">
+		<put-attribute name="title" value="viewEODExcel" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/viewEODExcel.jsp" />
+	</definition>
 	<definition name="GenerateNFSJCBDFSROUTINGTTUM"
 		extends="baseLayout">
 		<put-attribute name="title"
@@ -553,7 +564,6 @@
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/rupayoffline.jsp" />
 	</definition>
-
 
 
 
@@ -1176,6 +1186,14 @@
 		<put-attribute name="title" value="NIH Report" />
 		<put-attribute name="body"
 			value="/WEB-INF/jsp/GenerateCardToCardTTUM.jsp" />
+	</definition>
+		<definition name="GenerateEODExcel"
+		extends="baseLayout">
+		<put-attribute name="title" value="NIH Report" />
+		<put-attribute name="body"
+		
+		
+			value="/WEB-INF/jsp/GenerateEODExcel.jsp" />
 	</definition>
 
 	<definition name="GLReport" extends="baseLayout">

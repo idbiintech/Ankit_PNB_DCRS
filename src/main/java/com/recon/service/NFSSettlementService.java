@@ -39,6 +39,9 @@ public interface NFSSettlementService {
 
 	HashMap<String,Object> ValidateForAdjTTUM(NFSSettlementBean beanObj);
 	
+	
+	HashMap<String,Object> ValidateForAdjTTUMVISA(NFSSettlementBean beanObj);
+	
 	HashMap<String,Object> ValidateForAdjPENALTYTTUM(NFSSettlementBean beanObj);
 	HashMap<String,Object> ValidateForAdjTTUMICD(NFSSettlementBean beanObj);
 	

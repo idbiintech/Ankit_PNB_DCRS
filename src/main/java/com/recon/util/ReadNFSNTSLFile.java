@@ -275,16 +275,36 @@ public class ReadNFSNTSLFile {
 			for (Element row : rows) {
 				Elements cells2 = row.select("th");
 				Elements cells = row.select("td");
+				if( cells2.text().contains("Final Settlement Amount Including Sub-Member Bank")) {
+					
+					bankname= cells2.text();
+					
+					count++;
 
+					ps.setString(1,bankname);
+					ps.setString(2,"");
+					ps.setString(3,cells.get(0).text());
+					ps.setString(4,"");
+					ps.setString(5,String.valueOf(beanObj.getCycle()));
+					ps.setString(6,beanObj.getDatepicker());
+					ps.setString(7,"INT12016");
+					ps.setString(8,beanObj.getDatepicker());
+					ps.setString(9,String.valueOf(count));
+					ps.setString(10,bankname); // TODO: extract from file
+					ps.setString(11,file.getOriginalFilename());
+					ps.addBatch();
+					bankname="";
+					
+				}
+				//System.out.println("bankname " + bankname);
 				if (cells2.text().contains("Daily Settlement")) {
 					bankname = cells2.text();
-					//System.out.println("bankname " + bankname);
+					
+		
 				}
-				//System.out.println("ss " + cells2.text());
-				if (cells.size() >= 4) {
+			if (cells.size() >= 4) {
 					count++;
-					//System.out.println("cells.get(0).text() " + cells.get(0).text());
-			
+				
 					ps.setString(1,cells.get(0).text());
 					ps.setString(2,cells.get(1).text());
 					ps.setString(3,cells.get(2).text());
@@ -294,7 +314,7 @@ public class ReadNFSNTSLFile {
 					ps.setString(7,"INT12016");
 					ps.setString(8,beanObj.getDatepicker());
 					ps.setString(9,String.valueOf(count));
-					ps.setString(10,bankname); // TODO: extract from file
+					ps.setString(10,bankname); 
 					ps.setString(11,file.getOriginalFilename());
 					ps.addBatch();
 					

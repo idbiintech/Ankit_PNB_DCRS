@@ -581,6 +581,51 @@ public class SettlementTTUMController {
 			return output2.get("msg").toString();
 		return output2.get("msg").toString();
 	}
+	@RequestMapping(value = { "VISAAdjustmentProcess" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String VISAAdjustmentProcess(@ModelAttribute("nfsSettlementBean") NFSSettlementBean nfsSettlementBean,
+			HttpServletRequest request, HttpSession httpSession, RedirectAttributes redirectAttributes, Model model)
+			throws Exception {
+		HashMap<String, Object> output2;
+		logger.info("***** VISAAdjustmentProcess.Post Start ****" + nfsSettlementBean.getCategory()+ " "+ nfsSettlementBean.getFileName());
+		logger.info("ADjtype is " + nfsSettlementBean.getAdjType() + " category " + nfsSettlementBean.getAdjCategory());
+
+
+		if (nfsSettlementBean.getAdjCategory().contains("REPORT")) {
+
+			HashMap<String, Object> result = this.nfsSettlementService.ValidateForAdjTTUMVISA(nfsSettlementBean);
+			if (result != null && ((Boolean) result.get("result")).booleanValue()) {
+				if (nfsSettlementBean.getFileName().contains("VISA")) {
+
+					output2 = this.SETTLTTUMSERVICE.ANKITTREPORTSnewVISA(nfsSettlementBean);
+					
+					
+				} else {
+					output2 = this.SETTLTTUMSERVICE.ANKITTREPORTSnew(nfsSettlementBean);
+				}
+
+			} else {
+				return result.get("msg").toString();
+			}
+			if (output2 != null && ((Boolean) output2.get("result")).booleanValue())
+				return output2.get("msg").toString();
+			return output2.get("msg").toString();
+		}
+		HashMap<String, Object> result2 = this.nfsSettlementService.ValidateForAdjTTUM(nfsSettlementBean);
+		if (result2 != null && ((Boolean) result2.get("result")).booleanValue()) {
+			if (nfsSettlementBean.getCategory().contains("ICCW")) {
+
+				output2 = this.SETTLTTUMSERVICE.ANKITTREPORTSnewICCW(nfsSettlementBean);
+			} else {
+				output2 = this.SETTLTTUMSERVICE.ANKITTREPORTSnew(nfsSettlementBean);
+			}
+		} else {
+			return result2.get("msg").toString();
+		}
+		if (output2 != null && ((Boolean) output2.get("result")).booleanValue())
+			return output2.get("msg").toString();
+		return output2.get("msg").toString();
+	}
 
 	@RequestMapping(value = { "ICCWAdjustmentProcess" }, method = { RequestMethod.POST })
 	@ResponseBody
@@ -744,7 +789,7 @@ public class SettlementTTUMController {
 			zipName = "ICD_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_" + nfsSettlementBean.getDatepicker()
 					+ ".zip";
 
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, "ICD Adjustment_" + nfsSettlementBean.getDatepicker(),
+			obj.generateExcelTTUM(stPath, fileName, Excel_data, "ICDADJUSTMENT"+nfsSettlementBean.getAdjType()+"_" + nfsSettlementBean.getDatepicker(),
 					zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
@@ -896,7 +941,28 @@ public class SettlementTTUMController {
 			return "SUCCESSFULLY ROLLBACK";
 		return "ALREADY ROLLBACK";
 	}
-
+	@RequestMapping(value = { "rollbackTTUMReportVISA" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public String rollbackTTUMReportVISA(@RequestParam("filedate") String filedate, @RequestParam("adjType") String adjType,
+			@RequestParam("adjCategory") String adjCategory) throws ParseException, Exception {
+		NFSSettlementBean beandata = new NFSSettlementBean();
+		beandata.setAdjCategory(adjType);
+		beandata.setAdjType(adjType);
+		beandata.setDatepicker(filedate);
+		boolean result = false;
+		logger.info("rollbackTTUMReport " + adjType + " " + filedate + " " + adjCategory);
+		if (adjCategory.contains("REPORT")) {
+			
+			result = this.SETTLTTUMSERVICE.rollBackNFSADJVISA(beandata);
+			if (result)
+				return "SUCCESSFULLY ROLLBACK";
+			return "ALREADY ROLLBACK";
+		}
+		result = this.SETTLTTUMSERVICE.rollBackNFSADJVISA(beandata);
+		if (result)
+			return "SUCCESSFULLY ROLLBACK";
+		return "ALREADY ROLLBACK";
+	}
 	@RequestMapping(value = { "rollbackTTUMReportICD" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public String rollbackTTUMReportICD(@RequestParam("filedate") String filedate,
@@ -968,18 +1034,22 @@ public class SettlementTTUMController {
 		if (adjCategory.contains("REPORT_STTL_ICD")) {
 			String value = this.SETTLTTUMSERVICE.TTUMRollbackReportSETTLICD(filedate);
 			return value;
+			
 		}
 		if (adjCategory.contains("REPORT_STTL_JCB") || adjCategory.contains("TTUM_STTL_JCB")) {
 			result = this.SETTLTTUMSERVICE.TTUMRollbackReportSETTLJCB(beandata);
 			if (result)
 				return "SUCCESSFULLY ROLLBACK";
 			return "ALREADY ROLLBACK";
+			
+			
 		}
 		if (adjCategory.contains("REPORT_STTL_DFS") || adjCategory.contains("TTUM_STTL_DFS")) {
 			result = this.SETTLTTUMSERVICE.TTUMRollbackReportSETTLDFS(beandata);
 			if (result)
 				return "SUCCESSFULLY ROLLBACK";
 			return "ALREADY ROLLBACK";
+			
 		}
 		if (adjCategory.equalsIgnoreCase("REPORT_SETTL")) {
 			result = this.SETTLTTUMSERVICE.TTUMRollbackReportSETTL(beandata);
@@ -1113,7 +1183,7 @@ public class SettlementTTUMController {
 			zipName = "NFS_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_"
 					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".zip";
 			obj.generateExcelTTUM(stPath, fileName, Excel_data,
-					"NFS Adjustment_" + nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
+					"NFS_" + nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);
@@ -1165,6 +1235,128 @@ public class SettlementTTUMController {
 				zipName = "NFS" + nfsSettlementBean.getAdjType().replaceAll("\\s", "").replaceAll("-", "") + "TTUM"
 						+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + "_val.txt";
 			}
+			File file = new File(String.valueOf(stPath) + File.separator + zipName);
+			logger.info("path of zip file " + stPath + File.separator + zipName);
+			FileInputStream inputstream = new FileInputStream(file);
+			response.setContentLength((int) file.length());
+			logger.info("before downloading zip file ");
+			response.setContentType("application/txt");
+			logger.info("download completed");
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", new Object[] { file.getName() });
+			response.setHeader(headerKey, headerValue);
+			ServletOutputStream servletOutputStream = response.getOutputStream();
+			IOUtils.copy(inputstream, (OutputStream) servletOutputStream);
+			response.flushBuffer();
+		}
+	}
+
+	@RequestMapping(value = { "DownloadAdjTTUMVISANEW" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public void DownloadAdjTTUMVISANEW(@ModelAttribute("nfsSettlementBean") NFSSettlementBean nfsSettlementBean,
+			HttpServletRequest request, HttpServletResponse response, HttpSession httpSession,
+			RedirectAttributes redirectAttributes, Model model) throws Exception {
+		logger.info("***** DownloadAdjTTUMVISANEW.POST Start ****" + nfsSettlementBean.getAdjType() + "ADS "+  nfsSettlementBean.getAdjCategory());
+		String fileName = "";
+		String zipName = "";
+		logger.info("DownloadAdjTTUMVISANEW POST");
+		if (nfsSettlementBean.getAdjCategory().contains("REPORT")) {
+		
+			List<Object> Excel_data = new ArrayList();
+			List<Object> TTUMData = new ArrayList();
+			List<Object> TTUMData2 = new ArrayList();
+			List<Object> PBGB_TTUMData = new ArrayList();
+			String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+			logger.info("Created by is " + Createdby);
+			nfsSettlementBean.setCreatedBy(Createdby);
+			logger.info("File Name is " + nfsSettlementBean.getFileName());
+			boolean executed = false;
+			if (nfsSettlementBean.getDatepicker().contains(","))
+				;
+			nfsSettlementBean.setDatepicker(nfsSettlementBean.getDatepicker());
+			if(nfsSettlementBean.getFileName().contains("ICCW")) {
+				TTUMData = this.SETTLTTUMSERVICE.getAdjTTUMICCW(nfsSettlementBean);
+					
+			}else if(nfsSettlementBean.getFileName().contains("VISA")) {
+				TTUMData = this.SETTLTTUMSERVICE.getAdjTTUMVISA(nfsSettlementBean);
+					
+			}else {
+				TTUMData = this.SETTLTTUMSERVICE.getAdjTTUM(nfsSettlementBean);
+				
+			}
+			
+		System.out.println("nfsSettlementBean.getStSubCategory()" + nfsSettlementBean.getStSubCategory());
+			fileName = "VISA_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_"
+					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".txt";
+			String stPath = OUTPUT_FOLDER;
+			logger.info("TEMP_DIR" + stPath);
+			GenerateUCOTTUM obj = new GenerateUCOTTUM();
+			stPath = obj.checkAndMakeDirectory(nfsSettlementBean.getDatepicker().replaceAll("/", ""),
+					nfsSettlementBean.getCategory());
+			obj.generateADJTTUMFiles(stPath, fileName, 1, TTUMData2, "NFS", nfsSettlementBean);
+			logger.info("File is created");
+			List<String> Column_list = new ArrayList<>();
+
+				Column_list.add("SR_NO");
+				Column_list.add("card_no");
+				Column_list.add("AC_NO");
+				Column_list.add("AUTH_CODE");
+				Column_list.add("ARN");
+				Column_list.add("CBK_RSDT");
+				Column_list.add("Tran_date");
+				Column_list.add("Amount");
+				Column_list.add("Reject_date");
+				Column_list.add("DR_CR");
+				Column_list.add("TYPE");
+				Column_list.add("UID");
+				Column_list.add("NARRATION");
+				
+			System.out.println("filename in nfs ttum is " + fileName);
+			fileName = "VISA_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_"
+					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".xls";
+			zipName = "VISA_ADJUSTMENT_" + nfsSettlementBean.getAdjType() + "_TTUM_"
+					+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + ".zip";
+			obj.generateExcelTTUM(stPath, fileName, Excel_data,
+					"VISA ADJUSTMENT "+nfsSettlementBean.getAdjType() +"_" + nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
+			logger.info("File is created");
+			File file = new File(String.valueOf(stPath) + File.separator + fileName);
+			logger.info("path of zip file " + stPath + File.separator + fileName);
+			FileInputStream inputstream = new FileInputStream(file);
+			response.setContentLength((int) file.length());
+			response.setContentType("application/txt");
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", new Object[] { file.getName() });
+			response.setHeader(headerKey, headerValue);
+			ServletOutputStream servletOutputStream = response.getOutputStream();
+			IOUtils.copy(inputstream, (OutputStream) servletOutputStream);
+			response.flushBuffer();
+		} else {
+
+			List<Object> Excel_data = new ArrayList();
+			List<Object> TTUMData = new ArrayList();
+			String Createdby = ((LoginBean) httpSession.getAttribute("loginBean")).getUser_id();
+			logger.info("Created by is " + Createdby);
+			nfsSettlementBean.setCreatedBy(Createdby);
+			logger.info("File Name is " + nfsSettlementBean.getFileName());
+			boolean executed = false;
+			TTUMData = this.SETTLTTUMSERVICE.getDailyVISATTUMData(nfsSettlementBean);
+			System.out.println("nfsSettlementBean.getStSubCategory()" + nfsSettlementBean.getStSubCategory());
+		
+				fileName = "VISA" + nfsSettlementBean.getAdjType().replaceAll("\\s", "").replaceAll("-", "") + "TTUM"
+						+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + "_val.txt";
+			
+			String stPath = OUTPUT_FOLDER;
+			logger.info("TEMP_DIR" + stPath);
+			GenerateUCOTTUM obj = new GenerateUCOTTUM();
+			stPath = obj.checkAndMakeDirectory(nfsSettlementBean.getDatepicker().replaceAll("/", ""),
+					nfsSettlementBean.getCategory());
+			obj.generateADJTTUMFiles(stPath, fileName, 1, TTUMData, "NFS", nfsSettlementBean);
+			logger.info("File is created");
+			logger.info("File is created");
+
+				zipName = "VISA" + nfsSettlementBean.getAdjType().replaceAll("\\s", "").replaceAll("-", "") + "TTUM"
+						+ nfsSettlementBean.getDatepicker().replaceAll("/", "") + "_val.txt";
+			
 			File file = new File(String.valueOf(stPath) + File.separator + zipName);
 			logger.info("path of zip file " + stPath + File.separator + zipName);
 			FileInputStream inputstream = new FileInputStream(file);
@@ -1243,7 +1435,7 @@ public class SettlementTTUMController {
 			}
 			Excel_data.add(Column_list);
 			Excel_data.add(TTUMData);
-			System.out.println("category ttum is " + nfsSettlementBean.getAdjCategory());
+		
 			if (nfsSettlementBean.getAdjCategory().contains("ICD")) {
 				fileName = "ICDSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".xls";
 				zipName = "ICDSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".zip";
@@ -1257,8 +1449,26 @@ public class SettlementTTUMController {
 				fileName = "NFSSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".xls";
 				zipName = "NFSSETTLEMENTTTUM" + nfsSettlementBean.getDatepicker().replaceAll("/", "-") + ".zip";
 			}
-			obj.generateExcelTTUM(stPath, fileName, Excel_data, nfsSettlementBean.getAdjCategory() + " Settlement_"
-					+ nfsSettlementBean.getDatepicker().replaceAll("/", "-"), zipName);
+			
+			if (nfsSettlementBean.getAdjCategory().equalsIgnoreCase("REPORT_SETTL")) { 
+				nfsSettlementBean.setAdjCategory("NFS");
+				
+			}else if (nfsSettlementBean.getAdjCategory().contains("ICD")) { 
+				
+				nfsSettlementBean.setAdjCategory("ICD");
+				
+			}else if (nfsSettlementBean.getAdjCategory().contains("JCB")) { 
+				
+				nfsSettlementBean.setAdjCategory("JCB");
+				
+			}else if (nfsSettlementBean.getAdjCategory().contains("DFS")) { 
+				
+				nfsSettlementBean.setAdjCategory("DFS");
+				
+			}
+			
+			obj.generateExcelTTUMSettlement(stPath, fileName, Excel_data, nfsSettlementBean.getAdjCategory() + "_"
+					+ nfsSettlementBean.getDatepicker().replaceAll("/", "-")+"_"+nfsSettlementBean.getCycle(), zipName);
 			logger.info("File is created");
 			File file = new File(String.valueOf(stPath) + File.separator + fileName);
 			logger.info("path of zip file " + stPath + File.separator + fileName);

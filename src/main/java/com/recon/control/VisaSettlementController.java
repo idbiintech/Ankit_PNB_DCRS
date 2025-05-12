@@ -221,7 +221,7 @@ public class VisaSettlementController {
       logger.info("File Name is " + beanObj.getFileName());
       boolean executed = false;
       TTUMData = this.SETTLTTUMSERVICE.getDailyNFSTTUMDataVISA(beanObj);
-      if (beanObj.getTTUM_TYPE().equalsIgnoreCase("EXCEL_ACQ")) {
+      if (beanObj.getTTUM_TYPE().equalsIgnoreCase("TTUM_ACQ")) {
         fileName = "VISASETTLEMENTTTUMACQ" + beanObj.getSubcategory() + 
           beanObj.getFileDate().replaceAll("/", "") + "_.Val.txt";
       } else {
@@ -233,7 +233,7 @@ public class VisaSettlementController {
       GenerateUCOTTUM obj = new GenerateUCOTTUM();
       stPath = obj.checkAndMakeDirectory(beanObj.getFileDate().replaceAll("/", ""), beanObj.getSubcategory());
       obj.generateADJTTUMFilesRupay(stPath, fileName, 1, TTUMData, "RUPAY", beanObj);
-      if (beanObj.getTTUM_TYPE().equalsIgnoreCase("EXCEL_ACQ")) {
+      if (beanObj.getTTUM_TYPE().equalsIgnoreCase("TTUM_ACQ")) {
         zipName = "VISASETTLEMENTTTUMACQ" + beanObj.getSubcategory() + beanObj.getFileDate().replaceAll("/", "") + 
           "_.Val.txt";
       } else {
@@ -396,7 +396,7 @@ public class VisaSettlementController {
     return null;
   }
   
-  @RequestMapping(value = {"VisaAdjustmentTTUM"}, method = {RequestMethod.GET})
+  @RequestMapping(value = {"VisaAdjustmentTTUMnew"}, method = {RequestMethod.GET})
   public ModelAndView VisaAdjustmentTTUM(Model model, CompareSetupBean compareSetupBean, ModelAndView modelAndView, HttpSession httpSession, HttpServletRequest request) throws Exception {
     logger.info("***** VisaSettlementController.AdjustmentTTUM start ****");
     try {

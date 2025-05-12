@@ -101,7 +101,7 @@ button:hover {
 									<option value="LORO_DEBIT">LORO DEBIT</option>
 									<option value="LORO_CREDIT">LORO CREDIT</option>
 									<option value="CROSS">CROSS RECON TTUM</option>
-							
+
 								</form:select>
 							</div>
 
@@ -112,14 +112,20 @@ button:hover {
 								<form:select class="form-control" path="acqtypeOfTTUM"
 									id="acqtypeOfTTUM">
 									<option value="0">--Select --</option>
-								
+
 									<option value="PROACTIVE">PROACTIVE</option>
 									<option value="DROP">CUSTOMER DEBIT</option>
-									 <option value="LATE PRESENTMENT">LATE PRESENTMENT</option>
-							
+									<option value="LATE PRESENTMENT">LATE PRESENTMENT</option>
+
 									<option value="SURCHARGED">SURCHARGE DEBIT</option>
-									<option value="SURCHARGEC">SURCHARGE CREDIT</option> 
-										<option value="ATMSURCHARGE">ATM SURCHARGE</option> 
+									
+									<option value="SURCHARGED P">SURCHARGE DEBIT PETROL</option>
+									<option value="SURCHARGED R">SURCHARGE DEBIT RAILWAY</option>
+									<option value="SURCHARGED H">SURCHARGE DEBIT HOTEL</option>
+										<option value="SURCHARGED O">SURCHARGE DEBIT OTHER</option>
+										
+									<option value="SURCHARGEC">SURCHARGE CREDIT</option>
+									<option value="ATMSURCHARGE">ATM SURCHARGE</option>
 								</form:select>
 							</div>
 
@@ -179,7 +185,7 @@ button:hover {
 		id="error_msg" class="error_msg">
 		<i class="fa fa-close" style="color: white;"></i>
 	</div>
-	
+
 	<div
 		style="font-size: 14px; font-weight: bold; color: black; border-radius: 3px; text-align: center; background: #FFFF9E; margin-top: -490px; margin-left: 1270px; width: 350px; padding: 15px 25px; display: none;"
 		id="alert_msg" class="alert_msg">
